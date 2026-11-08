@@ -10,9 +10,9 @@ import xml.etree.ElementTree as ET
 from email.utils import parsedate_to_datetime
 
 TERMS = '(forestry OR forest OR sawmill OR mill OR logging OR timber OR lumber OR "wood products")'
-RES_TERMS = '(forestry OR forest OR logging OR timber OR mill OR mining OR mine OR minerals OR pipeline OR LNG OR "natural gas" OR hydro OR "Site C" OR wildfire OR "land use" OR stewardship OR "natural resource")'
+RES_TERMS = '(forest OR forestry OR logging OR timber OR mill OR "natural resources" OR mining OR mine OR minerals OR pipeline OR LNG OR oil OR gas OR hydro OR "Site C" OR wildfire OR "land use" OR stewardship OR "government-to-government" OR treaty OR agreement OR reconciliation OR election OR chief OR council OR premier OR minister OR politics)'
 FORESTRY_RE = re.compile(r"\b(forest\w*|sawmills?|mills?|logging|loggers?|logs|timber|lumber|wood|woodlots?|softwood|pulp|fibre|fiber|tenures?|harvest\w*|reforest\w*|silvicultur\w*|stumpage|old[- ]growth|cutblocks?|cutting permits?|planers?|pellets?|biomass|truck loggers?|COFI)\b", re.I)
-RESOURCE_RE = re.compile(FORESTRY_RE.pattern.replace(')\\b', '|minings?|mines?|minerals?|pipelines?|LNG|gas|hydro|dams?|Site C|wildfires?|land[- ]use|stewardship|resources?|caribou|energy)\\b'), re.I)
+RESOURCE_RE = re.compile(FORESTRY_RE.pattern.replace(')\\b', '|minings?|mines?|minerals?|pipelines?|LNG|oil|gas|hydro|dams?|Site C|wildfires?|land[- ]use|stewardship|resources?|caribou|energy|government\\w*|G2G|treat(?:y|ies)|reconciliation|agreements?|accords?|MOUs?|elections?|elected|chiefs?|council\\w*|premier|ministers?|ministry|MLAs?|MPs?|politic\\w*|polic(?:y|ies)|DRIPA|UNDRIP|title|rights|legislat\\w*|Parliament|negotiat\\w*|funding|investment)\\b'), re.I)
 UA = 'BC-Local-Leaders-news/1.0'
 
 def rd_short(rd):
@@ -60,6 +60,13 @@ def fetch(q):
     _cache[q] = items
     return items
 
+def dedupe(items):
+    seen, out = set(), []
+    for i in items:
+        k = re.sub(r'\W+', ' ', i['title'].lower()).strip()
+        if k not in seen: seen.add(k); out.append(i)
+    return out
+
 def relevant(items, names, scope, rx=None):
     rx = rx or FORESTRY_RE
     out = []
@@ -82,7 +89,7 @@ def main():
             seen = {i['title'] for i in items}
             items += [i for i in relevant(fetch(qr), names, 'regional') if i['title'] not in seen]
         items.sort(key=lambda i: (0 if i['scope'] == 'local' else 1, -i['t']))
-        areas[k] = {'rd': rd, 'items': items[:6]}
+        areas[k] = {'rd': rd, 'items': dedupe(items)[:6]}
     # Partner First Nations (FN Partners): resource-wide news, past year, no regional fallback
     import os
     fn_path = os.path.join(os.path.dirname(sys.argv[1]), 'fn.json')
@@ -92,7 +99,7 @@ def main():
             q = '(' + ' OR '.join(f'"{x}"' for x in n['newsNames']) + f') {RES_TERMS} when:365d'
             items = relevant(fetch(q), n['newsNames'] + [n['name'], short], 'local', RESOURCE_RE)
             items.sort(key=lambda i: -i['t'])
-            areas[k] = {'rd': None, 'items': items[:6]}
+            areas[k] = {'rd': None, 'items': dedupe(items)[:8]}
     if failed > len(places) // 2:
         raise SystemExit(f'Google News failed for {failed} areas; keeping the previous news.json')
     json.dump({'updated': int(time.time() * 1000), 'areas': areas}, open(sys.argv[2], 'w'), separators=(',', ':'), ensure_ascii=False)

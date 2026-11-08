@@ -25,7 +25,12 @@
      "role": "Chief",
      "name": "Harley Chingee",
      "start": "2026-06-05",
-     "end": "2029-06-05"
+     "end": "2029-06-05",
+     "contact": {
+      "via": "Assistant to the Chief: Natalie Theessen",
+      "email": "chiefsadvisor@mlib.ca",
+      "note": "The Nation's council page also lists direct contact details for the Chief."
+     }
     },
     {
      "role": "Councillor",
@@ -55,7 +60,10 @@
      "role": "Councillor",
      "name": "Sonya Solonas",
      "start": "2026-06-05",
-     "end": "2029-06-05"
+     "end": "2029-06-05",
+     "contact": {
+      "email": "ssolonas@mlib.ca"
+     }
     },
     {
      "role": "Councillor",
@@ -63,6 +71,19 @@
      "start": "2026-06-05",
      "end": "2029-06-05"
     }
+   ],
+   "offices": [
+    {
+     "name": "Main Administrative Office",
+     "address": "General Delivery, McLeod Lake, BC V0J 2G0",
+     "phone": "250-750-4415",
+     "tollFree": "1-888-822-1143",
+     "fax": "250-750-4420"
+    }
+   ],
+   "contactSources": [
+    "https://www.mlib.ca/governance/current-cc/",
+    "https://www.mlib.ca/contact/"
    ]
   },
   "fn609": {
@@ -101,6 +122,17 @@
      "start": "2024-06-20",
      "end": "2028-06-20"
     }
+   ],
+   "offices": [
+    {
+     "name": "Band office",
+     "address": "1940 3rd Avenue, Prince George, BC V2M 1G7",
+     "phone": "250-562-8882",
+     "fax": "250-562-8899"
+    }
+   ],
+   "contactSources": [
+    "https://fnp-ppn.aadnc-aandc.gc.ca/fnp/Main/Search/FNMain.aspx?BAND_NUMBER=609&lang=eng"
    ]
   },
   "fn610": {
@@ -126,32 +158,66 @@
      "role": "Chief",
      "name": "Angela Hocken",
      "start": "2026-03-11",
-     "end": "2030-03-10"
+     "end": "2030-03-10",
+     "contact": {
+      "email": "ahocken@kwadacha.com"
+     }
     },
     {
      "role": "Deputy Chief",
      "name": "Braedon Abou",
      "start": "2026-03-11",
-     "end": "2030-03-10"
+     "end": "2030-03-10",
+     "contact": {
+      "email": "babou@kwadacha.com"
+     }
     },
     {
      "role": "Councillor",
      "name": "Shawna Case",
      "start": "2026-03-11",
-     "end": "2029-03-10"
+     "end": "2029-03-10",
+     "contact": {
+      "email": "shawnacase@kwadacha.com"
+     }
     },
     {
      "role": "Councillor",
      "name": "Diane McCook",
      "start": "2026-03-11",
-     "end": "2029-03-10"
+     "end": "2029-03-10",
+     "contact": {
+      "email": "damccook@kwadacha.com"
+     }
     },
     {
      "role": "Councillor",
      "name": "Bradley Seymour",
      "start": "2026-03-11",
-     "end": "2029-03-10"
+     "end": "2029-03-10",
+     "contact": {
+      "email": "bradley.seymour@kwadacha.com"
+     }
     }
+   ],
+   "offices": [
+    {
+     "name": "Prince George office",
+     "address": "2221 Quinn Street, Prince George, BC V2N 2X4",
+     "phone": "250-563-4161",
+     "fax": "250-563-2668",
+     "email": "reception@kwadacha.com"
+    },
+    {
+     "name": "Band office, Fort Ware",
+     "address": "105 Tsigazi Drive, Fort Ware, BC V0J 3B0",
+     "phone": "250-471-2302",
+     "email": "fwreception@kwadacha.com"
+    }
+   ],
+   "contactSources": [
+    "https://www.kwadacha.com/our-nation/governance/",
+    "https://www.kwadacha.com/administration/"
    ]
   },
   "fn611": {
@@ -177,56 +243,114 @@
      "role": "Chief",
      "name": "Dolleen Logan",
      "start": "2025-04-12",
-     "end": "2027-04-11"
+     "end": "2027-04-11",
+     "contact": {
+      "email": "dlogan@lheidli.ca",
+      "phone": "250-562-0847"
+     }
     },
     {
      "role": "Councillor",
      "name": "Jamie Bird",
      "start": "2025-04-12",
-     "end": "2027-04-11"
+     "end": "2027-04-11",
+     "contact": {
+      "email": "jbird@lheidli.ca",
+      "phone": "778-349-3303"
+     }
     },
     {
      "role": "Councillor",
      "name": "Dominic Frederick",
      "start": "2025-04-12",
-     "end": "2027-04-11"
+     "end": "2027-04-11",
+     "contact": {
+      "email": "dfrederick@lheidli.ca",
+      "phone": "250-562-0847"
+     }
     },
     {
      "role": "Councillor",
      "name": "Crystal Gibbs",
      "start": "2025-04-12",
-     "end": "2027-04-11"
+     "end": "2027-04-11",
+     "contact": {
+      "email": "cgibbs@lheidli.ca",
+      "phone": "250-562-0847"
+     }
     },
     {
      "role": "Councillor",
      "name": "Kyle McIntosh",
      "start": "2025-04-12",
-     "end": "2027-04-11"
+     "end": "2027-04-11",
+     "contact": {
+      "email": "kmcintosh@lheidli.ca",
+      "phone": "250-562-0847"
+     }
     },
     {
      "role": "Councillor",
      "name": "Doug Olson",
      "start": "2025-04-12",
-     "end": "2027-04-11"
+     "end": "2027-04-11",
+     "contact": {
+      "email": "doug@lheidli.ca",
+      "phone": "778-349-9523"
+     }
     },
     {
      "role": "Councillor",
      "name": "Clayton Pountney",
      "start": "2025-04-12",
-     "end": "2027-04-11"
+     "end": "2027-04-11",
+     "contact": {
+      "email": "cpountney@lheidli.ca",
+      "phone": "778-675-6535"
+     }
     },
     {
      "role": "Councillor",
      "name": "Miranda Seymour",
      "start": "2025-04-12",
-     "end": "2027-04-11"
+     "end": "2027-04-11",
+     "contact": {
+      "email": "mseymour@lheidli.ca",
+      "phone": "778-349-6504"
+     }
     },
     {
      "role": "Councillor",
      "name": "Tasheena Seymour",
      "start": "2025-04-12",
-     "end": "2027-04-11"
+     "end": "2027-04-11",
+     "contact": {
+      "email": "tasheena@lheidli.ca",
+      "phone": "778-675-6763"
+     }
     }
+   ],
+   "offices": [
+    {
+     "name": "Administration office",
+     "address": "1041 Whenun Road, Prince George, BC V2K 5X8",
+     "phone": "250-963-8451",
+     "fax": "250-963-6954"
+    },
+    {
+     "name": "Downtown office",
+     "address": "150 Brunswick Street, Prince George, BC V2L 2B3",
+     "phone": "250-562-0847"
+    },
+    {
+     "name": "Chief and Council executive assistant",
+     "phone": "250-562-0847 ext. 2006",
+     "email": "executiveassistant@lheidli.ca"
+    }
+   ],
+   "contactSources": [
+    "https://www.lheidli.ca/governance/chief-and-council/",
+    "https://www.lheidli.ca/contact/"
    ]
   },
   "fn715": {
@@ -272,6 +396,17 @@
      "start": "2026-04-23",
      "end": "2030-04-22"
     }
+   ],
+   "offices": [
+    {
+     "name": "Band office",
+     "address": "PO Box 4069, 1515 Arbutus Road, Quesnel, BC V2J 3J2",
+     "phone": "250-747-2900",
+     "fax": "250-747-1341"
+    }
+   ],
+   "contactSources": [
+    "https://fnp-ppn.aadnc-aandc.gc.ca/fnp/Main/Search/FNMain.aspx?BAND_NUMBER=715&lang=eng"
    ]
   },
   "fn720": {
@@ -311,6 +446,17 @@
      "start": "2024-12-16",
      "end": "2026-12-15"
     }
+   ],
+   "offices": [
+    {
+     "name": "Band office",
+     "address": "PO Box 4129, Quesnel, BC V2J 3J2",
+     "phone": "250-992-9085",
+     "fax": "250-992-7982"
+    }
+   ],
+   "contactSources": [
+    "https://fnp-ppn.aadnc-aandc.gc.ca/fnp/Main/Search/FNMain.aspx?BAND_NUMBER=720&lang=eng"
    ]
   },
   "fn614": {
@@ -336,56 +482,106 @@
      "role": "Chief",
      "name": "Marion Colleen Erickson",
      "start": "2024-09-01",
-     "end": "2028-08-31"
+     "end": "2028-08-31",
+     "contact": {
+      "email": "colleen.erickson@nakazdliwhuten.ca"
+     }
     },
     {
      "role": "Councillor",
      "name": "Paul Bird",
      "start": "2025-06-23",
-     "end": "2028-08-31"
+     "end": "2028-08-31",
+     "contact": {
+      "email": "pb.council@nakazdliwhuten.ca",
+      "portfolio": "Housing and Lands"
+     }
     },
     {
      "role": "Councillor",
      "name": "Karla Olinek",
      "start": "2025-06-23",
-     "end": "2027-08-31"
+     "end": "2027-08-31",
+     "contact": {
+      "email": "ko.council@nakazdliwhuten.ca",
+      "portfolio": "NDC and Social Development"
+     }
     },
     {
      "role": "Councillor",
      "name": "Nolan Sagalon",
      "start": "2024-09-01",
-     "end": "2028-08-31"
+     "end": "2028-08-31",
+     "contact": {
+      "email": "ns.council@nakazdliwhuten.ca",
+      "portfolio": "Social Development and Yoh Huwunline Housing Society"
+     }
     },
     {
      "role": "Councillor",
      "name": "Fred Sam",
      "start": "2024-09-01",
-     "end": "2028-08-31"
+     "end": "2028-08-31",
+     "contact": {
+      "email": "fs.council@nakazdliwhuten.ca",
+      "portfolio": "Education and FAC"
+     }
     },
     {
      "role": "Councillor",
      "name": "Maddison Sam",
      "start": "2024-09-01",
-     "end": "2028-08-31"
+     "end": "2028-08-31",
+     "contact": {
+      "email": "mas.council@nakazdliwhuten.ca",
+      "portfolio": "Yinka Huwunline"
+     }
     },
     {
      "role": "Councillor",
      "name": "Murial Sam",
      "start": "2024-09-01",
-     "end": "2027-08-31"
+     "end": "2027-08-31",
+     "contact": {
+      "email": "ms.council@nakazdliwhuten.ca",
+      "portfolio": "Health and Yoh Huwunline Housing Society"
+     }
     },
     {
      "role": "Councillor",
      "name": "Leonard Thomas",
      "start": "2024-09-01",
-     "end": "2027-08-31"
+     "end": "2027-08-31",
+     "contact": {
+      "email": "lt.council@nakazdliwhuten.ca",
+      "portfolio": "Yinka Huwunline"
+     }
     },
     {
      "role": "Councillor",
      "name": "David Tibbetts",
      "start": "2024-09-01",
-     "end": "2027-08-31"
+     "end": "2027-08-31",
+     "contact": {
+      "email": "dt.council@nakazdliwhuten.ca",
+      "portfolio": "Education"
+     }
     }
+   ],
+   "offices": [
+    {
+     "name": "Administration",
+     "address": "PO Box 1329, 120 Highway 27, Fort St. James, BC V0J 1P0",
+     "phone": "250-996-7171",
+     "fax": "250-996-8010"
+    },
+    {
+     "name": "Executive Assistant to Chief and Council: Chris Prince",
+     "email": "chris.prince@nakazdliwhuten.ca"
+    }
+   ],
+   "contactSources": [
+    "https://www.nakazdliwhuten.ca/about-us/chief-council"
    ]
   },
   "fn728": {
@@ -410,7 +606,11 @@
      "role": "Chief",
      "name": "Partner Schielke",
      "start": "2025-12-19",
-     "end": "2029-12-04"
+     "end": "2029-12-04",
+     "contact": {
+      "email": "chief@yekooche.com",
+      "note": "Office of the Chief"
+     }
     },
     {
      "role": "Councillor",
@@ -430,7 +630,23 @@
      "start": "2025-12-19",
      "end": "2029-12-04"
     }
+   ],
+   "offices": [
+    {
+     "name": "Band office, Yekooche village",
+     "phone": "250-649-2044 ext. 1101"
+    },
+    {
+     "name": "Prince George office",
+     "address": "466 2nd Avenue, Prince George, BC V2L 2Z7",
+     "phone": "250-562-0592",
+     "fax": "250-562-0530"
+    }
+   ],
+   "contactSources": [
+    "https://yekooche.com/contact-us/"
    ]
   }
- }
+ },
+ "contactsChecked": "2026-11-08"
 }

@@ -1,5 +1,5 @@
 {
- "build": 202611080101,
+ "build": 202611080135,
  "files": [
   "app.html",
   "places.json",
@@ -11,7 +11,7 @@
   "rd_labels.json",
   "fn.json"
  ],
- "note": "Version 1.4: new repository",
+ "note": "FN Partners: contact details, wider news, drum icon",
  "apk": {
   "versionCode": 5,
   "versionName": "1.4",

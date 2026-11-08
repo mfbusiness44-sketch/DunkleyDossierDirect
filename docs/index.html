@@ -9,7 +9,7 @@
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
 <link rel="icon" type="image/png" href="favicon-64.png">
 <style>:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0}img{max-width:100%}[hidden]{display:none!important}</style>
-<script>window.BCLL_PWA={build:202611080102};
+<script>window.BCLL_PWA={build:202611080135};
 if ('serviceWorker' in navigator) window.addEventListener('load', function () { navigator.serviceWorker.register('sw.js').catch(function () {}); });</script>
 </head><body><title>Dunkley Dossier Direct</title>
 <meta name="claude:viewport-fit-sides" content="cover">
@@ -733,6 +733,17 @@ body { background: var(--sea); color: var(--ink); font: 14px/1.5 var(--f-body); 
 .fnpin .nm { color: var(--label-ink); font: 700 13px/1.2 var(--f-body); text-shadow: 0 0 2px var(--label-halo), 0 0 5px var(--label-halo), 0 1px 3px var(--label-halo); }
 .fnpin.sel .dot { background: var(--accent); transform: scale(1.25); }
 .fnpin:focus-visible { outline: none; } .fnpin:focus-visible .dot { box-shadow: 0 0 0 3px var(--accent); }
+.contact { display: grid; gap: 5px; font-size: 13px; }
+.c-row { display: flex; align-items: baseline; gap: 8px; min-width: 0; }
+.c-row > :nth-child(2) { min-width: 0; overflow-wrap: anywhere; }
+.c-k { font: 500 10.5px/1.6 var(--f-mono); letter-spacing: .06em; text-transform: uppercase; color: var(--ink-2); width: 58px; flex: none; }
+.c-row a { color: var(--accent); }
+.copy { margin-left: auto; flex: none; border: 1px solid var(--line); background: transparent; color: var(--ink-2); border-radius: 5px; font: 600 11px var(--f-body); padding: 2px 8px; cursor: pointer; }
+.copy:hover { background: var(--water); }
+.c-via, .c-note { font-size: 12.5px; color: var(--ink-2); }
+.offices { display: grid; gap: 10px; border: 1px solid var(--line); border-radius: 9px; padding: 10px 12px; }
+.office b { display: block; font-size: 13px; margin-bottom: 4px; }
+.office + .office { border-top: 1px solid var(--line); padding-top: 10px; }
 .term-note { font-size: 12.5px; background: color-mix(in srgb, var(--st-transition) 14%, var(--paper)); border-radius: 6px; padding: 6px 9px; }
 .city.t5, .city.t6 { font-weight: 500; gap: 4px; }
 .city.t5 i, .city.t6 i { width: 4px; height: 4px; box-shadow: 0 0 0 1px var(--label-halo); }
@@ -858,6 +869,8 @@ h1 { margin: 0; font: 700 22px/1.1 var(--f-display); letter-spacing: -.01em; tex
 .app-icon svg { width: 36px; height: 36px; }
 .app-icon.flag { background: #fff; overflow: hidden; }
 .app-icon.flag svg { width: 100%; height: 100%; display: block; }
+.app-icon.drum { background: #e3f2e9; }
+.app-icon.drum svg { width: 88%; height: 88%; }
 .app-tile:active .app-icon { transform: scale(.94); }
 .app-tile:focus-visible { outline: 2px solid var(--dk-green); outline-offset: 4px; }
 .app-label { font: 600 12.5px/1.25 var(--f-body); text-align: center; }
@@ -898,7 +911,7 @@ h1 { margin: 0; font: 700 22px/1.1 var(--f-display); letter-spacing: -.01em; tex
     </header>
     <nav class="home-grid" aria-label="Features">
       <a class="app-tile" href="#map"><span class="app-icon flag"><svg viewBox="0 0 100 100" aria-hidden="true" focusable="false"><defs><clipPath id="bcChief"><rect width="100" height="40"/></clipPath><clipPath id="bcBase"><rect y="40" width="100" height="60"/></clipPath></defs><rect width="100" height="100" fill="#FFFFFF"/><g clip-path="url(#bcBase)"><path d="M50 78L10.2 81.6L10.2 74.4ZM50 78L10.6 71.2L12.5 64.2ZM50 78L13.7 61.2L17.3 54.9ZM50 78L19.3 52.4L24.4 47.3ZM50 78L26.9 45.3L33.2 41.7ZM50 78L36.2 40.5L43.2 38.6ZM50 78L46.4 38.2L53.6 38.2ZM50 78L56.8 38.6L63.8 40.5ZM50 78L66.8 41.7L73.1 45.3ZM50 78L75.6 47.3L80.7 52.4ZM50 78L82.7 54.9L86.3 61.2ZM50 78L87.5 64.2L89.4 71.2ZM50 78L89.8 74.4L89.8 81.6Z" fill="#F2B51D"/><circle cx="50" cy="78" r="15" fill="#F2B51D"/></g><rect y="77" width="100" height="23" fill="#FFFFFF"/><path d="M0 79 Q5 76.4 10 79 T20 79 Q25 76.4 30 79 T40 79 Q45 76.4 50 79 T60 79 Q65 76.4 70 79 T80 79 Q85 76.4 90 79 T100 79 V83.2 Q95 85.8 90 83.2 T80 83.2 Q75 85.8 70 83.2 T60 83.2 Q55 85.8 50 83.2 T40 83.2 Q35 85.8 30 83.2 T20 83.2 Q15 85.8 10 83.2 T0 83.2Z" fill="#1F4E9B"/><path d="M0 86.5 Q5 83.9 10 86.5 T20 86.5 Q25 83.9 30 86.5 T40 86.5 Q45 83.9 50 86.5 T60 86.5 Q65 83.9 70 86.5 T80 86.5 Q85 83.9 90 86.5 T100 86.5 V90.7 Q95 93.3 90 90.7 T80 90.7 Q75 93.3 70 90.7 T60 90.7 Q55 93.3 50 90.7 T40 90.7 Q35 93.3 30 90.7 T20 90.7 Q15 93.3 10 90.7 T0 90.7Z" fill="#1F4E9B"/><path d="M0 94 Q5 91.4 10 94 T20 94 Q25 91.4 30 94 T40 94 Q45 91.4 50 94 T60 94 Q65 91.4 70 94 T80 94 Q85 91.4 90 94 T100 94 V98.2 Q95 100.8 90 98.2 T80 98.2 Q75 100.8 70 98.2 T60 98.2 Q55 100.8 50 98.2 T40 98.2 Q35 100.8 30 98.2 T20 98.2 Q15 100.8 10 98.2 T0 98.2Z" fill="#1F4E9B"/><g clip-path="url(#bcChief)"><rect width="100" height="40" fill="#012169"/><path d="M0 0L100 40M100 0L0 40" stroke="#FFFFFF" stroke-width="9"/><path d="M0 0L100 40M100 0L0 40" stroke="#C8102E" stroke-width="3"/><path d="M50 0V40M0 20H100" stroke="#FFFFFF" stroke-width="13"/><path d="M50 0V40M0 20H100" stroke="#C8102E" stroke-width="7.5"/></g><g transform="translate(50 20)"><path d="M-8.5 4.5H8.5L9.5 -3.5L4.6 0L0 -6.5L-4.6 0L-9.5 -3.5Z" fill="#F2B51D" stroke="#7a5200" stroke-width=".6" stroke-linejoin="round"/><rect x="-8.5" y="4.5" width="17" height="2.6" fill="#F2B51D" stroke="#7a5200" stroke-width=".6"/><circle cy="-7.6" r="1.4" fill="#F2B51D" stroke="#7a5200" stroke-width=".5"/></g></svg></span><span class="app-label">BC Local Leaders</span></a>
-      <a class="app-tile" href="#fn"><span class="app-icon"><svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linejoin="round" stroke-linecap="round"><path d="M18 42s-10-10.6-10-18.2a10 10 0 0 1 20 0C28 31.4 18 42 18 42z"/><circle cx="18" cy="23.6" r="3.6"/><path d="M33.5 32.5s-6.7-7-6.7-12a6.7 6.7 0 0 1 13.4 0c0 5-6.7 12-6.7 12z"/></svg></span><span class="app-label">FN Partners</span></a>
+      <a class="app-tile" href="#fn"><span class="app-icon drum"><svg viewBox="0 0 100 100" aria-hidden="true" focusable="false"> <defs><radialGradient id="drumHide" cx="40%" cy="36%" r="75%"><stop offset="0" stop-color="#fdf0d8"/><stop offset=".65" stop-color="#f0d4a6"/><stop offset="1" stop-color="#e0b97f"/></radialGradient></defs> <ellipse cx="50" cy="86" rx="34" ry="4.5" fill="#00653d" opacity=".13"/> <path d="M13 42 A37 25 0 0 0 87 42 V53 A37 25 0 0 1 13 53 Z" fill="#a96a37" stroke="#5b3a1e" stroke-width="2.2" stroke-linejoin="round"/> <path d="M83.5 57.5 v4.2" stroke="#e7c58f" stroke-width="1.6" stroke-linecap="round"/><path d="M72.8 66.7 v4.2" stroke="#e7c58f" stroke-width="1.6" stroke-linecap="round"/><path d="M57.7 71.4 v4.2" stroke="#e7c58f" stroke-width="1.6" stroke-linecap="round"/><path d="M42.3 71.4 v4.2" stroke="#e7c58f" stroke-width="1.6" stroke-linecap="round"/><path d="M27.2 66.7 v4.2" stroke="#e7c58f" stroke-width="1.6" stroke-linecap="round"/><path d="M16.5 57.5 v4.2" stroke="#e7c58f" stroke-width="1.6" stroke-linecap="round"/> <ellipse cx="50" cy="42" rx="37" ry="25" fill="url(#drumHide)" stroke="#5b3a1e" stroke-width="2.2"/> <ellipse cx="50" cy="42" rx="31" ry="20" fill="none" stroke="#c4935a" stroke-width="1.5" stroke-dasharray="1.6 4.4" stroke-linecap="round"/> <path d="M27 32 A30 19 0 0 1 46 22" fill="none" stroke="#fff" stroke-width="3.2" stroke-linecap="round" opacity=".6"/> <g transform="translate(61 37) rotate(-40) translate(-40 -36)"> <rect x="37.4" y="40" width="5.2" height="44" rx="2.6" fill="#c98d55" stroke="#5b3a1e" stroke-width="1.9"/> <path d="M37.4 45 h5.2" stroke="#5b3a1e" stroke-width="1.4"/> <ellipse cx="40" cy="36" rx="8.6" ry="7.8" fill="#f6e4c4" stroke="#5b3a1e" stroke-width="2"/> <path d="M34.4 41 q5.6 3 11.2 0" fill="none" stroke="#9a6a3c" stroke-width="1.6" stroke-linecap="round"/> </g> </svg></span><span class="app-label">FN Partners</span></a>
     </nav>
   </div>
   <div class="home-foot"><svg class="treeline" viewBox="0 0 1200 150" preserveAspectRatio="xMidYMax slice" aria-hidden="true" focusable="false"><path class="t1" d="M130.0 2.0L148.1 53.7H111.9ZM130.0 37.0L154.7 89.5H105.3ZM130.0 72.0L162.9 125.2H97.1Z"/><rect class="trunk" x="126.7" y="124.2" width="6.6" height="17.8"/><path class="t1" d="M293.5 2.0L309.9 53.7H277.2ZM293.5 37.0L315.8 89.5H271.2ZM293.5 72.0L323.3 125.2H263.8Z"/><rect class="trunk" x="290.6" y="124.2" width="6.0" height="17.8"/><path class="t3" d="M663.4 2.0L682.1 53.7H644.7ZM663.4 37.0L688.9 89.5H637.9ZM663.4 72.0L697.4 125.2H629.4Z"/><rect class="trunk" x="660.0" y="124.2" width="6.8" height="17.8"/><path class="t2" d="M713.0 2.0L730.3 53.7H695.8ZM713.0 37.0L736.5 89.5H689.5ZM713.0 72.0L744.4 125.2H681.7Z"/><rect class="trunk" x="709.9" y="124.2" width="6.3" height="17.8"/><path class="t1" d="M1032.8 2.0L1051.6 53.7H1014.0ZM1032.8 37.0L1058.4 89.5H1007.1ZM1032.8 72.0L1067.0 125.2H998.6Z"/><rect class="trunk" x="1029.4" y="124.2" width="6.8" height="17.8"/><path class="t2" d="M1078.2 2.0L1096.8 53.7H1059.6ZM1078.2 37.0L1103.6 89.5H1052.8ZM1078.2 72.0L1112.1 125.2H1044.3Z"/><rect class="trunk" x="1074.8" y="124.2" width="6.8" height="17.8"/><path class="t2" d="M227.7 17.0L243.0 63.2H212.4ZM227.7 48.2L248.6 95.1H206.9ZM227.7 79.5L255.5 127.0H199.9Z"/><rect class="trunk" x="224.9" y="126.0" width="5.6" height="16.0"/><path class="t3" d="M259.7 17.0L275.9 63.2H243.5ZM259.7 48.2L281.8 95.1H237.6ZM259.7 79.5L289.2 127.0H230.3Z"/><rect class="trunk" x="256.8" y="126.0" width="5.9" height="16.0"/><path class="t3" d="M553.6 17.0L570.2 63.2H537.0ZM553.6 48.2L576.3 95.1H531.0ZM553.6 79.5L583.8 127.0H523.4Z"/><rect class="trunk" x="550.6" y="126.0" width="6.0" height="16.0"/><path class="t1" d="M753.1 17.0L767.8 63.2H738.3ZM753.1 48.2L773.2 95.1H733.0ZM753.1 79.5L779.9 127.0H726.2Z"/><rect class="trunk" x="750.4" y="126.0" width="5.4" height="16.0"/><path class="t3" d="M962.7 17.0L977.7 63.2H947.8ZM962.7 48.2L983.1 95.1H942.3ZM962.7 79.5L989.9 127.0H935.5Z"/><rect class="trunk" x="960.0" y="126.0" width="5.4" height="16.0"/><path class="t2" d="M64.7 32.0L78.4 72.7H51.0ZM64.7 59.5L83.4 100.7H46.0ZM64.7 87.0L89.6 128.8H39.7Z"/><rect class="trunk" x="62.2" y="127.8" width="5.0" height="14.2"/><path class="t1" d="M93.2 32.0L106.1 72.7H80.4ZM93.2 59.5L110.8 100.7H75.7ZM93.2 87.0L116.6 128.8H69.9Z"/><rect class="trunk" x="90.9" y="127.8" width="4.7" height="14.2"/><path class="t2" d="M175.7 32.0L188.5 72.7H162.9ZM175.7 59.5L193.2 100.7H158.2ZM175.7 87.0L199.0 128.8H152.4Z"/><rect class="trunk" x="173.4" y="127.8" width="4.7" height="14.2"/><path class="t2" d="M335.5 32.0L349.8 72.7H321.1ZM335.5 59.5L355.0 100.7H315.9ZM335.5 87.0L361.6 128.8H309.4Z"/><rect class="trunk" x="332.9" y="127.8" width="5.2" height="14.2"/><path class="t2" d="M374.3 32.0L388.4 72.7H360.2ZM374.3 59.5L393.6 100.7H355.1ZM374.3 87.0L400.0 128.8H348.6Z"/><rect class="trunk" x="371.7" y="127.8" width="5.1" height="14.2"/><path class="t3" d="M488.6 32.0L501.7 72.7H475.5ZM488.6 59.5L506.5 100.7H470.7ZM488.6 87.0L512.4 128.8H464.8Z"/><rect class="trunk" x="486.2" y="127.8" width="4.8" height="14.2"/><path class="t1" d="M516.6 32.0L530.3 72.7H502.9ZM516.6 59.5L535.3 100.7H497.9ZM516.6 87.0L541.6 128.8H491.7Z"/><rect class="trunk" x="514.1" y="127.8" width="5.0" height="14.2"/><path class="t2" d="M812.1 32.0L825.0 72.7H799.2ZM812.1 59.5L829.7 100.7H794.5ZM812.1 87.0L835.5 128.8H788.6Z"/><rect class="trunk" x="809.7" y="127.8" width="4.7" height="14.2"/><path class="t2" d="M910.9 32.0L925.9 72.7H895.9ZM910.9 59.5L931.4 100.7H890.4ZM910.9 87.0L938.2 128.8H883.6Z"/><rect class="trunk" x="908.2" y="127.8" width="5.5" height="14.2"/><path class="t3" d="M992.6 32.0L1006.6 72.7H978.6ZM992.6 59.5L1011.7 100.7H973.6ZM992.6 87.0L1018.1 128.8H967.2Z"/><rect class="trunk" x="990.1" y="127.8" width="5.1" height="14.2"/><path class="t2" d="M1122.2 32.0L1135.2 72.7H1109.3ZM1122.2 59.5L1139.9 100.7H1104.5ZM1122.2 87.0L1145.8 128.8H1098.7Z"/><rect class="trunk" x="1119.9" y="127.8" width="4.7" height="14.2"/><path class="t2" d="M-10.0 47.0L3.0 82.1H-23.0ZM-10.0 70.8L7.7 106.4H-27.7ZM-10.0 94.5L13.6 130.6H-33.6Z"/><rect class="trunk" x="-12.4" y="129.6" width="4.7" height="12.4"/><path class="t3" d="M430.6 47.0L442.7 82.1H418.6ZM430.6 70.8L447.1 106.4H414.2ZM430.6 94.5L452.6 130.6H408.7Z"/><rect class="trunk" x="428.5" y="129.6" width="4.4" height="12.4"/><path class="t1" d="M462.8 47.0L475.0 82.1H450.5ZM462.8 70.8L479.5 106.4H446.1ZM462.8 94.5L485.1 130.6H440.5Z"/><rect class="trunk" x="460.6" y="129.6" width="4.5" height="12.4"/><path class="t2" d="M592.0 47.0L604.2 82.1H579.7ZM592.0 70.8L608.6 106.4H575.3ZM592.0 94.5L614.2 130.6H569.7Z"/><rect class="trunk" x="589.7" y="129.6" width="4.4" height="12.4"/><path class="t2" d="M785.5 47.0L796.8 82.1H774.3ZM785.5 70.8L800.9 106.4H770.2ZM785.5 94.5L806.0 130.6H765.1Z"/><rect class="trunk" x="783.5" y="129.6" width="4.1" height="12.4"/><path class="t2" d="M842.6 47.0L855.4 82.1H829.8ZM842.6 70.8L860.1 106.4H825.1ZM842.6 94.5L865.9 130.6H819.3Z"/><rect class="trunk" x="840.3" y="129.6" width="4.7" height="12.4"/><path class="t3" d="M878.3 47.0L890.7 82.1H865.8ZM878.3 70.8L895.3 106.4H861.3ZM878.3 94.5L900.9 130.6H855.7Z"/><rect class="trunk" x="876.0" y="129.6" width="4.5" height="12.4"/><path class="t1" d="M1169.5 47.0L1181.7 82.1H1157.2ZM1169.5 70.8L1186.1 106.4H1152.8ZM1169.5 94.5L1191.7 130.6H1147.2Z"/><rect class="trunk" x="1167.3" y="129.6" width="4.4" height="12.4"/><path class="t2" d="M201.9 57.0L212.3 88.4H191.5ZM201.9 78.2L216.0 110.1H187.8ZM201.9 99.5L220.7 131.8H183.1Z"/><rect class="trunk" x="200.0" y="130.8" width="3.8" height="11.2"/><path class="t2" d="M407.2 57.0L418.5 88.4H395.9ZM407.2 78.2L422.6 110.1H391.8ZM407.2 99.5L427.8 131.8H386.6Z"/><rect class="trunk" x="405.1" y="130.8" width="4.1" height="11.2"/><path class="t2" d="M942.1 57.0L952.3 88.4H931.8ZM942.1 78.2L956.1 110.1H928.1ZM942.1 99.5L960.7 131.8H923.5Z"/><rect class="trunk" x="940.2" y="130.8" width="3.7" height="11.2"/><path class="t3" d="M1193.9 57.0L1204.8 88.4H1183.1ZM1193.9 78.2L1208.7 110.1H1179.2ZM1193.9 99.5L1213.6 131.8H1174.3Z"/><rect class="trunk" x="1192.0" y="130.8" width="3.9" height="11.2"/><path class="t1" d="M23.6 72.0L32.9 97.9H14.2ZM23.6 89.5L36.3 115.7H10.8ZM23.6 107.0L40.6 133.6H6.6Z"/><rect class="trunk" x="21.9" y="132.6" width="3.4" height="9.4"/><path class="t2" d="M45.4 72.0L54.9 97.9H35.9ZM45.4 89.5L58.3 115.7H32.4ZM45.4 107.0L62.6 133.6H28.1Z"/><rect class="trunk" x="43.7" y="132.6" width="3.4" height="9.4"/><path class="t2" d="M617.1 72.0L626.7 97.9H607.6ZM617.1 89.5L630.2 115.7H604.1ZM617.1 107.0L634.5 133.6H599.8Z"/><rect class="trunk" x="615.4" y="132.6" width="3.5" height="9.4"/><path class="t3" d="M642.3 72.0L650.5 97.9H634.1ZM642.3 89.5L653.4 115.7H631.1ZM642.3 107.0L657.1 133.6H627.4Z"/><rect class="trunk" x="640.8" y="132.6" width="3.0" height="9.4"/><path class="t2" d="M1148.9 72.0L1158.5 97.9H1139.3ZM1148.9 89.5L1161.9 115.7H1135.8ZM1148.9 107.0L1166.3 133.6H1131.4Z"/><rect class="trunk" x="1147.1" y="132.6" width="3.5" height="9.4"/><rect class="ground" x="0" y="141" width="1200" height="9"/></svg></div>
@@ -1171,11 +1184,11 @@ h1 { margin: 0; font: 700 22px/1.1 var(--f-display); letter-spacing: -.01em; tex
     const s = (rd || '').replace(/\s*\(Regional District\)$/, '').replace(/^Regional District of\s+/i, '').replace(/\s+Regional District$/i, '');
     return s === 'Capital' ? 'Capital Regional District' : s;
   }
-  const RESOURCE_TERMS = '(forestry OR forest OR logging OR timber OR mill OR mining OR mine OR minerals OR pipeline OR LNG OR "natural gas" OR hydro OR "Site C" OR wildfire OR "land use" OR stewardship OR "natural resource")';
+  const RESOURCE_TERMS = '(forest OR forestry OR logging OR timber OR mill OR "natural resources" OR mining OR mine OR minerals OR pipeline OR LNG OR oil OR gas OR hydro OR "Site C" OR wildfire OR "land use" OR stewardship OR "government-to-government" OR treaty OR agreement OR reconciliation OR election OR chief OR council OR premier OR minister OR politics)';
   function newsQueries(p) {
     if (p.type === 'fn') {
       const label = shortName(p);
-      return { label, rd: null, names: p.newsNames.concat([p.name, label]), topic: 'forestry or natural resource',
+      return { label, rd: null, names: p.newsNames.concat([p.name, label]), topic: 'forests, resources or politics',
                local: `(${p.newsNames.map((x) => `"${x}"`).join(' OR ')}) ${RESOURCE_TERMS} when:365d`, regional: null };
     }
     const rd = rdShort(p.rd || p.jurisdiction);
@@ -1206,7 +1219,7 @@ h1 { margin: 0; font: 700 22px/1.1 var(--f-display); letter-spacing: -.01em; tex
   }
   // Google matches outlet names too ("Burns Lake Lakes District News"), so keep only headlines that are about forestry.
   const FORESTRY_RE = /\b(forest\w*|sawmills?|mills?|logging|loggers?|logs|timber|lumber|wood|woodlots?|softwood|pulp|fibre|fiber|tenures?|harvest\w*|reforest\w*|silvicultur\w*|stumpage|old[- ]growth|cutblocks?|cutting permits?|planers?|pellets?|biomass|truck loggers?|COFI)\b/i;
-  const RESOURCE_RE = new RegExp(FORESTRY_RE.source.replace(')\\b', '|minings?|mines?|minerals?|pipelines?|LNG|gas|hydro|dams?|Site C|wildfires?|land[- ]use|stewardship|resources?|caribou|energy)\\b'), 'i');
+  const RESOURCE_RE = new RegExp(FORESTRY_RE.source.replace(')\\b', '|minings?|mines?|minerals?|pipelines?|LNG|oil|gas|hydro|dams?|Site C|wildfires?|land[- ]use|stewardship|resources?|caribou|energy|government\\w*|G2G|treat(?:y|ies)|reconciliation|agreements?|accords?|MOUs?|elections?|elected|chiefs?|council\\w*|premier|ministers?|ministry|MLAs?|MPs?|politic\\w*|polic(?:y|ies)|DRIPA|UNDRIP|title|rights|legislat\\w*|Parliament|negotiat\\w*|funding|investment)\\b'), 'i');
   async function loadNews(p) {
     const q = newsQueries(p);
     const TOPIC_RE = p.type === 'fn' ? RESOURCE_RE : FORESTRY_RE;
@@ -1219,7 +1232,9 @@ h1 { margin: 0; font: 700 22px/1.1 var(--f-display); letter-spacing: -.01em; tex
       items = items.concat(relevant(await fetchRss(q.regional, 'regional')).filter((i) => !seen.has(i.title)));
     }
     items.sort((a, b) => (a.scope === b.scope ? 0 : a.scope === 'local' ? -1 : 1) || b.t - a.t);
-    return { t: Date.now(), items: items.slice(0, 6) };
+    const seenTitles = new Set();   // the same story often runs in several outlets
+    items = items.filter((i) => { const k = i.title.toLowerCase().replace(/\W+/g, ' ').trim(); if (seenTitles.has(k)) return false; seenTitles.add(k); return true; });
+    return { t: Date.now(), items: items.slice(0, p.type === 'fn' ? 8 : 6) };
   }
   const cacheKey = (k) => 'bcll-news-' + k;
   function readCache(k) { try { const v = JSON.parse(localStorage.getItem(cacheKey(k)) || 'null'); return v && Array.isArray(v.items) ? v : null; } catch (e) { return null; } }
@@ -1409,6 +1424,29 @@ h1 { margin: 0; font: 700 22px/1.1 var(--f-display); letter-spacing: -.01em; tex
     if (/self.govern/i.test(sys)) return " Elected under the Nation's self-government agreement.";
     return ` Election system: ${esc(sys)}.`;
   }
+  // Contact lines: email and phone are links, with a Copy button because some viewers block mail and phone links.
+  const telHref = (ph) => { const [num, ext] = ph.split(/\s*ext\.?\s*/i); const d = num.replace(/[^\d]/g, ''); return 'tel:+1' + d + (ext ? ',' + ext.replace(/\D/g, '') : ''); };
+  function contactLines(c) {
+    if (!c) return '';
+    const row = (k, v, href) => `<div class="c-row"><span class="c-k">${k}</span>${href ? `<a href="${esc(href)}">${esc(v)}</a>` : `<span>${esc(v)}</span>`}${href ? `<button class="copy" data-copy="${esc(v)}" aria-label="Copy ${k.toLowerCase()}">Copy</button>` : ''}</div>`;
+    let h = '';
+    if (c.via) h += `<div class="c-via">${esc(c.via)}</div>`;
+    if (c.email) h += row('Email', c.email, 'mailto:' + c.email);
+    if (c.phone) h += row('Phone', c.phone, telHref(c.phone));
+    if (c.tollFree) h += row('Toll-free', c.tollFree, telHref(c.tollFree));
+    if (c.fax) h += row('Fax', c.fax);
+    if (c.address) h += row('Address', c.address);
+    if (c.portfolio) h = `<div class="c-via">Portfolio: ${esc(c.portfolio)}</div>` + h;
+    if (c.note) h += `<div class="c-note">${esc(c.note)}</div>`;
+    return `<div class="contact">${h}</div>`;
+  }
+  const noDirect = '<div class="c-note">No direct contact published. Reach them through the Nation\'s office below.</div>';
+  document.addEventListener('click', (e) => {
+    const b = e.target.closest('.copy'); if (!b) return;
+    const v = b.dataset.copy, done = () => { b.textContent = 'Copied'; setTimeout(() => { b.textContent = 'Copy'; }, 1500); };
+    const select = () => { const a = b.previousElementSibling; if (!a) return; const r = document.createRange(); r.selectNodeContents(a); const sel = getSelection(); sel.removeAllRanges(); sel.addRange(r); b.textContent = 'Selected'; };
+    try { navigator.clipboard.writeText(v).then(done, select); } catch (err) { select(); }
+  });
   function openNation(key, opts) {
     const n = FN && FN.nations[key]; if (!n) return;
     selected = key; restyle(); markPins();
@@ -1422,12 +1460,15 @@ h1 { margin: 0; font: 700 22px/1.1 var(--f-display); letter-spacing: -.01em; tex
       : days < 120 ? `<div class="term-note">This term ends ${fmtDate(chief.end)}, so an election is due soon.</div>` : '';
     let html = `<div class="meta"><span>Pinned at ${esc(n.community)}</span><span>Leadership as of ${esc(fmtDate(FN.retrieved))}</span><a href="${esc(n.source)}" target="_blank" rel="noopener">Government of Canada profile</a>${n.website ? `<a href="${esc(n.website)}" target="_blank" rel="noopener">Nation website</a>` : ''}</div>`;
     html += `<div><div class="section-label">Chief</div><article class="person lead"><div class="person-top"><div><div class="role">Chief</div><h3>${esc(chief.name)}</h3></div><div class="votes">Term to ${esc(fmtDate(chief.end).replace(/^\w+ \d+, /, ''))}</div></div>
-      <p>In office since ${esc(fmtDate(chief.start))}; term ends ${esc(fmtDate(chief.end))}.${electionLine(n.electionSystem)}</p>${termNote}</article></div>`;
-    html += `<div><div class="section-label">Forestry &amp; Resource News</div><div class="news" id="news" aria-live="polite"></div></div>`;
-    if (council.length) {
-      html += `<div><div class="section-label">Council · ${council.length} ${council.length === 1 ? 'member' : 'members'}</div><div class="council">${council.map((o) => `<details><summary><b>${esc(o.name)}</b><span>${o.role === 'Councillor' ? 'to ' + esc(fmtDate(o.end).replace(/^\w+ \d+, /, '')) : esc(o.role)}</span></summary><div class="inner"><div class="votes" style="text-align:left">${esc(o.role)}</div><p>In office since ${esc(fmtDate(o.start))}; term ends ${esc(fmtDate(o.end))}.</p></div></details>`).join('')}</div></div>`;
+      <p>In office since ${esc(fmtDate(chief.start))}; term ends ${esc(fmtDate(chief.end))}.${electionLine(n.electionSystem)}</p>${termNote}${chief.contact ? contactLines(chief.contact) : noDirect}</article></div>`;
+    if (n.offices && n.offices.length) {
+      html += `<div><div class="section-label">Contact the Nation</div><div class="offices">${n.offices.map((o) => `<div class="office"><b>${esc(o.name)}</b>${contactLines(o)}</div>`).join('')}</div></div>`;
     }
-    html += `<div class="note">Chief and council are from Indigenous Services Canada's First Nation Profiles, retrieved ${esc(fmtDate(FN.retrieved))}. Leadership can change before the federal record is updated, so confirm with the Nation. News headlines come from Google News.</div>`;
+    if (council.length) {
+      html += `<div><div class="section-label">Council · ${council.length} ${council.length === 1 ? 'member' : 'members'}</div><div class="council">${council.map((o) => `<details><summary><b>${esc(o.name)}${o.contact ? ' ✉' : ''}</b><span>${o.role === 'Councillor' ? 'to ' + esc(fmtDate(o.end).replace(/^\w+ \d+, /, '')) : esc(o.role)}</span></summary><div class="inner"><div class="votes" style="text-align:left">${esc(o.role)}</div><p>In office since ${esc(fmtDate(o.start))}; term ends ${esc(fmtDate(o.end))}.</p>${o.contact ? contactLines(o.contact) : noDirect}</div></details>`).join('')}</div></div>`;
+    }
+    html += `<div><div class="section-label">Forests, Resources &amp; Politics News</div><div class="news" id="news" aria-live="polite"></div></div>`;
+    html += `<div class="note">Chief and council are from Indigenous Services Canada's First Nation Profiles, retrieved ${esc(fmtDate(FN.retrieved))}. Leadership can change before the federal record is updated, so confirm with the Nation. Contact details are as published by the Nation${n.contactSources && n.contactSources.length ? ` (${n.contactSources.map((u, i) => `<a href="${esc(u)}" target="_blank" rel="noopener">source${n.contactSources.length > 1 ? ' ' + (i + 1) : ''}</a>`).join(', ')})` : ''} or the Government of Canada, checked ${esc(fmtDate(FN.contactsChecked || FN.retrieved))}. News headlines come from Google News.</div>`;
     $('sheetBody').innerHTML = html; $('sheetBody').scrollTop = 0;
     $('sheet').hidden = false;
     showNews(n);
