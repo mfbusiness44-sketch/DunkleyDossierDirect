@@ -1,0 +1,20 @@
+{
+ "build": 202611080101,
+ "files": [
+  "app.html",
+  "places.json",
+  "places.geojson",
+  "roads.geojson",
+  "cities.json",
+  "towns.json",
+  "rd.geojson",
+  "rd_labels.json",
+  "fn.json"
+ ],
+ "note": "Version 1.4: new repository",
+ "apk": {
+  "versionCode": 5,
+  "versionName": "1.4",
+  "url": "https://github.com/mfbusiness44-sketch/DunkleyDossierDirect/raw/main/apk/Dunkley-Dossier-Direct-1.4.apk"
+ }
+}

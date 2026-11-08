@@ -1,0 +1,1555 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"><style>:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0}img{max-width:100%}[hidden]{display:none!important}</style></head><body><script>window.BCLL_UPDATE={"base": "https://raw.githubusercontent.com/mfbusiness44-sketch/DunkleyDossierDirect/main/", "ota": "ota/", "build": 202611080101};</script><title>Dunkley Dossier Direct</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<meta name="description" content="Dunkley Dossier Direct: tools for Dunkley Lumber, starting with a map of British Columbia's 2026 local election winners.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Zilla+Slab:wght@500;600;700&family=Public+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap">
+<style id="leaflet-css">/* required styles */
+
+.leaflet-pane,
+.leaflet-tile,
+.leaflet-marker-icon,
+.leaflet-marker-shadow,
+.leaflet-tile-container,
+.leaflet-pane > svg,
+.leaflet-pane > canvas,
+.leaflet-zoom-box,
+.leaflet-image-layer,
+.leaflet-layer {
+	position: absolute;
+	left: 0;
+	top: 0;
+	}
+.leaflet-container {
+	overflow: hidden;
+	}
+.leaflet-tile,
+.leaflet-marker-icon,
+.leaflet-marker-shadow {
+	-webkit-user-select: none;
+	   -moz-user-select: none;
+	        user-select: none;
+	  -webkit-user-drag: none;
+	}
+/* Prevents IE11 from highlighting tiles in blue */
+.leaflet-tile::selection {
+	background: transparent;
+}
+/* Safari renders non-retina tile on retina better with this, but Chrome is worse */
+.leaflet-safari .leaflet-tile {
+	image-rendering: -webkit-optimize-contrast;
+	}
+/* hack that prevents hw layers "stretching" when loading new tiles */
+.leaflet-safari .leaflet-tile-container {
+	width: 1600px;
+	height: 1600px;
+	-webkit-transform-origin: 0 0;
+	}
+.leaflet-marker-icon,
+.leaflet-marker-shadow {
+	display: block;
+	}
+/* .leaflet-container svg: reset svg max-width decleration shipped in Joomla! (joomla.org) 3.x */
+/* .leaflet-container img: map is broken in FF if you have max-width: 100% on tiles */
+.leaflet-container .leaflet-overlay-pane svg {
+	max-width: none !important;
+	max-height: none !important;
+	}
+.leaflet-container .leaflet-marker-pane img,
+.leaflet-container .leaflet-shadow-pane img,
+.leaflet-container .leaflet-tile-pane img,
+.leaflet-container img.leaflet-image-layer,
+.leaflet-container .leaflet-tile {
+	max-width: none !important;
+	max-height: none !important;
+	width: auto;
+	padding: 0;
+	}
+
+.leaflet-container img.leaflet-tile {
+	/* See: https://bugs.chromium.org/p/chromium/issues/detail?id=600120 */
+	mix-blend-mode: plus-lighter;
+}
+
+.leaflet-container.leaflet-touch-zoom {
+	-ms-touch-action: pan-x pan-y;
+	touch-action: pan-x pan-y;
+	}
+.leaflet-container.leaflet-touch-drag {
+	-ms-touch-action: pinch-zoom;
+	/* Fallback for FF which doesn't support pinch-zoom */
+	touch-action: none;
+	touch-action: pinch-zoom;
+}
+.leaflet-container.leaflet-touch-drag.leaflet-touch-zoom {
+	-ms-touch-action: none;
+	touch-action: none;
+}
+.leaflet-container {
+	-webkit-tap-highlight-color: transparent;
+}
+.leaflet-container a {
+	-webkit-tap-highlight-color: rgba(51, 181, 229, 0.4);
+}
+.leaflet-tile {
+	filter: inherit;
+	visibility: hidden;
+	}
+.leaflet-tile-loaded {
+	visibility: inherit;
+	}
+.leaflet-zoom-box {
+	width: 0;
+	height: 0;
+	-moz-box-sizing: border-box;
+	     box-sizing: border-box;
+	z-index: 800;
+	}
+/* workaround for https://bugzilla.mozilla.org/show_bug.cgi?id=888319 */
+.leaflet-overlay-pane svg {
+	-moz-user-select: none;
+	}
+
+.leaflet-pane         { z-index: 400; }
+
+.leaflet-tile-pane    { z-index: 200; }
+.leaflet-overlay-pane { z-index: 400; }
+.leaflet-shadow-pane  { z-index: 500; }
+.leaflet-marker-pane  { z-index: 600; }
+.leaflet-tooltip-pane   { z-index: 650; }
+.leaflet-popup-pane   { z-index: 700; }
+
+.leaflet-map-pane canvas { z-index: 100; }
+.leaflet-map-pane svg    { z-index: 200; }
+
+.leaflet-vml-shape {
+	width: 1px;
+	height: 1px;
+	}
+.lvml {
+	behavior: url(#default#VML);
+	display: inline-block;
+	position: absolute;
+	}
+
+
+/* control positioning */
+
+.leaflet-control {
+	position: relative;
+	z-index: 800;
+	pointer-events: visiblePainted; /* IE 9-10 doesn't have auto */
+	pointer-events: auto;
+	}
+.leaflet-top,
+.leaflet-bottom {
+	position: absolute;
+	z-index: 1000;
+	pointer-events: none;
+	}
+.leaflet-top {
+	top: 0;
+	}
+.leaflet-right {
+	right: 0;
+	}
+.leaflet-bottom {
+	bottom: 0;
+	}
+.leaflet-left {
+	left: 0;
+	}
+.leaflet-control {
+	float: left;
+	clear: both;
+	}
+.leaflet-right .leaflet-control {
+	float: right;
+	}
+.leaflet-top .leaflet-control {
+	margin-top: 10px;
+	}
+.leaflet-bottom .leaflet-control {
+	margin-bottom: 10px;
+	}
+.leaflet-left .leaflet-control {
+	margin-left: 10px;
+	}
+.leaflet-right .leaflet-control {
+	margin-right: 10px;
+	}
+
+
+/* zoom and fade animations */
+
+.leaflet-fade-anim .leaflet-popup {
+	opacity: 0;
+	-webkit-transition: opacity 0.2s linear;
+	   -moz-transition: opacity 0.2s linear;
+	        transition: opacity 0.2s linear;
+	}
+.leaflet-fade-anim .leaflet-map-pane .leaflet-popup {
+	opacity: 1;
+	}
+.leaflet-zoom-animated {
+	-webkit-transform-origin: 0 0;
+	    -ms-transform-origin: 0 0;
+	        transform-origin: 0 0;
+	}
+svg.leaflet-zoom-animated {
+	will-change: transform;
+}
+
+.leaflet-zoom-anim .leaflet-zoom-animated {
+	-webkit-transition: -webkit-transform 0.25s cubic-bezier(0,0,0.25,1);
+	   -moz-transition:    -moz-transform 0.25s cubic-bezier(0,0,0.25,1);
+	        transition:         transform 0.25s cubic-bezier(0,0,0.25,1);
+	}
+.leaflet-zoom-anim .leaflet-tile,
+.leaflet-pan-anim .leaflet-tile {
+	-webkit-transition: none;
+	   -moz-transition: none;
+	        transition: none;
+	}
+
+.leaflet-zoom-anim .leaflet-zoom-hide {
+	visibility: hidden;
+	}
+
+
+/* cursors */
+
+.leaflet-interactive {
+	cursor: pointer;
+	}
+.leaflet-grab {
+	cursor: -webkit-grab;
+	cursor:    -moz-grab;
+	cursor:         grab;
+	}
+.leaflet-crosshair,
+.leaflet-crosshair .leaflet-interactive {
+	cursor: crosshair;
+	}
+.leaflet-popup-pane,
+.leaflet-control {
+	cursor: auto;
+	}
+.leaflet-dragging .leaflet-grab,
+.leaflet-dragging .leaflet-grab .leaflet-interactive,
+.leaflet-dragging .leaflet-marker-draggable {
+	cursor: move;
+	cursor: -webkit-grabbing;
+	cursor:    -moz-grabbing;
+	cursor:         grabbing;
+	}
+
+/* marker & overlays interactivity */
+.leaflet-marker-icon,
+.leaflet-marker-shadow,
+.leaflet-image-layer,
+.leaflet-pane > svg path,
+.leaflet-tile-container {
+	pointer-events: none;
+	}
+
+.leaflet-marker-icon.leaflet-interactive,
+.leaflet-image-layer.leaflet-interactive,
+.leaflet-pane > svg path.leaflet-interactive,
+svg.leaflet-image-layer.leaflet-interactive path {
+	pointer-events: visiblePainted; /* IE 9-10 doesn't have auto */
+	pointer-events: auto;
+	}
+
+/* visual tweaks */
+
+.leaflet-container {
+	background: #ddd;
+	outline-offset: 1px;
+	}
+.leaflet-container a {
+	color: #0078A8;
+	}
+.leaflet-zoom-box {
+	border: 2px dotted #38f;
+	background: rgba(255,255,255,0.5);
+	}
+
+
+/* general typography */
+.leaflet-container {
+	font-family: "Helvetica Neue", Arial, Helvetica, sans-serif;
+	font-size: 12px;
+	font-size: 0.75rem;
+	line-height: 1.5;
+	}
+
+
+/* general toolbar styles */
+
+.leaflet-bar {
+	box-shadow: 0 1px 5px rgba(0,0,0,0.65);
+	border-radius: 4px;
+	}
+.leaflet-bar a {
+	background-color: #fff;
+	border-bottom: 1px solid #ccc;
+	width: 26px;
+	height: 26px;
+	line-height: 26px;
+	display: block;
+	text-align: center;
+	text-decoration: none;
+	color: black;
+	}
+.leaflet-bar a,
+.leaflet-control-layers-toggle {
+	background-position: 50% 50%;
+	background-repeat: no-repeat;
+	display: block;
+	}
+.leaflet-bar a:hover,
+.leaflet-bar a:focus {
+	background-color: #f4f4f4;
+	}
+.leaflet-bar a:first-child {
+	border-top-left-radius: 4px;
+	border-top-right-radius: 4px;
+	}
+.leaflet-bar a:last-child {
+	border-bottom-left-radius: 4px;
+	border-bottom-right-radius: 4px;
+	border-bottom: none;
+	}
+.leaflet-bar a.leaflet-disabled {
+	cursor: default;
+	background-color: #f4f4f4;
+	color: #bbb;
+	}
+
+.leaflet-touch .leaflet-bar a {
+	width: 30px;
+	height: 30px;
+	line-height: 30px;
+	}
+.leaflet-touch .leaflet-bar a:first-child {
+	border-top-left-radius: 2px;
+	border-top-right-radius: 2px;
+	}
+.leaflet-touch .leaflet-bar a:last-child {
+	border-bottom-left-radius: 2px;
+	border-bottom-right-radius: 2px;
+	}
+
+/* zoom control */
+
+.leaflet-control-zoom-in,
+.leaflet-control-zoom-out {
+	font: bold 18px 'Lucida Console', Monaco, monospace;
+	text-indent: 1px;
+	}
+
+.leaflet-touch .leaflet-control-zoom-in, .leaflet-touch .leaflet-control-zoom-out  {
+	font-size: 22px;
+	}
+
+
+/* layers control */
+
+.leaflet-control-layers {
+	box-shadow: 0 1px 5px rgba(0,0,0,0.4);
+	background: #fff;
+	border-radius: 5px;
+	}
+.leaflet-control-layers-toggle {
+	background-image: url(images/layers.png);
+	width: 36px;
+	height: 36px;
+	}
+.leaflet-retina .leaflet-control-layers-toggle {
+	background-image: url(images/layers-2x.png);
+	background-size: 26px 26px;
+	}
+.leaflet-touch .leaflet-control-layers-toggle {
+	width: 44px;
+	height: 44px;
+	}
+.leaflet-control-layers .leaflet-control-layers-list,
+.leaflet-control-layers-expanded .leaflet-control-layers-toggle {
+	display: none;
+	}
+.leaflet-control-layers-expanded .leaflet-control-layers-list {
+	display: block;
+	position: relative;
+	}
+.leaflet-control-layers-expanded {
+	padding: 6px 10px 6px 6px;
+	color: #333;
+	background: #fff;
+	}
+.leaflet-control-layers-scrollbar {
+	overflow-y: scroll;
+	overflow-x: hidden;
+	padding-right: 5px;
+	}
+.leaflet-control-layers-selector {
+	margin-top: 2px;
+	position: relative;
+	top: 1px;
+	}
+.leaflet-control-layers label {
+	display: block;
+	font-size: 13px;
+	font-size: 1.08333em;
+	}
+.leaflet-control-layers-separator {
+	height: 0;
+	border-top: 1px solid #ddd;
+	margin: 5px -10px 5px -6px;
+	}
+
+/* Default icon URLs */
+.leaflet-default-icon-path { /* used only in path-guessing heuristic, see L.Icon.Default */
+	background-image: url(images/marker-icon.png);
+	}
+
+
+/* attribution and scale controls */
+
+.leaflet-container .leaflet-control-attribution {
+	background: #fff;
+	background: rgba(255, 255, 255, 0.8);
+	margin: 0;
+	}
+.leaflet-control-attribution,
+.leaflet-control-scale-line {
+	padding: 0 5px;
+	color: #333;
+	line-height: 1.4;
+	}
+.leaflet-control-attribution a {
+	text-decoration: none;
+	}
+.leaflet-control-attribution a:hover,
+.leaflet-control-attribution a:focus {
+	text-decoration: underline;
+	}
+.leaflet-attribution-flag {
+	display: inline !important;
+	vertical-align: baseline !important;
+	width: 1em;
+	height: 0.6669em;
+	}
+.leaflet-left .leaflet-control-scale {
+	margin-left: 5px;
+	}
+.leaflet-bottom .leaflet-control-scale {
+	margin-bottom: 5px;
+	}
+.leaflet-control-scale-line {
+	border: 2px solid #777;
+	border-top: none;
+	line-height: 1.1;
+	padding: 2px 5px 1px;
+	white-space: nowrap;
+	-moz-box-sizing: border-box;
+	     box-sizing: border-box;
+	background: rgba(255, 255, 255, 0.8);
+	text-shadow: 1px 1px #fff;
+	}
+.leaflet-control-scale-line:not(:first-child) {
+	border-top: 2px solid #777;
+	border-bottom: none;
+	margin-top: -2px;
+	}
+.leaflet-control-scale-line:not(:first-child):not(:last-child) {
+	border-bottom: 2px solid #777;
+	}
+
+.leaflet-touch .leaflet-control-attribution,
+.leaflet-touch .leaflet-control-layers,
+.leaflet-touch .leaflet-bar {
+	box-shadow: none;
+	}
+.leaflet-touch .leaflet-control-layers,
+.leaflet-touch .leaflet-bar {
+	border: 2px solid rgba(0,0,0,0.2);
+	background-clip: padding-box;
+	}
+
+
+/* popup */
+
+.leaflet-popup {
+	position: absolute;
+	text-align: center;
+	margin-bottom: 20px;
+	}
+.leaflet-popup-content-wrapper {
+	padding: 1px;
+	text-align: left;
+	border-radius: 12px;
+	}
+.leaflet-popup-content {
+	margin: 13px 24px 13px 20px;
+	line-height: 1.3;
+	font-size: 13px;
+	font-size: 1.08333em;
+	min-height: 1px;
+	}
+.leaflet-popup-content p {
+	margin: 17px 0;
+	margin: 1.3em 0;
+	}
+.leaflet-popup-tip-container {
+	width: 40px;
+	height: 20px;
+	position: absolute;
+	left: 50%;
+	margin-top: -1px;
+	margin-left: -20px;
+	overflow: hidden;
+	pointer-events: none;
+	}
+.leaflet-popup-tip {
+	width: 17px;
+	height: 17px;
+	padding: 1px;
+
+	margin: -10px auto 0;
+	pointer-events: auto;
+
+	-webkit-transform: rotate(45deg);
+	   -moz-transform: rotate(45deg);
+	    -ms-transform: rotate(45deg);
+	        transform: rotate(45deg);
+	}
+.leaflet-popup-content-wrapper,
+.leaflet-popup-tip {
+	background: white;
+	color: #333;
+	box-shadow: 0 3px 14px rgba(0,0,0,0.4);
+	}
+.leaflet-container a.leaflet-popup-close-button {
+	position: absolute;
+	top: 0;
+	right: 0;
+	border: none;
+	text-align: center;
+	width: 24px;
+	height: 24px;
+	font: 16px/24px Tahoma, Verdana, sans-serif;
+	color: #757575;
+	text-decoration: none;
+	background: transparent;
+	}
+.leaflet-container a.leaflet-popup-close-button:hover,
+.leaflet-container a.leaflet-popup-close-button:focus {
+	color: #585858;
+	}
+.leaflet-popup-scrolled {
+	overflow: auto;
+	}
+
+.leaflet-oldie .leaflet-popup-content-wrapper {
+	-ms-zoom: 1;
+	}
+.leaflet-oldie .leaflet-popup-tip {
+	width: 24px;
+	margin: 0 auto;
+
+	-ms-filter: "progid:DXImageTransform.Microsoft.Matrix(M11=0.70710678, M12=0.70710678, M21=-0.70710678, M22=0.70710678)";
+	filter: progid:DXImageTransform.Microsoft.Matrix(M11=0.70710678, M12=0.70710678, M21=-0.70710678, M22=0.70710678);
+	}
+
+.leaflet-oldie .leaflet-control-zoom,
+.leaflet-oldie .leaflet-control-layers,
+.leaflet-oldie .leaflet-popup-content-wrapper,
+.leaflet-oldie .leaflet-popup-tip {
+	border: 1px solid #999;
+	}
+
+
+/* div icon */
+
+.leaflet-div-icon {
+	background: #fff;
+	border: 1px solid #666;
+	}
+
+
+/* Tooltip */
+/* Base styles for the element that has a tooltip */
+.leaflet-tooltip {
+	position: absolute;
+	padding: 6px;
+	background-color: #fff;
+	border: 1px solid #fff;
+	border-radius: 3px;
+	color: #222;
+	white-space: nowrap;
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+	pointer-events: none;
+	box-shadow: 0 1px 3px rgba(0,0,0,0.4);
+	}
+.leaflet-tooltip.leaflet-interactive {
+	cursor: pointer;
+	pointer-events: auto;
+	}
+.leaflet-tooltip-top:before,
+.leaflet-tooltip-bottom:before,
+.leaflet-tooltip-left:before,
+.leaflet-tooltip-right:before {
+	position: absolute;
+	pointer-events: none;
+	border: 6px solid transparent;
+	background: transparent;
+	content: "";
+	}
+
+/* Directions */
+
+.leaflet-tooltip-bottom {
+	margin-top: 6px;
+}
+.leaflet-tooltip-top {
+	margin-top: -6px;
+}
+.leaflet-tooltip-bottom:before,
+.leaflet-tooltip-top:before {
+	left: 50%;
+	margin-left: -6px;
+	}
+.leaflet-tooltip-top:before {
+	bottom: 0;
+	margin-bottom: -12px;
+	border-top-color: #fff;
+	}
+.leaflet-tooltip-bottom:before {
+	top: 0;
+	margin-top: -12px;
+	margin-left: -6px;
+	border-bottom-color: #fff;
+	}
+.leaflet-tooltip-left {
+	margin-left: -6px;
+}
+.leaflet-tooltip-right {
+	margin-left: 6px;
+}
+.leaflet-tooltip-left:before,
+.leaflet-tooltip-right:before {
+	top: 50%;
+	margin-top: -6px;
+	}
+.leaflet-tooltip-left:before {
+	right: 0;
+	margin-right: -12px;
+	border-left-color: #fff;
+	}
+.leaflet-tooltip-right:before {
+	left: 0;
+	margin-left: -12px;
+	border-right-color: #fff;
+	}
+
+/* Printing */
+
+@media print {
+	/* Prevent printers from removing background-images of controls. */
+	.leaflet-control {
+		-webkit-print-color-adjust: exact;
+		print-color-adjust: exact;
+		}
+	}
+</style>
+<style>
+/* Layout: full-bleed survey map; a floating control card top-left; place details in a right rail (desktop) or bottom sheet (phone). */
+:root {
+  --water: #fcefd8;
+  --paper: #fffaf2;
+  --ink: #2b1d0f;
+  --ink-2: #6b5640;
+  --line: #ecdcc1;
+  --accent: #b4490a;
+  --sea: #0a1430;
+  --land-muni: #fff1d6;
+  --edge: #fff4dc;
+  --st-industry: #f2590c;
+  --st-transition: #ffaa00;
+  --st-conservation: #ffe45c;
+  --st-unknown: #d8c39b;
+  --vs1: #fff5b8; --vs2: #ffd95a; --vs3: #ffb52e; --vs4: #f7871f; --vs5: #d9480f;
+  --acclaimed: #ffe066;
+  --road: #fff6e2; --road-minor: #f1dfbd; --road-casing: #2b1a08; --ferry: #a9dcff;
+  --label-ink: #fffaf0; --label-halo: rgba(24,14,4,.9);
+  --dk-green: #008651; --home-bg: #f6faf7; --home-ink: #10261c; --home-ink-2: #4c6a5b; --home-line: #d6e6dc;
+  --tree-1: #008651; --tree-2: #2f9e6f; --tree-3: #00653d; --tree-trunk: #00502f; --tree-ground: #008651;
+  --shadow: 0 1px 2px rgba(20,35,30,.12), 0 8px 24px rgba(20,35,30,.12);
+  --f-display: "Zilla Slab", Rockwell, "Roboto Slab", Georgia, serif;
+  --f-body: "Public Sans", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --f-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+}
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
+  --water: #2b2015; --paper: #1d160e; --ink: #f7ecdb; --ink-2: #c6ae8e; --line: #403122; --dk-green: #3fb883; --home-bg: #0c1712; --home-ink: #e7f2eb; --home-ink-2: #9cb9aa; --home-line: #1f3a2d; --tree-1: #0c7a4b; --tree-2: #17694a; --tree-3: #0a5a39; --tree-trunk: #08432b; --tree-ground: #0c7a4b; --accent: #ffb04a;
+  --shadow: 0 1px 2px rgba(0,0,0,.4), 0 8px 24px rgba(0,0,0,.35); color-scheme: dark; } }
+:root[data-theme="dark"] {
+  --water: #2b2015; --paper: #1d160e; --ink: #f7ecdb; --ink-2: #c6ae8e; --line: #403122; --dk-green: #3fb883; --home-bg: #0c1712; --home-ink: #e7f2eb; --home-ink-2: #9cb9aa; --home-line: #1f3a2d; --tree-1: #0c7a4b; --tree-2: #17694a; --tree-3: #0a5a39; --tree-trunk: #08432b; --tree-ground: #0c7a4b; --accent: #ffb04a;
+  --shadow: 0 1px 2px rgba(0,0,0,.4), 0 8px 24px rgba(0,0,0,.35); color-scheme: dark; }
+
+html, body { height: 100%; }
+body { background: var(--sea); color: var(--ink); font: 14px/1.5 var(--f-body); overflow: hidden; }
+#map { position: absolute; inset: 0; background: var(--sea); }
+.leaflet-container { background: var(--sea); font-family: var(--f-body); }
+.leaflet-control-zoom a { background: var(--paper); color: var(--ink); border-color: var(--line) !important; }
+.leaflet-control-attribution { background: color-mix(in srgb, var(--paper) 85%, transparent) !important; color: var(--ink-2); font-size: 10px; }
+.leaflet-control-attribution a { color: var(--accent); }
+.leaflet-tooltip.tip { background: var(--paper); color: var(--ink); border: 1px solid var(--line); box-shadow: var(--shadow); font: 600 12px/1.3 var(--f-body); padding: 5px 8px; }
+.leaflet-tooltip.tip span { display: block; font-weight: 400; color: var(--ink-2); }
+.leaflet-tooltip.tip::before { display: none; }
+.city { position: absolute; white-space: nowrap; display: flex; align-items: center; gap: 5px; margin-top: -0.7em; margin-left: -4px; color: var(--label-ink); font: 600 1em/1.2 var(--f-body); letter-spacing: .01em; text-shadow: 0 0 2px var(--label-halo), 0 0 4px var(--label-halo), 0 1px 3px var(--label-halo); pointer-events: none; }
+.city i { width: 6px; height: 6px; border-radius: 50%; background: var(--label-ink); box-shadow: 0 0 0 1.5px var(--label-halo); flex: none; }
+.city.t1 { font-weight: 700; }
+.city.t1 i { width: 8px; height: 8px; }
+.city.off { display: none; }
+.fnpin { position: absolute; display: flex; align-items: center; gap: 7px; margin-left: -10px; margin-top: -10px; white-space: nowrap; cursor: pointer; -webkit-tap-highlight-color: transparent; }
+.fnpin .dot { width: 20px; height: 20px; box-sizing: border-box; border-radius: 50%; background: var(--dk-green); border: 3px solid #fff; box-shadow: 0 0 0 1.5px rgba(0,40,20,.55), 0 2px 6px rgba(0,0,0,.45); flex: none; transition: transform .12s ease; }
+.fnpin .nm { color: var(--label-ink); font: 700 13px/1.2 var(--f-body); text-shadow: 0 0 2px var(--label-halo), 0 0 5px var(--label-halo), 0 1px 3px var(--label-halo); }
+.fnpin.sel .dot { background: var(--accent); transform: scale(1.25); }
+.fnpin:focus-visible { outline: none; } .fnpin:focus-visible .dot { box-shadow: 0 0 0 3px var(--accent); }
+.term-note { font-size: 12.5px; background: color-mix(in srgb, var(--st-transition) 14%, var(--paper)); border-radius: 6px; padding: 6px 9px; }
+.city.t5, .city.t6 { font-weight: 500; gap: 4px; }
+.city.t5 i, .city.t6 i { width: 4px; height: 4px; box-shadow: 0 0 0 1px var(--label-halo); }
+.rdlabel { position: absolute; white-space: nowrap; color: var(--label-ink); font: 700 1em/1.15 var(--f-body); letter-spacing: .12em; text-transform: uppercase; text-align: center; text-shadow: 0 0 2px var(--label-halo), 0 0 5px var(--label-halo), 0 1px 3px var(--label-halo); opacity: .92; pointer-events: none; }
+.rdlabel span { display: block; transform: translate(-50%, -50%); }   /* Leaflet owns the outer transform */
+.map-key { display: flex; flex-wrap: wrap; gap: 4px 14px; font-size: 12px; color: var(--ink-2); }
+.map-key span { display: inline-flex; align-items: center; gap: 6px; }
+.ln { width: 22px; height: 4px; border-radius: 2px; background: var(--road); box-shadow: 0 0 0 1px var(--road-casing); }
+.ln.ferry { height: 0; border-top: 2px dashed var(--ferry); background: none; box-shadow: none; }
+.ln.dot { width: 7px; height: 7px; border-radius: 50%; }
+.ln.rd { height: 3px; background: #fff; box-shadow: 0 0 0 1.5px var(--road-casing); }
+
+/* Control card */
+.card {
+  position: absolute; z-index: 1000; top: calc(12px + env(safe-area-inset-top, 0px)); left: max(12px, env(safe-area-inset-left, 0px));
+  width: 340px; max-width: calc(100% - 24px); background: var(--paper); border: 1px solid var(--line);
+  border-radius: 10px; box-shadow: var(--shadow); padding: 14px 14px 12px; display: grid; gap: 10px;
+}
+.brand { display: flex; align-items: center; gap: 10px; }
+.brand > div { flex: 1; min-width: 0; }
+h1 { margin: 0; font: 700 22px/1.1 var(--f-display); letter-spacing: -.01em; text-wrap: balance; }
+.eyebrow { font: 500 11px/1.3 var(--f-mono); letter-spacing: .06em; text-transform: uppercase; color: var(--ink-2); }
+.toggle-card { display: none; border: 1px solid var(--line); background: transparent; color: var(--ink-2); border-radius: 6px; font: 600 12px var(--f-body); padding: 4px 8px; cursor: pointer; }
+.search { position: relative; }
+.search input {
+  width: 100%; box-sizing: border-box; border: 1px solid var(--line); background: var(--water); color: var(--ink);
+  border-radius: 7px; padding: 9px 10px; font: 14px var(--f-body);
+}
+.search input:focus-visible, button:focus-visible, a:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.results { position: absolute; left: 0; right: 0; top: calc(100% + 4px); background: var(--paper); border: 1px solid var(--line); border-radius: 8px; box-shadow: var(--shadow); max-height: 300px; overflow: auto; z-index: 5; }
+.results button { display: block; width: 100%; text-align: left; border: 0; background: transparent; color: var(--ink); padding: 8px 10px; cursor: pointer; font: 14px var(--f-body); border-bottom: 1px solid var(--line); }
+.results button:last-child { border-bottom: 0; }
+.results button:hover, .results button.active { background: var(--water); }
+.results small { display: block; color: var(--ink-2); font-size: 12px; }
+.seg { display: grid; grid-template-columns: 1fr 1fr; border: 1px solid var(--line); border-radius: 7px; overflow: hidden; }
+.seg button { border: 0; background: transparent; color: var(--ink-2); padding: 7px 6px; font: 600 12.5px var(--f-body); cursor: pointer; }
+.seg button[aria-pressed="true"] { background: var(--accent); color: var(--paper); }
+.legend { display: grid; gap: 4px; font-size: 12.5px; }
+.legend .row { display: flex; align-items: center; gap: 8px; }
+.sw.outline { background: transparent !important; border: 2.5px solid var(--acclaimed); }
+.sw { width: 14px; height: 14px; border-radius: 3px; flex: none; border: 1px solid color-mix(in srgb, var(--ink) 15%, transparent); }
+.legend .ramp { display: grid; grid-template-columns: repeat(5, 1fr); gap: 2px; }
+.legend .ramp i { height: 10px; border-radius: 2px; }
+.legend .ticks { display: grid; grid-template-columns: repeat(5, 1fr); font: 10.5px var(--f-mono); color: var(--ink-2); font-variant-numeric: tabular-nums; }
+.collapsible { display: grid; gap: 10px; }
+.stat { font: 11.5px/1.4 var(--f-mono); color: var(--ink-2); font-variant-numeric: tabular-nums; border-top: 1px solid var(--line); padding-top: 8px; }
+
+/* Detail sheet */
+.sheet {
+  position: absolute; z-index: 1001; top: 0; right: 0; bottom: 0; width: 420px; max-width: 100%;
+  background: var(--paper); border-left: 1px solid var(--line); box-shadow: var(--shadow);
+  display: flex; flex-direction: column; transform: translateX(0); transition: transform .22s ease;
+}
+.sheet[hidden] { display: flex !important; transform: translateX(105%); visibility: hidden; }
+.sheet-head { padding: calc(16px + env(safe-area-inset-top, 0px)) max(18px, env(safe-area-inset-right, 0px)) 12px 18px; border-bottom: 1px solid var(--line); display: grid; gap: 4px; position: relative; }
+.sheet-head h2 { margin: 0; font: 700 24px/1.15 var(--f-display); padding-right: 36px; text-wrap: balance; }
+.sheet-head .sub { color: var(--ink-2); font-size: 13px; }
+.close { position: absolute; top: calc(12px + env(safe-area-inset-top, 0px)); right: max(12px, env(safe-area-inset-right, 0px)); width: 32px; height: 32px; border-radius: 50%; border: 1px solid var(--line); background: var(--paper); color: var(--ink); font-size: 18px; line-height: 1; cursor: pointer; }
+.handle { display: none; }
+.sheet-body { overflow-y: auto; padding: 14px max(18px, env(safe-area-inset-right, 0px)) calc(24px + env(safe-area-inset-bottom, 0px)) 18px; display: grid; gap: 18px; align-content: start; }
+.meta { display: flex; flex-wrap: wrap; gap: 6px 14px; font: 12px var(--f-mono); color: var(--ink-2); font-variant-numeric: tabular-nums; }
+.meta a { color: var(--accent); }
+.section-label { font: 500 11px/1.3 var(--f-mono); letter-spacing: .07em; text-transform: uppercase; color: var(--ink-2); margin: 0 0 6px; }
+.context { font-size: 13.5px; }
+.news { display: grid; border: 1px solid var(--line); border-radius: 9px; overflow: hidden; }
+.story { display: grid; gap: 3px; padding: 10px 12px; border-bottom: 1px solid var(--line); color: var(--ink); text-decoration: none; }
+.story:hover { background: var(--water); }
+.story .hl { font-weight: 600; line-height: 1.35; }
+.story .src { font: 11.5px/1.4 var(--f-mono); color: var(--ink-2); }
+.story .tag { color: var(--accent); }
+.news-foot { font: 11px/1.4 var(--f-mono); color: var(--ink-2); padding: 8px 12px; background: color-mix(in srgb, var(--water) 55%, var(--paper)); }
+.news-foot a { color: var(--accent); }
+.news .context, .news .pending { padding: 10px 12px; border-bottom: 1px solid var(--line); }
+.news .context { border-left: 3px solid var(--st-industry); }
+
+.person { border: 1px solid var(--line); border-radius: 9px; padding: 12px; display: grid; gap: 8px; }
+.person.lead { border-color: color-mix(in srgb, var(--accent) 45%, var(--line)); }
+.person-top { display: flex; justify-content: space-between; gap: 10px; align-items: baseline; }
+.person h3 { margin: 0; font: 600 18px/1.2 var(--f-display); }
+.role { font: 500 11px var(--f-mono); letter-spacing: .05em; text-transform: uppercase; color: var(--ink-2); }
+.votes { font: 500 12px var(--f-mono); color: var(--ink-2); text-align: right; white-space: nowrap; font-variant-numeric: tabular-nums; }
+.chip { display: inline-flex; align-items: center; gap: 6px; font: 600 12px var(--f-body); padding: 3px 9px 3px 7px; border-radius: 999px; border: 1px solid var(--line); width: fit-content; }
+.chip i { width: 9px; height: 9px; border-radius: 50%; }
+.person p { margin: 0; }
+.person ul { margin: 0; padding-left: 18px; display: grid; gap: 3px; }
+.forestry { background: color-mix(in srgb, var(--water) 60%, var(--paper)); border-radius: 7px; padding: 10px; display: grid; gap: 6px; }
+.forestry h4, .person h4 { margin: 0; font: 600 13px var(--f-body); }
+.links a { color: var(--accent); word-break: break-word; }
+.links { display: flex; flex-wrap: wrap; gap: 4px 12px; font-size: 12px; }
+.pending { font-size: 12.5px; color: var(--ink-2); }
+.council { display: grid; gap: 0; border: 1px solid var(--line); border-radius: 9px; overflow: hidden; }
+.council details { border-bottom: 1px solid var(--line); }
+.council details:last-child { border-bottom: 0; }
+.council summary { list-style: none; display: grid; grid-template-columns: 1fr auto; gap: 8px; padding: 9px 12px; cursor: pointer; }
+.council summary::-webkit-details-marker { display: none; }
+.council summary b { font-weight: 600; }
+.council summary span { font: 12px var(--f-mono); color: var(--ink-2); font-variant-numeric: tabular-nums; }
+.council .inner { padding: 0 12px 12px; display: grid; gap: 8px; }
+.race { display: grid; gap: 5px; }
+.bar { display: grid; grid-template-columns: minmax(0, 1fr) 58px; gap: 8px; align-items: center; font-size: 12.5px; }
+.bar .track { grid-column: 1 / -1; height: 6px; background: var(--line); border-radius: 3px; overflow: hidden; }
+.bar .track i { display: block; height: 100%; background: var(--ink-2); }
+.bar.won .track i { background: var(--accent); }
+.bar.won .nm { font-weight: 600; }
+.bar .pc { font: 12px var(--f-mono); text-align: right; color: var(--ink-2); font-variant-numeric: tabular-nums; }
+.note { font-size: 11.5px; color: var(--ink-2); border-top: 1px solid var(--line); padding-top: 10px; }
+
+.updates { position: absolute; z-index: 2100; left: 50%; transform: translateX(-50%); bottom: calc(16px + env(safe-area-inset-bottom, 0px)); width: min(440px, calc(100% - 32px)); display: grid; gap: 8px; }
+.update-bar { box-sizing: border-box; background: var(--paper); color: var(--ink); border: 1px solid var(--line); border-radius: 10px; box-shadow: var(--shadow); padding: 10px 12px; display: flex; align-items: center; gap: 12px; font-size: 13.5px; }
+.update-bar span { flex: 1; min-width: 0; }
+.update-bar a, .update-bar button.go { background: var(--accent); color: var(--paper); border: 0; border-radius: 7px; padding: 7px 12px; font: 600 13px var(--f-body); text-decoration: none; white-space: nowrap; cursor: pointer; }
+.update-bar button.x { background: transparent; border: 0; color: var(--ink-2); font-size: 18px; cursor: pointer; padding: 0 4px; }
+/* Home screen: Dunkley green on white, one row of app icons, a tree line along the bottom */
+.home { position: fixed; inset: 0; z-index: 2000; background: var(--home-bg); color: var(--home-ink); display: flex; flex-direction: column; overflow: hidden; }
+.home-inner { padding-top: calc(36px + env(safe-area-inset-top, 0px)); padding-left: max(24px, env(safe-area-inset-left, 0px)); padding-right: max(24px, env(safe-area-inset-right, 0px)); width: 100%; max-width: 560px; margin: 0 auto; box-sizing: border-box; display: grid; gap: 36px; }
+.home-head { display: flex; align-items: center; gap: 14px; }
+.home-head .logo { width: 46px; height: 53px; color: var(--dk-green); flex: none; }
+.home-eyebrow { font: 500 11px/1.3 var(--f-mono); letter-spacing: .08em; text-transform: uppercase; color: var(--dk-green); }
+.home-title { margin: 2px 0 0; font: 700 26px/1.1 var(--f-display); color: var(--home-ink); text-wrap: balance; }
+.home-grid { display: grid; grid-template-columns: repeat(auto-fill, 88px); gap: 24px 18px; border-top: 1px solid var(--home-line); padding-top: 28px; }
+.app-tile { display: grid; justify-items: center; align-content: start; gap: 9px; text-decoration: none; color: var(--home-ink); border-radius: 18px; -webkit-tap-highlight-color: transparent; }
+.app-icon { width: 68px; height: 68px; border-radius: 18px; background: var(--dk-green); color: #fff; display: grid; place-items: center; box-shadow: 0 1px 2px rgba(0,60,35,.18), 0 6px 16px rgba(0,60,35,.16); transition: transform .12s ease; }
+.app-icon svg { width: 36px; height: 36px; }
+.app-icon.flag { background: #fff; overflow: hidden; }
+.app-icon.flag svg { width: 100%; height: 100%; display: block; }
+.app-tile:active .app-icon { transform: scale(.94); }
+.app-tile:focus-visible { outline: 2px solid var(--dk-green); outline-offset: 4px; }
+.app-label { font: 600 12.5px/1.25 var(--f-body); text-align: center; }
+.home-foot { margin-top: auto; }
+.home-foot::after { content: ""; display: block; height: env(safe-area-inset-bottom, 0px); background: var(--tree-ground); margin-top: -1px; }
+.treeline { display: block; width: 100%; height: 150px; }
+.treeline .t1 { fill: var(--tree-1); } .treeline .t2 { fill: var(--tree-2); } .treeline .t3 { fill: var(--tree-3); }
+.treeline .trunk { fill: var(--tree-trunk); } .treeline .ground { fill: var(--tree-ground); }
+.home-btn { flex: none; width: 34px; height: 34px; border-radius: 50%; border: 1px solid var(--line); background: var(--paper); color: var(--ink); display: grid; place-items: center; cursor: pointer; padding: 0; }
+.home-btn svg { width: 18px; height: 18px; }
+@media (prefers-reduced-motion: reduce) { .app-icon { transition: none; } }
+.loading { position: absolute; inset: 0; display: grid; place-items: center; z-index: 999; color: var(--ink-2); font: 13px var(--f-mono); pointer-events: none; }
+
+@media (max-width: 720px) {
+  .card { top: calc(8px + env(safe-area-inset-top, 0px)); left: max(8px, env(safe-area-inset-left, 0px)); right: max(8px, env(safe-area-inset-right, 0px)); width: auto; max-width: none; padding: 10px 12px; gap: 8px; }
+  h1 { font-size: 19px; }
+  .toggle-card { display: inline-block; }
+  .brand .eyebrow { display: none; }
+  .card.collapsed .collapsible { display: none; }
+  .sheet { top: auto; left: 0; width: 100%; height: 66%; border-left: 0; border-top: 1px solid var(--line); border-radius: 14px 14px 0 0; }
+  .sheet[hidden] { transform: translateY(105%); }
+  .sheet.tall { height: calc(100% - 20px - env(safe-area-inset-top, 0px)); }
+  .handle { display: block; width: 40px; height: 5px; border-radius: 3px; background: var(--line); margin: 0 auto 6px; border: 0; padding: 0; cursor: pointer; }
+  .sheet-head { padding-top: 8px; }
+  .close { top: 12px; }
+  .sheet-head h2 { font-size: 21px; }
+}
+@media (prefers-reduced-motion: reduce) { .sheet { transition: none; } }
+</style>
+
+<section class="home" id="home" aria-label="Dunkley Dossier Direct">
+  <div class="home-inner">
+    <header class="home-head">
+      <svg class="logo" viewBox="0 0 980 1130" aria-hidden="true" focusable="false">
+	<path d="M 802 40.930 C 797.525 41.825, 794.009 43.731, 793.968 45.285 C 793.950 45.953, 793.836 188.925, 793.715 363 L 793.495 679.500 791.209 696.441 C 788.611 715.691, 787.891 719.332, 784.467 730.500 C 783.118 734.900, 781.139 742.187, 780.070 746.694 C 779 751.201, 776.916 757.726, 775.438 761.194 C 773.961 764.662, 771.719 770.485, 770.457 774.132 C 769.195 777.780, 766.326 784.231, 764.081 788.467 C 761.836 792.704, 760 796.762, 760 797.485 C 760 798.208, 758.377 801.207, 756.394 804.150 C 754.411 807.092, 751.647 811.750, 750.252 814.500 C 748.856 817.250, 746.043 821.975, 743.999 825 C 741.956 828.025, 739.090 832.300, 737.631 834.500 C 736.172 836.700, 732.845 841.278, 730.239 844.674 C 727.632 848.070, 723.501 853.470, 721.058 856.674 C 715.393 864.103, 684.332 895.163, 676.694 901.036 C 666.722 908.704, 659.713 913.782, 653.679 917.710 C 650.478 919.795, 646.428 922.497, 644.679 923.715 C 641.623 925.844, 629.592 932.549, 618.698 938.193 C 598.764 948.523, 573.550 957.968, 556.573 961.466 C 549.781 962.865, 542.274 964.698, 539.890 965.539 C 517.481 973.445, 442.730 973.983, 414.697 966.440 C 409.639 965.079, 400.141 962.820, 393.592 961.419 C 380.136 958.541, 358.899 951.032, 345.500 944.414 C 340.550 941.969, 336.007 939.976, 335.405 939.984 C 334.803 939.993, 331.595 938.245, 328.278 936.101 C 324.960 933.957, 320.077 931.243, 317.428 930.071 C 314.778 928.899, 311.235 926.903, 309.555 925.636 C 307.875 924.369, 304.250 922.060, 301.500 920.505 C 298.750 918.949, 295.150 916.465, 293.500 914.983 C 291.850 913.502, 288.475 910.865, 286 909.123 C 260.036 890.851, 231.034 860.868, 212.367 833 C 203.490 819.747, 201.534 816.592, 199.464 812.180 C 198.256 809.606, 195.633 805.092, 193.634 802.150 C 191.635 799.207, 190 796.257, 190 795.594 C 190 794.932, 187.750 789.984, 185 784.599 C 182.250 779.214, 180 774.178, 180 773.409 C 180 772.640, 177.995 766.945, 175.545 760.755 C 173.094 754.565, 169.954 744.550, 168.567 738.500 C 167.179 732.450, 164.952 723.450, 163.618 718.500 C 155.313 687.684, 155.844 609.348, 164.524 584.972 C 165.400 582.512, 167.401 574.833, 168.970 567.906 C 170.540 560.980, 173.590 551.080, 175.750 545.906 C 177.909 540.733, 180.241 534.475, 180.932 532 C 181.623 529.525, 183.412 525.475, 184.906 523 C 186.401 520.525, 188.409 516.475, 189.368 514 C 190.327 511.525, 192.607 507.025, 194.436 504 C 196.265 500.975, 199 496.025, 200.515 493 C 202.029 489.975, 204.354 486.202, 205.682 484.616 C 207.009 483.031, 209.024 479.881, 210.158 477.616 C 211.292 475.352, 213.300 472.345, 214.621 470.934 C 215.941 469.523, 218.254 466.520, 219.760 464.260 C 234.578 442.037, 273.934 404.165, 296.475 390.438 C 299.761 388.436, 303.786 385.675, 305.418 384.301 C 307.051 382.928, 310.872 380.705, 313.909 379.361 C 316.947 378.018, 320.181 376.241, 321.097 375.412 C 323.894 372.881, 343.989 363.065, 353 359.829 C 357.675 358.150, 363.125 355.949, 365.111 354.938 C 367.098 353.928, 374.073 351.693, 380.611 349.972 C 387.150 348.251, 396.550 345.577, 401.500 344.029 C 418.313 338.772, 470.557 333.291, 487.657 334.990 C 517.789 337.984, 540.881 341.314, 548 343.693 C 552.125 345.072, 561.426 347.702, 568.670 349.539 C 575.913 351.375, 583.563 353.755, 585.670 354.827 C 587.776 355.899, 593.417 358.156, 598.205 359.844 C 602.993 361.531, 608.618 364.027, 610.705 365.391 C 612.792 366.754, 616.525 368.651, 619 369.606 C 621.475 370.561, 625.300 372.556, 627.500 374.040 C 629.700 375.523, 634.676 378.333, 638.558 380.284 C 642.439 382.235, 646.234 384.577, 646.991 385.489 C 647.747 386.400, 650.168 388.066, 652.371 389.189 C 663.587 394.911, 692.734 419.877, 710.585 439.053 C 726.291 455.924, 745.914 483.372, 750.111 494.338 C 752.310 500.084, 760.351 509, 763.335 509 C 767.332 509, 767.344 508.765, 767.111 434.196 C 766.895 364.763, 766.825 362.368, 764.885 358.311 C 761.485 351.205, 741.582 333.257, 723.128 320.657 C 720.033 318.544, 716.375 315.808, 715 314.578 C 711.416 311.370, 695.783 301.248, 692.465 299.987 C 690.921 299.400, 687.598 297.419, 685.079 295.585 C 682.561 293.750, 677.125 290.639, 673 288.670 C 668.875 286.702, 663.925 284.185, 662 283.078 C 656.520 279.926, 637.390 271, 636.115 271 C 635.484 271, 629.013 268.571, 621.734 265.602 C 614.455 262.632, 605.832 259.659, 602.570 258.993 C 599.309 258.328, 592.555 256.305, 587.560 254.497 C 582.566 252.689, 574.884 250.671, 570.490 250.013 C 566.095 249.356, 557.100 247.493, 550.500 245.874 C 517.304 237.733, 434.719 237.473, 403.330 245.410 C 397.923 246.777, 388.323 248.806, 381.995 249.919 C 375.667 251.031, 367.677 253.084, 364.239 254.481 C 360.802 255.878, 354.147 257.916, 349.451 259.011 C 344.756 260.106, 336.096 262.971, 330.207 265.377 C 324.318 267.783, 317.700 270.313, 315.500 270.998 C 313.300 271.684, 308.575 273.750, 305 275.589 C 301.425 277.429, 296.025 280.094, 293 281.513 C 270.769 291.938, 246.273 306.920, 226 322.490 C 223.525 324.391, 219.025 327.726, 216 329.902 C 209.300 334.719, 182.766 359.055, 174.460 368 C 162.611 380.760, 152.301 392.570, 149.144 397 C 147.380 399.475, 144.395 403.525, 142.512 406 C 130.699 421.521, 125.048 429.752, 121.013 437.310 C 119.307 440.505, 116.426 445.230, 114.611 447.810 C 112.796 450.389, 110.525 454.523, 109.565 456.995 C 108.606 459.467, 106.311 463.967, 104.466 466.995 C 102.621 470.023, 100.330 474.525, 99.376 477 C 98.421 479.475, 96.622 483.138, 95.377 485.139 C 94.133 487.141, 91.697 492.977, 89.964 498.107 C 88.231 503.237, 85.794 509.475, 84.549 511.967 C 83.303 514.460, 81.482 519.875, 80.502 524 C 79.522 528.125, 77.251 535.598, 75.455 540.607 C 73.660 545.615, 71.442 553.490, 70.527 558.107 C 69.612 562.723, 67.355 573.475, 65.512 582 C 63.669 590.525, 61.889 601.325, 61.558 606 C 57.861 658.080, 59.484 705.342, 65.894 732.266 C 67.496 738.995, 69.559 748.539, 70.478 753.475 C 71.397 758.412, 73.449 765.837, 75.037 769.975 C 76.626 774.114, 78.842 781.450, 79.961 786.279 C 81.080 791.107, 83.145 797.326, 84.550 800.099 C 85.955 802.872, 88.444 809.239, 90.081 814.249 C 91.718 819.259, 94.053 824.965, 95.269 826.929 C 96.486 828.893, 98.875 833.704, 100.580 837.620 C 102.284 841.536, 104.660 846.118, 105.860 847.804 C 107.060 849.489, 108.709 852.758, 109.524 855.069 C 110.340 857.380, 112.560 861.433, 114.459 864.076 C 116.358 866.718, 119.307 871.495, 121.013 874.690 C 124.475 881.176, 129.007 888.049, 134.697 895.443 C 136.788 898.162, 139.400 901.772, 140.500 903.466 C 155.500 926.563, 200.265 971.991, 223.500 987.695 C 225.700 989.182, 229.505 991.997, 231.957 993.949 C 238.947 999.519, 248.040 1005.700, 253.500 1008.595 C 256.250 1010.053, 260.525 1012.712, 263 1014.503 C 265.475 1016.295, 270.650 1019.319, 274.500 1021.225 C 278.350 1023.130, 287.290 1027.665, 294.366 1031.302 C 301.442 1034.939, 310.217 1038.898, 313.866 1040.101 C 317.515 1041.305, 322.573 1043.362, 325.107 1044.674 C 327.641 1045.986, 334.286 1048.367, 339.875 1049.964 C 345.464 1051.562, 353.516 1054.196, 357.768 1055.818 C 362.021 1057.439, 368.425 1059.268, 372 1059.882 C 375.575 1060.495, 383.450 1062.358, 389.500 1064.021 C 427.723 1074.527, 525.194 1074.781, 560.500 1064.466 C 565.450 1063.020, 573.806 1061.010, 579.068 1060 C 584.331 1058.990, 591.531 1056.985, 595.068 1055.545 C 598.606 1054.104, 605.100 1052.006, 609.500 1050.883 C 613.900 1049.760, 620.644 1047.463, 624.487 1045.780 C 628.330 1044.097, 634.582 1041.662, 638.381 1040.370 C 642.180 1039.078, 647.361 1036.787, 649.894 1035.279 C 652.427 1033.770, 657.273 1031.349, 660.663 1029.898 C 664.053 1028.447, 668.103 1026.358, 669.663 1025.257 C 671.223 1024.155, 675.425 1021.786, 679 1019.994 C 682.575 1018.201, 687.300 1015.506, 689.500 1014.004 C 691.700 1012.503, 694.534 1010.950, 695.798 1010.554 C 697.062 1010.159, 700.887 1007.727, 704.298 1005.152 C 707.709 1002.576, 712.300 999.216, 714.500 997.686 C 730.828 986.324, 739.462 979.474, 754.412 966.020 C 775.126 947.379, 798.877 921.195, 813 901.432 C 821.897 888.982, 828.210 879.508, 830.160 875.678 C 831.331 873.380, 833.362 870.091, 834.673 868.368 C 835.984 866.645, 838.445 862.370, 840.141 858.868 C 841.836 855.366, 844.132 851.223, 845.242 849.663 C 846.352 848.103, 848.441 844.053, 849.885 840.663 C 851.329 837.273, 853.921 832.025, 855.645 829 C 857.369 825.975, 859.542 820.824, 860.475 817.552 C 861.408 814.281, 863.479 809.014, 865.077 805.848 C 866.675 802.682, 869.087 795.840, 870.438 790.643 C 871.788 785.447, 874.019 778.520, 875.395 775.249 C 876.772 771.978, 878.864 764.445, 880.044 758.510 C 881.224 752.574, 883.290 744.068, 884.635 739.609 C 886.900 732.096, 888.176 722.811, 891.041 693 C 892.353 679.344, 892.351 478.672, 891.036 219.199 C 890.065 27.549, 890.745 43.134, 883.259 41.055 C 879.047 39.885, 807.773 39.775, 802 40.930 M 923.329 41.458 C 921.585 42.216, 919.647 43.791, 919.023 44.956 C 918.188 46.518, 918.041 76.057, 918.465 157.288 C 918.782 217.904, 919.515 356.375, 920.094 465 C 921.207 673.723, 920.820 701.272, 916.500 721 C 915.717 724.575, 913.264 736.402, 911.047 747.282 C 908.831 758.162, 906.340 768.375, 905.512 769.977 C 904.683 771.579, 902.606 778.380, 900.896 785.089 C 899.187 791.798, 896.505 800.146, 894.937 803.640 C 893.369 807.134, 891.124 813.257, 889.948 817.247 C 888.772 821.236, 886.576 826.525, 885.069 829 C 883.562 831.475, 881.328 836.200, 880.106 839.500 C 878.883 842.800, 876.844 847.087, 875.574 849.027 C 874.305 850.967, 871.631 855.917, 869.633 860.027 C 863.636 872.360, 853.549 889.395, 846.319 899.401 C 844.768 901.546, 842.150 905.399, 840.500 907.964 C 837.167 913.143, 831.565 920.586, 825.500 927.894 C 823.300 930.545, 819.025 935.775, 816 939.518 C 808.715 948.531, 772.975 984.480, 766 989.810 C 762.975 992.121, 756.900 996.936, 752.500 1000.509 C 748.100 1004.082, 742.250 1008.596, 739.500 1010.540 C 729.914 1017.316, 725.242 1020.512, 722.381 1022.251 C 720.796 1023.214, 715 1026.940, 709.500 1030.531 C 704 1034.123, 697.052 1038.186, 694.059 1039.560 C 691.067 1040.934, 686.342 1043.558, 683.559 1045.390 C 680.777 1047.222, 676.700 1049.287, 674.500 1049.978 C 672.300 1050.670, 667.350 1052.930, 663.500 1055 C 659.650 1057.070, 654.700 1059.339, 652.500 1060.041 C 650.300 1060.743, 644.924 1063.046, 640.553 1065.159 C 636.182 1067.271, 632.004 1069, 631.270 1069 C 630.535 1069, 622.525 1071.460, 613.469 1074.466 C 604.414 1077.472, 593.292 1080.585, 588.753 1081.384 C 584.214 1082.184, 576.450 1084.018, 571.500 1085.460 C 561.917 1088.253, 558.179 1088.863, 531.500 1091.979 C 503.409 1095.261, 486.380 1096.287, 470.813 1095.635 C 443.118 1094.474, 400.751 1089.289, 387.552 1085.444 C 382.631 1084.010, 374.981 1082.203, 370.552 1081.427 C 366.124 1080.652, 356.425 1078.017, 349 1075.572 C 341.575 1073.127, 333.475 1070.610, 331 1069.979 C 328.525 1069.348, 323.575 1067.360, 320 1065.562 C 316.425 1063.765, 311.025 1061.496, 308 1060.521 C 304.975 1059.546, 300.025 1057.287, 297 1055.500 C 293.975 1053.713, 289.203 1051.506, 286.395 1050.594 C 283.587 1049.682, 279.087 1047.523, 276.395 1045.796 C 273.703 1044.070, 268.575 1041.172, 265 1039.357 C 261.425 1037.542, 254.675 1033.582, 250 1030.557 C 245.325 1027.532, 239.294 1023.807, 236.597 1022.279 C 233.900 1020.750, 230.075 1018.097, 228.097 1016.383 C 226.119 1014.669, 222.195 1011.744, 219.377 1009.883 C 214.447 1006.628, 207.250 1000.910, 194.500 990.119 C 191.200 987.327, 186.250 983.288, 183.500 981.144 C 178.586 977.314, 153.458 951.436, 144.875 941.367 C 140.888 936.690, 138.680 933.963, 127.575 920 C 125.606 917.525, 122.759 913.536, 121.248 911.137 C 119.737 908.737, 116.874 904.687, 114.887 902.137 C 112.900 899.586, 110.476 895.925, 109.500 894 C 108.524 892.075, 106.496 888.925, 104.994 887 C 103.491 885.075, 101.014 881.025, 99.489 878 C 97.964 874.975, 95.691 871.150, 94.437 869.500 C 93.183 867.850, 91.209 864.086, 90.049 861.136 C 88.889 858.186, 86.666 853.911, 85.111 851.636 C 83.555 849.361, 81.251 844.581, 79.992 841.013 C 78.732 837.445, 76.230 831.820, 74.433 828.513 C 72.635 825.206, 70.448 820.042, 69.573 817.038 C 68.698 814.033, 66.661 809.038, 65.047 805.937 C 63.434 802.836, 61.396 797.194, 60.520 793.400 C 59.644 789.605, 57.152 781.033, 54.982 774.350 C 52.813 767.668, 50.143 756.624, 49.050 749.809 C 47.956 742.994, 46.163 733.611, 45.065 728.959 C 41.070 712.032, 39.868 698.592, 39.299 664.500 C 38.551 619.696, 39.647 606.036, 46.964 569 C 48.105 563.225, 49.741 554.900, 50.599 550.500 C 51.457 546.100, 53.454 538.675, 55.035 534 C 56.617 529.325, 58.857 521.723, 60.013 517.107 C 61.170 512.491, 63.401 506.167, 64.972 503.055 C 66.544 499.942, 68.589 494.719, 69.518 491.448 C 70.446 488.176, 72.762 482.677, 74.665 479.227 C 76.567 475.777, 78.998 470.413, 80.066 467.308 C 81.135 464.202, 83.323 459.600, 84.929 457.081 C 86.534 454.561, 88.638 450.475, 89.603 448 C 90.568 445.525, 93.302 440.635, 95.679 437.134 C 98.055 433.632, 100 430.179, 100 429.460 C 100 428.741, 101.662 425.981, 103.693 423.327 C 105.724 420.672, 108.762 416.206, 110.443 413.402 C 115.515 404.944, 123.143 393.656, 125.581 391 C 126.844 389.625, 128.917 387.063, 130.188 385.308 C 142.898 367.756, 166.244 342.916, 189.124 322.598 C 208.578 305.322, 211.278 303.260, 235.500 287.166 C 254.754 274.374, 260.231 270.970, 264.820 268.943 C 267.196 267.894, 270.249 266.163, 271.604 265.097 C 272.960 264.030, 277.515 261.723, 281.727 259.970 C 285.940 258.216, 291.164 255.659, 293.337 254.287 C 295.510 252.916, 299.587 251.002, 302.398 250.035 C 305.209 249.068, 310.207 246.920, 313.504 245.262 C 316.802 243.605, 320.986 241.927, 322.801 241.533 C 324.617 241.140, 331.592 238.787, 338.301 236.304 C 345.011 233.821, 356.125 230.510, 363 228.947 C 369.875 227.384, 378.156 225.183, 381.402 224.055 C 384.647 222.926, 394.997 220.899, 404.402 219.550 C 413.806 218.200, 425.775 216.414, 431 215.580 C 462.628 210.530, 497.780 210.981, 537.500 216.946 C 547.950 218.515, 558.975 220.076, 562 220.414 C 565.025 220.753, 572 222.355, 577.500 223.974 C 583 225.594, 593.575 228.473, 601 230.372 C 615.903 234.183, 643.183 243.270, 646.828 245.637 C 648.108 246.468, 651.945 248.198, 655.354 249.481 C 658.763 250.765, 665.050 253.656, 669.324 255.907 C 673.598 258.158, 677.679 260, 678.392 260 C 679.106 260, 682.405 261.755, 685.722 263.899 C 689.040 266.043, 693.723 268.669, 696.128 269.733 C 698.532 270.798, 703.504 273.656, 707.175 276.084 C 719.377 284.156, 720.462 284.856, 726.425 288.511 C 733.744 292.997, 742.830 299.920, 749.739 306.274 C 762.453 317.967, 769 315.991, 769 300.460 C 769 290.285, 763.199 283.704, 743 270.963 C 739.425 268.708, 734.414 265.432, 731.865 263.682 C 729.316 261.932, 724.875 259.150, 721.997 257.500 C 702.349 246.235, 697.147 243.411, 686 237.956 C 679.125 234.591, 670.350 230.695, 666.500 229.297 C 662.650 227.900, 657.700 225.722, 655.500 224.459 C 653.300 223.195, 648.125 221.161, 644 219.937 C 639.875 218.713, 634.367 216.647, 631.759 215.344 C 629.151 214.041, 623.976 212.281, 620.259 211.432 C 616.542 210.583, 608.325 208.359, 602 206.489 C 588.563 202.517, 574.958 199.471, 566.500 198.542 C 563.200 198.180, 554.875 196.811, 548 195.501 C 525.708 191.253, 515.496 190.530, 478 190.539 C 440.140 190.549, 427.791 191.415, 407.500 195.482 C 400.900 196.805, 392.350 198.197, 388.500 198.574 C 384.650 198.952, 374.750 201.007, 366.500 203.142 C 358.250 205.276, 346.114 208.410, 339.532 210.105 C 332.949 211.801, 325.524 214.219, 323.032 215.480 C 320.539 216.741, 315.125 218.767, 311 219.982 C 306.875 221.197, 301.250 223.444, 298.500 224.975 C 295.750 226.506, 291.025 228.549, 288 229.516 C 284.975 230.483, 278.316 233.462, 273.201 236.137 C 268.087 238.812, 263.338 241, 262.647 241 C 261.957 241, 259.166 242.429, 256.446 244.176 C 253.726 245.923, 249.250 248.438, 246.500 249.766 C 243.750 251.094, 239.250 253.656, 236.500 255.461 C 233.750 257.265, 229.475 259.948, 227 261.422 C 216.209 267.848, 207.812 273.685, 186.884 289.308 C 168.210 303.246, 130.406 338.871, 120.887 351.500 C 119.643 353.150, 116.572 356.795, 114.063 359.600 C 111.553 362.404, 107.803 366.904, 105.730 369.600 C 103.656 372.295, 100.399 376.525, 98.492 379 C 94.188 384.585, 84.659 398.459, 80 405.924 C 78.075 409.008, 75.227 413.550, 73.672 416.016 C 66.140 427.960, 63.753 432.129, 60.033 439.838 C 57.821 444.425, 55.169 449.375, 54.140 450.838 C 53.112 452.302, 51.260 456.425, 50.025 460 C 48.789 463.575, 46.531 468.525, 45.006 471 C 43.482 473.475, 41.218 478.650, 39.977 482.500 C 38.736 486.350, 36.505 491.975, 35.020 495 C 33.535 498.025, 31.539 503.425, 30.584 507 C 29.630 510.575, 27.116 518.900, 24.998 525.500 C 22.880 532.100, 20.404 541.550, 19.496 546.500 C 18.589 551.450, 16.786 559.775, 15.491 565 C 11.110 582.674, 7.674 614.234, 6.402 648.500 C 5.459 673.877, 9.980 727.029, 14.583 744.694 C 15.989 750.087, 18.020 759.377, 19.097 765.339 C 20.175 771.300, 23.245 783, 25.920 791.339 C 28.595 799.677, 31.113 808.075, 31.516 810 C 31.919 811.925, 33.592 816.173, 35.234 819.440 C 36.877 822.707, 38.885 827.657, 39.696 830.440 C 40.508 833.223, 42.735 838.321, 44.646 841.769 C 46.556 845.217, 48.752 850.171, 49.527 852.777 C 50.301 855.384, 52.776 860.571, 55.027 864.304 C 57.279 868.036, 59.777 872.952, 60.580 875.227 C 61.383 877.501, 63.092 880.744, 64.378 882.431 C 65.664 884.119, 67.964 887.975, 69.489 891 C 71.014 894.025, 73.493 898.075, 74.998 900 C 76.503 901.925, 78.739 905.482, 79.967 907.905 C 81.195 910.328, 83.954 914.531, 86.100 917.245 C 88.245 919.959, 90 922.549, 90 923 C 90 923.451, 91.911 926.223, 94.246 929.160 C 96.581 932.097, 99.394 935.716, 100.496 937.202 C 109.266 949.025, 119.893 961.636, 130.614 972.942 C 135.077 977.649, 140.027 982.913, 141.614 984.640 C 145.380 988.736, 165.440 1006.876, 175 1014.828 C 188.032 1025.669, 190.382 1027.542, 195.364 1031.063 C 213.145 1043.628, 217.017 1046.262, 221.344 1048.733 C 224.009 1050.255, 227.609 1052.495, 229.344 1053.711 C 231.080 1054.928, 234.750 1057.123, 237.500 1058.591 C 240.250 1060.058, 244.786 1062.768, 247.580 1064.613 C 250.374 1066.459, 254.565 1068.641, 256.894 1069.463 C 259.223 1070.284, 263.687 1072.531, 266.814 1074.455 C 269.941 1076.379, 275.126 1078.853, 278.336 1079.952 C 281.545 1081.052, 286.495 1083.258, 289.336 1084.854 C 292.176 1086.451, 297.650 1088.774, 301.500 1090.016 C 305.350 1091.259, 310.300 1093.181, 312.500 1094.287 C 316.260 1096.178, 329.484 1100.431, 352.462 1107.139 C 357.941 1108.739, 365.591 1110.524, 369.462 1111.105 C 373.333 1111.687, 380.775 1113.228, 386 1114.529 C 417.608 1122.400, 474.594 1125.134, 522.500 1121.078 C 551.207 1118.647, 550.434 1118.753, 567 1115.005 C 573.875 1113.450, 583.423 1111.459, 588.217 1110.581 C 593.011 1109.704, 602.011 1107.408, 608.217 1105.481 C 614.423 1103.554, 623.683 1100.853, 628.796 1099.480 C 633.908 1098.106, 640.669 1095.681, 643.821 1094.090 C 646.972 1092.500, 651.564 1090.668, 654.025 1090.020 C 656.486 1089.372, 660.950 1087.475, 663.943 1085.803 C 666.937 1084.132, 672.054 1081.889, 675.314 1080.819 C 678.574 1079.749, 683.019 1077.750, 685.193 1076.378 C 687.366 1075.006, 692.507 1072.351, 696.616 1070.479 C 700.725 1068.606, 705.453 1066.102, 707.122 1064.913 C 708.791 1063.725, 712.708 1061.459, 715.828 1059.878 C 718.948 1058.296, 723.618 1055.539, 726.206 1053.751 C 728.795 1051.963, 735.509 1047.575, 741.127 1044 C 746.745 1040.425, 752.997 1036.150, 755.021 1034.500 C 757.045 1032.850, 760.681 1030.041, 763.100 1028.258 C 793.119 1006.141, 818.378 981.850, 845 949.499 C 848.025 945.823, 851.893 941.169, 853.595 939.158 C 855.297 937.146, 858.339 933.025, 860.354 930 C 862.370 926.975, 865.299 922.700, 866.864 920.500 C 875.424 908.466, 885.793 891.810, 889.484 884.166 C 891.432 880.133, 894.136 875.377, 895.493 873.598 C 896.850 871.818, 898.645 868.423, 899.482 866.052 C 900.318 863.682, 902.749 858.538, 904.883 854.621 C 907.018 850.704, 909.318 845.700, 909.994 843.500 C 910.670 841.300, 912.699 836.800, 914.503 833.500 C 916.307 830.200, 918.777 823.900, 919.991 819.500 C 921.205 815.100, 923.535 808.428, 925.169 804.674 C 926.802 800.920, 929.206 793.127, 930.509 787.358 C 931.813 781.589, 934.041 773.380, 935.461 769.118 C 936.881 764.855, 939.118 755.097, 940.434 747.433 C 941.750 739.770, 944.103 726.750, 945.663 718.500 L 948.500 703.500 948.270 539.500 C 948.143 449.300, 947.565 327.575, 946.984 269 C 946.403 210.425, 945.692 136.625, 945.405 105 C 944.922 51.906, 944.746 47.308, 943.098 45 C 939.834 40.429, 929.818 38.635, 923.329 41.458 M 474.250 351.182 C 473.013 351.800, 470.867 354.599, 469.480 357.403 C 468.094 360.206, 465.506 364.607, 463.730 367.181 C 461.953 369.756, 459.150 373.996, 457.500 376.604 C 455.850 379.211, 452.163 384.980, 449.306 389.422 C 446.450 393.865, 442.770 399.750, 441.129 402.500 C 439.489 405.250, 436.767 409.525, 435.082 412 C 426.789 424.178, 420.735 433.542, 420.248 434.944 C 419.951 435.800, 418.032 438.766, 415.984 441.535 C 413.936 444.304, 411.299 448.454, 410.124 450.757 C 408.949 453.060, 406.700 456.419, 405.126 458.222 C 401.033 462.910, 396.830 471.709, 397.192 474.832 C 397.612 478.468, 402.855 480.995, 410 481.004 C 427.729 481.027, 429.469 486.561, 417.414 504.590 C 413.813 509.977, 410.224 515.921, 409.439 517.800 C 408.654 519.679, 406.490 523.305, 404.629 525.858 C 402.769 528.411, 400.075 532.831, 398.642 535.679 C 397.210 538.528, 395.567 541.149, 394.992 541.505 C 394.417 541.860, 392.170 545.683, 390 550 C 387.830 554.317, 385.582 558.141, 385.004 558.497 C 384.427 558.854, 382.561 561.925, 380.856 565.323 C 379.151 568.720, 376.286 573.525, 374.488 576 C 372.690 578.475, 370.501 582.228, 369.623 584.339 C 368.745 586.451, 366.871 589.553, 365.458 591.232 C 364.045 592.911, 361.726 596.583, 360.305 599.393 C 358.883 602.202, 355.983 606.476, 353.860 608.891 C 344.966 619.007, 350.465 627, 366.319 627 C 384.179 627, 386.972 635.040, 374.481 650.500 C 372.703 652.700, 370.456 656.075, 369.488 658 C 368.519 659.925, 366.496 663.075, 364.994 665 C 363.491 666.925, 361.102 670.798, 359.686 673.607 C 358.270 676.417, 356.022 680.017, 354.692 681.607 C 353.362 683.198, 351.285 686.448, 350.076 688.828 C 348.868 691.209, 345.994 696.011, 343.690 699.499 C 336.621 710.200, 333.661 714.858, 329.500 721.833 C 327.300 725.521, 324.600 730.042, 323.500 731.881 C 320.953 736.136, 314.715 745.494, 311.489 749.898 C 308.497 753.983, 308.265 758.870, 310.910 762.139 C 312.673 764.318, 313.748 764.542, 324.881 765.048 C 335.798 765.544, 337.181 765.822, 339.471 767.972 C 343.700 771.946, 342.861 776.625, 336.509 784.500 C 334.734 786.700, 332.033 790.975, 330.507 794 C 328.981 797.025, 326.642 800.802, 325.310 802.393 C 323.979 803.983, 321.768 807.497, 320.399 810.200 C 318.078 814.779, 314.122 821.081, 306.265 832.711 C 304.486 835.345, 301.843 839.750, 300.392 842.500 C 298.941 845.250, 296.289 849.525, 294.500 852 C 292.711 854.475, 289.953 858.903, 288.373 861.839 C 286.793 864.775, 284.716 868.596, 283.759 870.328 C 281.548 874.328, 282.207 876.441, 287.357 881.855 C 293.551 888.368, 314.639 904.286, 323.413 909.072 C 325.565 910.246, 329.840 912.887, 332.913 914.942 C 335.986 916.996, 340.075 919.270, 342 919.996 C 343.925 920.722, 349.100 923.233, 353.500 925.575 C 357.900 927.917, 363.525 930.357, 366 930.997 C 368.475 931.637, 373.650 933.652, 377.500 935.476 C 381.350 937.299, 387.113 939.325, 390.307 939.978 C 393.502 940.631, 400.022 942.486, 404.798 944.101 C 429.750 952.535, 509.202 953.101, 535 945.028 C 538.575 943.910, 546.762 941.898, 553.193 940.558 C 559.624 939.219, 567.949 936.798, 571.693 935.180 C 575.437 933.562, 580.975 931.676, 584 930.989 C 587.025 930.301, 593.794 927.786, 599.043 925.398 C 604.291 923.011, 610.577 920.355, 613.010 919.496 C 615.443 918.638, 620.864 915.925, 625.055 913.468 C 629.246 911.010, 633.057 909, 633.522 909 C 633.988 909, 636.873 907.386, 639.934 905.414 C 642.996 903.441, 647.806 900.404, 650.624 898.664 C 670.527 886.376, 671 885.912, 671 878.655 C 671 873.875, 670.546 872.589, 667.526 868.828 C 665.615 866.447, 662.640 861.800, 660.915 858.500 C 659.191 855.200, 656.765 851.148, 655.526 849.495 C 654.286 847.842, 651.610 843.342, 649.580 839.495 C 647.549 835.648, 644.371 830.025, 642.518 827 C 640.665 823.975, 637.282 818.350, 635 814.500 C 632.718 810.650, 629.335 805.025, 627.482 802 C 625.629 798.975, 622.541 793.532, 620.621 789.904 C 618.701 786.276, 615.969 781.929, 614.551 780.243 C 608.989 773.633, 607.458 765.706, 611.105 762.405 C 612.875 760.803, 614.918 760.478, 623.968 760.358 C 642.165 760.119, 644.059 756.539, 633.755 741.864 C 630.509 737.241, 628.276 733.493, 620.272 719.237 C 617.946 715.095, 615.410 710.985, 614.636 710.103 C 613.862 709.221, 611.993 706.025, 610.483 703 C 608.974 699.975, 606.486 695.909, 604.956 693.965 C 603.425 692.021, 601.363 688.646, 600.373 686.465 C 599.384 684.284, 597.089 680.407, 595.275 677.849 C 593.460 675.291, 591.018 671.016, 589.849 668.349 C 588.679 665.682, 586.494 661.925, 584.994 660 C 583.494 658.075, 581.246 654.475, 579.999 652 C 578.752 649.525, 575.934 645.344, 573.738 642.709 C 568.454 636.368, 567.610 630.728, 571.303 626.433 C 573.730 623.611, 574.179 623.493, 583.163 623.311 C 588.298 623.207, 593.308 623.094, 594.295 623.061 C 597.164 622.964, 601 618.442, 601 615.158 C 601 613.429, 599.592 610.231, 597.567 607.363 C 595.679 604.688, 592.914 600.475, 591.423 598 C 589.932 595.525, 586.526 590.195, 583.856 586.156 C 581.185 582.117, 579 578.353, 579 577.790 C 579 577.228, 577.482 574.683, 575.626 572.134 C 573.770 569.585, 571.235 565.475, 569.992 563 C 568.750 560.525, 566.437 556.852, 564.853 554.838 C 563.268 552.824, 561.254 549.449, 560.376 547.338 C 559.499 545.227, 557.312 541.475, 555.516 539 C 553.720 536.525, 551.265 532.547, 550.060 530.160 C 548.854 527.774, 546.377 523.724, 544.555 521.160 C 542.733 518.597, 540.926 515.466, 540.538 514.202 C 540.151 512.938, 537.536 508.905, 534.726 505.239 C 521.504 487.988, 524.787 480.352, 544.836 481.726 C 560.161 482.777, 563.978 476.852, 554.964 466.009 C 552.903 463.529, 550.246 459.563, 549.060 457.196 C 547.874 454.829, 545.351 450.857, 543.452 448.369 C 541.553 445.882, 540 443.373, 540 442.795 C 540 442.216, 538.246 439.174, 536.103 436.034 C 533.960 432.894, 531.200 428.340, 529.970 425.913 C 528.740 423.486, 526.504 419.925, 525 418 C 523.496 416.075, 521.310 412.613, 520.142 410.307 C 518.973 408, 516.213 403.538, 514.009 400.391 C 511.804 397.244, 510 394.113, 510 393.433 C 510 392.754, 508.025 389.566, 505.612 386.349 C 503.198 383.132, 500.504 378.773, 499.626 376.662 C 498.747 374.551, 496.707 371.155, 495.092 369.116 C 493.477 367.077, 491.037 362.879, 489.670 359.787 C 486.218 351.984, 479.808 348.406, 474.250 351.182 M 468.668 640.046 C 467.169 641.225, 463.958 646.310, 461.533 651.345 C 459.107 656.380, 456.007 661.999, 454.644 663.832 C 453.281 665.664, 451.158 669.714, 449.927 672.832 C 448.696 675.949, 446.620 679.950, 445.315 681.721 C 444.010 683.493, 441.618 687.893, 440 691.500 C 438.382 695.107, 435.956 699.507, 434.610 701.279 C 433.264 703.050, 430.126 708.691, 427.637 713.813 C 422.463 724.461, 422.543 725.838, 428.570 729.919 C 431.569 731.950, 432.575 733.345, 432.815 735.809 C 433.166 739.414, 429.417 748.454, 425.368 753.762 C 423.965 755.602, 421.692 759.873, 420.319 763.253 C 418.946 766.633, 416.442 771.404, 414.756 773.855 C 413.069 776.306, 410.837 780.556, 409.795 783.299 C 408.752 786.041, 406.595 790.181, 405.001 792.499 C 403.407 794.816, 400.982 799.246, 399.612 802.343 C 398.242 805.440, 396.005 809.442, 394.640 811.237 C 393.275 813.032, 391.190 816.975, 390.007 820 C 388.825 823.025, 386.568 827.525, 384.993 830 C 383.418 832.475, 381.197 836.682, 380.058 839.349 C 378.918 842.016, 376.414 846.035, 374.493 848.279 C 371.662 851.587, 371 853.185, 371 856.715 C 371 864.201, 375.131 868.009, 386.500 871.002 C 389.250 871.726, 394.079 873.599, 397.230 875.164 C 400.382 876.729, 406.724 878.886, 411.323 879.959 C 415.923 881.031, 423.136 883.067, 427.352 884.482 C 431.568 885.897, 439.808 887.684, 445.662 888.453 C 460.981 890.465, 461.345 890.909, 462 908.370 C 462.647 925.608, 464.601 928, 478.034 928 C 489.321 928, 491 925.214, 491 906.487 C 491 894.524, 491.118 893.791, 493.414 891.495 C 496.102 888.807, 495.647 888.934, 513 886.042 C 532.941 882.719, 550.021 878.632, 556.500 875.634 C 559.800 874.106, 565.978 871.510, 570.228 869.864 C 584.104 864.491, 585.836 856.902, 576.132 844.001 C 573.647 840.697, 569.656 833.337, 560.917 815.939 C 558.828 811.781, 555.518 805.998, 553.560 803.089 C 551.602 800.179, 550 797.239, 550 796.555 C 550 795.870, 548.161 792.464, 545.913 788.986 C 543.665 785.508, 540.767 780.269, 539.474 777.344 C 538.180 774.419, 536.044 770.558, 534.728 768.763 C 533.411 766.968, 531.366 763.095, 530.183 760.157 C 529.001 757.218, 526.402 752.591, 524.409 749.876 C 516.283 738.806, 515.849 733.374, 522.637 727.677 C 524.927 725.755, 525.996 724, 525.986 722.177 C 525.970 719.179, 519.410 706.568, 514.910 700.887 C 513.294 698.846, 511.259 695.449, 510.388 693.338 C 509.517 691.227, 507.079 687.249, 504.971 684.498 C 502.863 681.746, 500.627 678.146, 500.002 676.498 C 499.376 674.849, 496.926 670.575, 494.556 667 C 489.973 660.087, 486.653 654.621, 480.992 644.668 C 476.913 637.494, 473.527 636.225, 468.668 640.046" stroke="none" fill="currentColor" fill-rule="evenodd"/>
+</svg>
+      <div><div class="home-eyebrow">Dunkley Lumber</div><h1 class="home-title">Dunkley Dossier Direct</h1></div>
+    </header>
+    <nav class="home-grid" aria-label="Features">
+      <a class="app-tile" href="#map"><span class="app-icon flag"><svg viewBox="0 0 100 100" aria-hidden="true" focusable="false"><defs><clipPath id="bcChief"><rect width="100" height="40"/></clipPath><clipPath id="bcBase"><rect y="40" width="100" height="60"/></clipPath></defs><rect width="100" height="100" fill="#FFFFFF"/><g clip-path="url(#bcBase)"><path d="M50 78L10.2 81.6L10.2 74.4ZM50 78L10.6 71.2L12.5 64.2ZM50 78L13.7 61.2L17.3 54.9ZM50 78L19.3 52.4L24.4 47.3ZM50 78L26.9 45.3L33.2 41.7ZM50 78L36.2 40.5L43.2 38.6ZM50 78L46.4 38.2L53.6 38.2ZM50 78L56.8 38.6L63.8 40.5ZM50 78L66.8 41.7L73.1 45.3ZM50 78L75.6 47.3L80.7 52.4ZM50 78L82.7 54.9L86.3 61.2ZM50 78L87.5 64.2L89.4 71.2ZM50 78L89.8 74.4L89.8 81.6Z" fill="#F2B51D"/><circle cx="50" cy="78" r="15" fill="#F2B51D"/></g><rect y="77" width="100" height="23" fill="#FFFFFF"/><path d="M0 79 Q5 76.4 10 79 T20 79 Q25 76.4 30 79 T40 79 Q45 76.4 50 79 T60 79 Q65 76.4 70 79 T80 79 Q85 76.4 90 79 T100 79 V83.2 Q95 85.8 90 83.2 T80 83.2 Q75 85.8 70 83.2 T60 83.2 Q55 85.8 50 83.2 T40 83.2 Q35 85.8 30 83.2 T20 83.2 Q15 85.8 10 83.2 T0 83.2Z" fill="#1F4E9B"/><path d="M0 86.5 Q5 83.9 10 86.5 T20 86.5 Q25 83.9 30 86.5 T40 86.5 Q45 83.9 50 86.5 T60 86.5 Q65 83.9 70 86.5 T80 86.5 Q85 83.9 90 86.5 T100 86.5 V90.7 Q95 93.3 90 90.7 T80 90.7 Q75 93.3 70 90.7 T60 90.7 Q55 93.3 50 90.7 T40 90.7 Q35 93.3 30 90.7 T20 90.7 Q15 93.3 10 90.7 T0 90.7Z" fill="#1F4E9B"/><path d="M0 94 Q5 91.4 10 94 T20 94 Q25 91.4 30 94 T40 94 Q45 91.4 50 94 T60 94 Q65 91.4 70 94 T80 94 Q85 91.4 90 94 T100 94 V98.2 Q95 100.8 90 98.2 T80 98.2 Q75 100.8 70 98.2 T60 98.2 Q55 100.8 50 98.2 T40 98.2 Q35 100.8 30 98.2 T20 98.2 Q15 100.8 10 98.2 T0 98.2Z" fill="#1F4E9B"/><g clip-path="url(#bcChief)"><rect width="100" height="40" fill="#012169"/><path d="M0 0L100 40M100 0L0 40" stroke="#FFFFFF" stroke-width="9"/><path d="M0 0L100 40M100 0L0 40" stroke="#C8102E" stroke-width="3"/><path d="M50 0V40M0 20H100" stroke="#FFFFFF" stroke-width="13"/><path d="M50 0V40M0 20H100" stroke="#C8102E" stroke-width="7.5"/></g><g transform="translate(50 20)"><path d="M-8.5 4.5H8.5L9.5 -3.5L4.6 0L0 -6.5L-4.6 0L-9.5 -3.5Z" fill="#F2B51D" stroke="#7a5200" stroke-width=".6" stroke-linejoin="round"/><rect x="-8.5" y="4.5" width="17" height="2.6" fill="#F2B51D" stroke="#7a5200" stroke-width=".6"/><circle cy="-7.6" r="1.4" fill="#F2B51D" stroke="#7a5200" stroke-width=".5"/></g></svg></span><span class="app-label">BC Local Leaders</span></a>
+      <a class="app-tile" href="#fn"><span class="app-icon"><svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linejoin="round" stroke-linecap="round"><path d="M18 42s-10-10.6-10-18.2a10 10 0 0 1 20 0C28 31.4 18 42 18 42z"/><circle cx="18" cy="23.6" r="3.6"/><path d="M33.5 32.5s-6.7-7-6.7-12a6.7 6.7 0 0 1 13.4 0c0 5-6.7 12-6.7 12z"/></svg></span><span class="app-label">FN Partners</span></a>
+    </nav>
+  </div>
+  <div class="home-foot"><svg class="treeline" viewBox="0 0 1200 150" preserveAspectRatio="xMidYMax slice" aria-hidden="true" focusable="false"><path class="t1" d="M130.0 2.0L148.1 53.7H111.9ZM130.0 37.0L154.7 89.5H105.3ZM130.0 72.0L162.9 125.2H97.1Z"/><rect class="trunk" x="126.7" y="124.2" width="6.6" height="17.8"/><path class="t1" d="M293.5 2.0L309.9 53.7H277.2ZM293.5 37.0L315.8 89.5H271.2ZM293.5 72.0L323.3 125.2H263.8Z"/><rect class="trunk" x="290.6" y="124.2" width="6.0" height="17.8"/><path class="t3" d="M663.4 2.0L682.1 53.7H644.7ZM663.4 37.0L688.9 89.5H637.9ZM663.4 72.0L697.4 125.2H629.4Z"/><rect class="trunk" x="660.0" y="124.2" width="6.8" height="17.8"/><path class="t2" d="M713.0 2.0L730.3 53.7H695.8ZM713.0 37.0L736.5 89.5H689.5ZM713.0 72.0L744.4 125.2H681.7Z"/><rect class="trunk" x="709.9" y="124.2" width="6.3" height="17.8"/><path class="t1" d="M1032.8 2.0L1051.6 53.7H1014.0ZM1032.8 37.0L1058.4 89.5H1007.1ZM1032.8 72.0L1067.0 125.2H998.6Z"/><rect class="trunk" x="1029.4" y="124.2" width="6.8" height="17.8"/><path class="t2" d="M1078.2 2.0L1096.8 53.7H1059.6ZM1078.2 37.0L1103.6 89.5H1052.8ZM1078.2 72.0L1112.1 125.2H1044.3Z"/><rect class="trunk" x="1074.8" y="124.2" width="6.8" height="17.8"/><path class="t2" d="M227.7 17.0L243.0 63.2H212.4ZM227.7 48.2L248.6 95.1H206.9ZM227.7 79.5L255.5 127.0H199.9Z"/><rect class="trunk" x="224.9" y="126.0" width="5.6" height="16.0"/><path class="t3" d="M259.7 17.0L275.9 63.2H243.5ZM259.7 48.2L281.8 95.1H237.6ZM259.7 79.5L289.2 127.0H230.3Z"/><rect class="trunk" x="256.8" y="126.0" width="5.9" height="16.0"/><path class="t3" d="M553.6 17.0L570.2 63.2H537.0ZM553.6 48.2L576.3 95.1H531.0ZM553.6 79.5L583.8 127.0H523.4Z"/><rect class="trunk" x="550.6" y="126.0" width="6.0" height="16.0"/><path class="t1" d="M753.1 17.0L767.8 63.2H738.3ZM753.1 48.2L773.2 95.1H733.0ZM753.1 79.5L779.9 127.0H726.2Z"/><rect class="trunk" x="750.4" y="126.0" width="5.4" height="16.0"/><path class="t3" d="M962.7 17.0L977.7 63.2H947.8ZM962.7 48.2L983.1 95.1H942.3ZM962.7 79.5L989.9 127.0H935.5Z"/><rect class="trunk" x="960.0" y="126.0" width="5.4" height="16.0"/><path class="t2" d="M64.7 32.0L78.4 72.7H51.0ZM64.7 59.5L83.4 100.7H46.0ZM64.7 87.0L89.6 128.8H39.7Z"/><rect class="trunk" x="62.2" y="127.8" width="5.0" height="14.2"/><path class="t1" d="M93.2 32.0L106.1 72.7H80.4ZM93.2 59.5L110.8 100.7H75.7ZM93.2 87.0L116.6 128.8H69.9Z"/><rect class="trunk" x="90.9" y="127.8" width="4.7" height="14.2"/><path class="t2" d="M175.7 32.0L188.5 72.7H162.9ZM175.7 59.5L193.2 100.7H158.2ZM175.7 87.0L199.0 128.8H152.4Z"/><rect class="trunk" x="173.4" y="127.8" width="4.7" height="14.2"/><path class="t2" d="M335.5 32.0L349.8 72.7H321.1ZM335.5 59.5L355.0 100.7H315.9ZM335.5 87.0L361.6 128.8H309.4Z"/><rect class="trunk" x="332.9" y="127.8" width="5.2" height="14.2"/><path class="t2" d="M374.3 32.0L388.4 72.7H360.2ZM374.3 59.5L393.6 100.7H355.1ZM374.3 87.0L400.0 128.8H348.6Z"/><rect class="trunk" x="371.7" y="127.8" width="5.1" height="14.2"/><path class="t3" d="M488.6 32.0L501.7 72.7H475.5ZM488.6 59.5L506.5 100.7H470.7ZM488.6 87.0L512.4 128.8H464.8Z"/><rect class="trunk" x="486.2" y="127.8" width="4.8" height="14.2"/><path class="t1" d="M516.6 32.0L530.3 72.7H502.9ZM516.6 59.5L535.3 100.7H497.9ZM516.6 87.0L541.6 128.8H491.7Z"/><rect class="trunk" x="514.1" y="127.8" width="5.0" height="14.2"/><path class="t2" d="M812.1 32.0L825.0 72.7H799.2ZM812.1 59.5L829.7 100.7H794.5ZM812.1 87.0L835.5 128.8H788.6Z"/><rect class="trunk" x="809.7" y="127.8" width="4.7" height="14.2"/><path class="t2" d="M910.9 32.0L925.9 72.7H895.9ZM910.9 59.5L931.4 100.7H890.4ZM910.9 87.0L938.2 128.8H883.6Z"/><rect class="trunk" x="908.2" y="127.8" width="5.5" height="14.2"/><path class="t3" d="M992.6 32.0L1006.6 72.7H978.6ZM992.6 59.5L1011.7 100.7H973.6ZM992.6 87.0L1018.1 128.8H967.2Z"/><rect class="trunk" x="990.1" y="127.8" width="5.1" height="14.2"/><path class="t2" d="M1122.2 32.0L1135.2 72.7H1109.3ZM1122.2 59.5L1139.9 100.7H1104.5ZM1122.2 87.0L1145.8 128.8H1098.7Z"/><rect class="trunk" x="1119.9" y="127.8" width="4.7" height="14.2"/><path class="t2" d="M-10.0 47.0L3.0 82.1H-23.0ZM-10.0 70.8L7.7 106.4H-27.7ZM-10.0 94.5L13.6 130.6H-33.6Z"/><rect class="trunk" x="-12.4" y="129.6" width="4.7" height="12.4"/><path class="t3" d="M430.6 47.0L442.7 82.1H418.6ZM430.6 70.8L447.1 106.4H414.2ZM430.6 94.5L452.6 130.6H408.7Z"/><rect class="trunk" x="428.5" y="129.6" width="4.4" height="12.4"/><path class="t1" d="M462.8 47.0L475.0 82.1H450.5ZM462.8 70.8L479.5 106.4H446.1ZM462.8 94.5L485.1 130.6H440.5Z"/><rect class="trunk" x="460.6" y="129.6" width="4.5" height="12.4"/><path class="t2" d="M592.0 47.0L604.2 82.1H579.7ZM592.0 70.8L608.6 106.4H575.3ZM592.0 94.5L614.2 130.6H569.7Z"/><rect class="trunk" x="589.7" y="129.6" width="4.4" height="12.4"/><path class="t2" d="M785.5 47.0L796.8 82.1H774.3ZM785.5 70.8L800.9 106.4H770.2ZM785.5 94.5L806.0 130.6H765.1Z"/><rect class="trunk" x="783.5" y="129.6" width="4.1" height="12.4"/><path class="t2" d="M842.6 47.0L855.4 82.1H829.8ZM842.6 70.8L860.1 106.4H825.1ZM842.6 94.5L865.9 130.6H819.3Z"/><rect class="trunk" x="840.3" y="129.6" width="4.7" height="12.4"/><path class="t3" d="M878.3 47.0L890.7 82.1H865.8ZM878.3 70.8L895.3 106.4H861.3ZM878.3 94.5L900.9 130.6H855.7Z"/><rect class="trunk" x="876.0" y="129.6" width="4.5" height="12.4"/><path class="t1" d="M1169.5 47.0L1181.7 82.1H1157.2ZM1169.5 70.8L1186.1 106.4H1152.8ZM1169.5 94.5L1191.7 130.6H1147.2Z"/><rect class="trunk" x="1167.3" y="129.6" width="4.4" height="12.4"/><path class="t2" d="M201.9 57.0L212.3 88.4H191.5ZM201.9 78.2L216.0 110.1H187.8ZM201.9 99.5L220.7 131.8H183.1Z"/><rect class="trunk" x="200.0" y="130.8" width="3.8" height="11.2"/><path class="t2" d="M407.2 57.0L418.5 88.4H395.9ZM407.2 78.2L422.6 110.1H391.8ZM407.2 99.5L427.8 131.8H386.6Z"/><rect class="trunk" x="405.1" y="130.8" width="4.1" height="11.2"/><path class="t2" d="M942.1 57.0L952.3 88.4H931.8ZM942.1 78.2L956.1 110.1H928.1ZM942.1 99.5L960.7 131.8H923.5Z"/><rect class="trunk" x="940.2" y="130.8" width="3.7" height="11.2"/><path class="t3" d="M1193.9 57.0L1204.8 88.4H1183.1ZM1193.9 78.2L1208.7 110.1H1179.2ZM1193.9 99.5L1213.6 131.8H1174.3Z"/><rect class="trunk" x="1192.0" y="130.8" width="3.9" height="11.2"/><path class="t1" d="M23.6 72.0L32.9 97.9H14.2ZM23.6 89.5L36.3 115.7H10.8ZM23.6 107.0L40.6 133.6H6.6Z"/><rect class="trunk" x="21.9" y="132.6" width="3.4" height="9.4"/><path class="t2" d="M45.4 72.0L54.9 97.9H35.9ZM45.4 89.5L58.3 115.7H32.4ZM45.4 107.0L62.6 133.6H28.1Z"/><rect class="trunk" x="43.7" y="132.6" width="3.4" height="9.4"/><path class="t2" d="M617.1 72.0L626.7 97.9H607.6ZM617.1 89.5L630.2 115.7H604.1ZM617.1 107.0L634.5 133.6H599.8Z"/><rect class="trunk" x="615.4" y="132.6" width="3.5" height="9.4"/><path class="t3" d="M642.3 72.0L650.5 97.9H634.1ZM642.3 89.5L653.4 115.7H631.1ZM642.3 107.0L657.1 133.6H627.4Z"/><rect class="trunk" x="640.8" y="132.6" width="3.0" height="9.4"/><path class="t2" d="M1148.9 72.0L1158.5 97.9H1139.3ZM1148.9 89.5L1161.9 115.7H1135.8ZM1148.9 107.0L1166.3 133.6H1131.4Z"/><rect class="trunk" x="1147.1" y="132.6" width="3.5" height="9.4"/><rect class="ground" x="0" y="141" width="1200" height="9"/></svg></div>
+</section>
+
+<div id="map" role="application" aria-label="Map of British Columbia local government areas"></div>
+<div class="loading" id="loading">Loading boundaries…</div>
+
+<section class="card" id="card" aria-label="Map controls">
+  <div class="brand">
+    <button class="home-btn" id="goHome" aria-label="Back to home screen"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"><path d="M3 10.5 12 3l9 7.5"/><path d="M5.5 9v11h13V9"/></svg></button>
+    <div>
+      <div class="eyebrow" id="cardEyebrow">BC general local elections · Oct 17, 2026</div>
+      <h1 id="cardTitle">BC Local Leaders 2026</h1>
+    </div>
+    <button class="toggle-card" id="toggleCard" aria-expanded="true" aria-controls="card">Hide</button>
+  </div>
+  <div class="search">
+    <label for="q" class="eyebrow" style="position:absolute;left:-9999px">Search</label>
+    <input id="q" type="search" placeholder="Find a town, area or person" autocomplete="off" aria-controls="results">
+    <div class="results" id="results" role="listbox" hidden></div>
+  </div>
+  <div class="collapsible">
+    <div class="seg" id="segModes" role="group" aria-label="Map view">
+      <button id="modeMayors" aria-pressed="true">Mayoral Overview</button>
+      <button id="modeRD" aria-pressed="false">Regional Districts</button>
+    </div>
+    <div class="legend" id="legend"></div>
+    <div class="map-key"><span><i class="ln"></i>Highway</span><span><i class="ln ferry"></i>Ferry</span></div>
+    <div class="stat" id="stat"></div>
+  </div>
+</section>
+
+<aside class="sheet" id="sheet" hidden aria-labelledby="placeName">
+  <div class="sheet-head">
+    <button class="handle" id="handle" aria-label="Expand panel"></button>
+    <div class="eyebrow" id="placeKind"></div>
+    <h2 id="placeName"></h2>
+    <div class="sub" id="placeSub"></div>
+    <button class="close" id="close" aria-label="Close panel">×</button>
+  </div>
+  <div class="sheet-body" id="sheetBody"></div>
+</aside>
+
+<script src="leaflet.js"></script>
+<script>
+(function () {
+  const STANCE = {
+    industry: { label: 'Advocates for the forest industry', token: '--st-industry' },
+    transition: { label: 'Mixed or transition-focused', token: '--st-transition' },
+    conservation: { label: 'Conservation-focused', token: '--st-conservation' },
+    unknown: { label: 'Researched, no position found', token: '--st-unknown' }
+  };
+  const SHARE_BINS = [35, 50, 65, 80];
+  const $ = (id) => document.getElementById(id);
+  const esc = (s) => String(s == null ? '' : s).replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+  const fmt = (n) => n == null ? '' : Number(n).toLocaleString('en-CA');
+  const css = (name) => getComputedStyle(document.documentElement).getPropertyValue(name).trim();
+
+  // Views: 'mayors' (municipalities, the default) and 'rd' (regional district electoral areas) in BC Local Leaders;
+  // 'fn' in FN Partners, where the election areas are hidden and partner First Nations are pinned.
+  let DATA = null, layer = null, mode = 'mayors', selected = null, section = 'home';
+  const activeIn = (p) => (mode === 'mayors' ? p.type === 'muni' : mode === 'rd' ? p.type === 'ea' : false);
+
+  const map = L.map('map', { preferCanvas: true, zoomControl: false, attributionControl: true, minZoom: 3, maxZoom: 13, zoomSnap: 0.25 });
+  L.control.zoom({ position: 'bottomleft' }).addTo(map);
+  map.attributionControl.setPrefix('');
+  map.attributionControl.addAttribution('Boundaries, roads, cities: <a href="https://catalogue.data.gov.bc.ca/" target="_blank" rel="noopener">DataBC</a> (OGL-BC) · Results: <a href="https://localelections.ca/results/" target="_blank" rel="noopener">CivicInfo BC</a> · Imagery: NASA Blue Marble');
+  map.fitBounds([[48.2, -139.1], [60.0, -114.0]]);
+  map.createPane('base'); map.getPane('base').style.zIndex = 200;
+  L.imageOverlay('bluemarble.jpg', [[47.8, -139.5], [60.4, -113.5]], { pane: 'base', interactive: false, alt: 'Satellite view of British Columbia' }).addTo(map);
+  const renderer = L.canvas({ padding: 0.3, tolerance: 4 });
+  map.createPane('pins'); map.getPane('pins').style.zIndex = 480;
+  ['roads', 'labels'].forEach((n, i) => { map.createPane(n); const el = map.getPane(n); el.style.zIndex = 450 + i * 10; el.style.pointerEvents = 'none'; });
+  const roadRenderer = L.svg({ pane: 'roads', padding: 0.5 });
+
+  // Highways: a dark casing under a light line, both widening as you zoom in. Minor roads appear from zoom 6.
+  let roadsCasing = null, roadsLine = null;
+  function roadStyle(f, casing) {
+    const z = map.getZoom(), c = f.properties.cls;
+    if (c === 'ferry') return casing ? { opacity: 0, weight: 0 } : { color: css('--ferry'), weight: 1.5, opacity: 0.9, dashArray: '4 5', interactive: false };
+    if (c === 'minor' && z < 6) return { opacity: 0, weight: 0 };
+    const w = c === 'major' ? Math.min(6, Math.max(1.4, (z - 3) * 0.8)) : Math.min(3.5, Math.max(0.8, (z - 4) * 0.5));
+    return { color: casing ? css('--road-casing') : css(c === 'major' ? '--road' : '--road-minor'), weight: casing ? w + 2.2 : w, opacity: casing ? 0.55 : 0.95, lineCap: 'round', lineJoin: 'round', interactive: false };
+  }
+  function buildRoads(geo) {
+    const opts = (casing) => ({ renderer: roadRenderer, pane: 'roads', interactive: false, style: (f) => roadStyle(f, casing) });
+    roadsCasing = L.geoJSON(geo, opts(true)).addTo(map);
+    roadsLine = L.geoJSON(geo, opts(false)).addTo(map);
+  }
+  function restyleRoads() {
+    if (!roadsLine) return;
+    roadsCasing.eachLayer((l) => l.setStyle(roadStyle(l.feature, true)));
+    roadsLine.eachLayer((l) => l.setStyle(roadStyle(l.feature, false)));
+  }
+
+  // Map labels, in priority order:
+  //   cities: unchanged; the largest show first and smaller ones appear as you zoom in
+  //   regional district names (Regional Districts view only, hidden when zoomed far in)
+  //   towns and communities: only once zoomed in (8.5+), localities from 10+
+  // Text grows with zoom; a label that would overlap a higher-priority one is hidden.
+  // Markers are created only while visible, so thousands of town names stay cheap.
+  const CITY_MIN_ZOOM = { 1: 0, 2: 5, 3: 6.75, 4: 8, 5: 8.5, 6: 10 };
+  const CITY_BASE = { 1: 13, 2: 12, 3: 11, 4: 10.5, 5: 10, 6: 9.5 };
+  let labels = [];
+  function addLabels(list, kind) {
+    for (const c of list) labels.push({ c, kind, m: null });
+    labels.sort((a, b) => rank(a) - rank(b));
+    placeLabels();
+  }
+  const rank = (l) => (l.kind === 'city' ? l.c.t : l.kind === 'rd' ? 4.5 : 10 + l.c.t);   // cities keep priority
+  function fontFor(l, z) {
+    if (l.kind === 'rd') return Math.round(Math.min(11 + Math.max(0, z - 5) * 1.2, 15));
+    const b = CITY_BASE[l.c.t];
+    if (l.kind === 'town') return Math.round(Math.min(b + Math.max(0, z - 8.5) * 0.8, b + 3));
+    return Math.round(Math.min(b + Math.max(0, z - 6) * 1.1, b + 6));
+  }
+  function visibleAt(l, z) {
+    if (l.kind === 'rd') return mode === 'rd' && z < 9;
+    return z >= CITY_MIN_ZOOM[l.c.t];
+  }
+  function markerFor(l) {
+    if (!l.m) {
+      const html = l.kind === 'rd' ? `<span>${esc(l.c.n)}</span>` : `<i></i><span>${esc(l.c.n)}</span>`;
+      l.m = L.marker([l.c.lat, l.c.lon], { pane: 'labels', interactive: false, keyboard: false,
+        icon: L.divIcon({ className: l.kind === 'rd' ? 'rdlabel' : 'city t' + l.c.t, html, iconSize: null }) });
+    }
+    return l.m;
+  }
+  function placeLabels() {
+    const z = map.getZoom(), size = map.getSize(), boxes = [];
+    if (section === 'fn') for (const { n } of pins) {   // pin names first, so town labels never cover them
+      const pt = map.latLngToContainerPoint([n.lat, n.lon]);
+      boxes.push([pt.x - 12, pt.y - 12, pt.x + 18 + shortName(n).length * 13 * 0.6, pt.y + 12]);
+    }
+    for (const l of labels) {
+      let show = visibleAt(l, z), fs = 0;
+      if (show) {
+        fs = fontFor(l, z);
+        const pt = map.latLngToContainerPoint([l.c.lat, l.c.lon]);
+        const w = l.c.n.length * fs * (l.kind === 'rd' ? 0.95 : 0.58);   // spaced capitals are wider
+        const box = l.kind === 'rd' ? [pt.x - w / 2, pt.y - fs * 0.8, pt.x + w / 2, pt.y + fs * 0.8]
+                                    : [pt.x - 6, pt.y - fs * 0.75, pt.x + 14 + w, pt.y + fs * 0.75];
+        if (box[2] < 0 || box[0] > size.x || box[3] < 0 || box[1] > size.y) show = false;
+        else if (l.kind === 'rd' && (box[0] < 4 || box[2] > size.x - 4)) show = false;   // never cut a district name off
+        else if (boxes.some((b) => box[0] < b[2] && box[2] > b[0] && box[1] < b[3] && box[3] > b[1])) show = false;
+        else boxes.push(box);
+      }
+      if (show) {
+        const m = markerFor(l);
+        if (!map.hasLayer(m)) m.addTo(map);
+        const el = m.getElement(); if (el) el.style.fontSize = fs + 'px';
+      } else if (l.m && map.hasLayer(l.m)) {
+        l.m.remove();
+      }
+    }
+  }
+
+  // Regional district boundaries (Regional Districts view only): a light line on a dark casing.
+  map.createPane('rdlines'); map.getPane('rdlines').style.zIndex = 440; map.getPane('rdlines').style.pointerEvents = 'none';
+  let rdLines = null;
+  function buildRD(geo) {
+    const r = L.svg({ pane: 'rdlines', padding: 0.5 });
+    rdLines = L.layerGroup([
+      L.geoJSON(geo, { renderer: r, pane: 'rdlines', interactive: false, style: { color: css('--road-casing'), weight: 5, opacity: 0.45, fill: false } }),
+      L.geoJSON(geo, { renderer: r, pane: 'rdlines', interactive: false, style: { color: '#ffffff', weight: 2.2, opacity: 0.95, fill: false } })
+    ]);
+    showRD();
+  }
+  function showRD() {
+    if (!rdLines) return;
+    if (mode === 'rd' && !map.hasLayer(rdLines)) rdLines.addTo(map);
+    if (mode !== 'rd' && map.hasLayer(rdLines)) rdLines.remove();
+  }
+  map.on('zoomend', () => { restyleRoads(); placeLabels(); });
+  map.on('moveend resize', placeLabels);
+
+  const head = (p) => p.officials[0];
+  const researched = (p) => p.officials.some((o) => o.profile);
+
+  // Returns [colour, fillOpacity]. Fills stay translucent so the satellite image shows through.
+  // Areas outside the current view are hidden, except towns, which show faintly in Regional Districts.
+  function fillFor(p) {
+    if (!activeIn(p)) return [css('--land-muni'), mode === 'rd' && p.type === 'muni' ? 0.22 : 0];
+    const h = head(p);
+    if (!h) return [css('--land-muni'), 0.04];
+    if (h.votes === 0) return [css('--acclaimed'), 0];
+    const v = h.pct || 0; let i = SHARE_BINS.findIndex((b) => v < b); if (i < 0) i = 4;
+    return [css('--vs' + (i + 1)), 0.55];
+  }
+  const isAcclaimed = (p) => { const h = head(p); return !!h && h.votes === 0; };
+  function styleFor(feature) {
+    const p = DATA.places[feature.properties.key];
+    const sel = selected === feature.properties.key;
+    const [fill, op] = fillFor(p);
+    const on = activeIn(p);
+    if (!on) return { renderer, fillColor: fill, fillOpacity: op, color: css('--edge'), weight: op ? 0.6 : 0, opacity: op ? 0.4 : 0 };
+    const outline = isAcclaimed(p);
+    return {
+      renderer, fillColor: fill, fillOpacity: op,
+      color: sel ? css('--accent') : (outline ? css('--acclaimed') : css('--edge')),
+      weight: sel ? 3.5 : outline ? 2.6 : (p.type === 'muni' ? 1.6 : 0.8),
+      opacity: sel || outline ? 1 : (p.type === 'muni' ? 0.85 : 0.65)
+    };
+  }
+  function restyle() {
+    if (!layer) return;
+    layer.eachLayer((l) => l.setStyle(styleFor(l.feature)));
+    layer.eachLayer((l) => { const p = DATA.places[l.feature.properties.key]; if (activeIn(p) && isAcclaimed(p) && l.bringToFront) l.bringToFront(); });
+    showRD(); placeLabels();
+    const sl = selected && layerByKey[selected];
+    if (sl && sl.bringToFront) sl.bringToFront();
+    renderLegend();
+  }
+
+  function renderLegend() {
+    const lg = $('legend');
+    $('modeMayors').setAttribute('aria-pressed', mode === 'mayors');
+    $('modeRD').setAttribute('aria-pressed', mode === 'rd');
+    const ramp = `<div class="ramp">${[1, 2, 3, 4, 5].map((i) => `<i style="background:${css('--vs' + i)}"></i>`).join('')}</div>
+        <div class="ticks"><span>&lt;35%</span><span>35–50</span><span>50–65</span><span>65–80</span><span>80%+</span></div>
+        <div class="row"><span class="sw outline"></span>Acclaimed (no contest), outlined only</div>`;
+    if (mode === 'fn') {
+      lg.innerHTML = `<div style="font-size:12px;color:var(--ink-2)">Tap a pin for the Nation's chief, council and forestry and natural resource news.</div>
+        <div class="row"><span class="ln dot" style="background:var(--dk-green);box-shadow:0 0 0 2px #fff,0 0 0 3px rgba(0,40,20,.5)"></span>Partner First Nation (pinned at its main community)</div>`;
+    } else if (mode === 'mayors') {
+      lg.innerHTML = `<div style="font-size:12px;color:var(--ink-2)">161 municipalities · share of the vote won by each mayor</div>${ramp}`;
+    } else {
+      lg.innerHTML = `<div style="font-size:12px;color:var(--ink-2)">159 electoral areas in 27 regional districts · share of the vote won by each area director</div>${ramp}
+        <div class="row"><span class="ln rd"></span>Regional district boundary</div>
+        <div class="row"><span class="sw" style="background:color-mix(in srgb, ${css('--land-muni')} 30%, transparent)"></span>Municipality (see Mayoral Overview)</div>`;
+    }
+  }
+
+  function personCard(o, lead, compact) {
+    const pr = o.profile;
+    const votes = o.votes === 0 ? 'Acclaimed' : `${fmt(o.votes)} votes${o.pct != null && o.office !== 'Councillor' ? ' · ' + o.pct + '%' : ''}`;
+    let body = '';
+    if (pr) {
+      const st = STANCE[pr.forestry.stance];
+      body += `<p>${esc(pr.summary)}</p>`;
+      if (pr.priorities && pr.priorities.length) body += `<div><h4>Main objectives</h4><ul>${pr.priorities.map((x) => `<li>${esc(x)}</li>`).join('')}</ul></div>`;
+      body += `<div class="forestry"><h4>Forestry</h4><span class="chip"><i style="background:${css(st.token)}"></i>${esc(st.label)}</span><p>${esc(pr.forestry.summary)}</p>${pr.forestry.highlights.length ? `<ul>${pr.forestry.highlights.map((x) => `<li>${esc(x)}</li>`).join('')}</ul>` : ''}</div>`;
+      if (pr.resources) body += `<div><h4>Natural resource industry</h4><p>${esc(pr.resources)}</p></div>`;
+    } else {
+      body += `<div class="pending">Profile not yet researched. Objectives and forestry position will appear here once they are sourced.</div>`;
+    }
+    if (o.links && o.links.length) body += `<div class="links">${o.links.map((l) => `<a href="${esc(l.url)}" target="_blank" rel="noopener">${esc(l.label || 'Campaign site')}</a>`).join('')}</div>`;
+    const prev = o.previous ? `<div class="role">${esc(o.previous)}</div>` : '';
+    if (compact) return `<div class="votes" style="text-align:left">${prev}</div>${body}`;
+    return `<article class="person${lead ? ' lead' : ''}"><div class="person-top"><div><div class="role">${esc(o.office)}${o.org ? ' · ' + esc(o.org) : ''}</div><h3>${esc(o.name)}</h3></div><div class="votes">${votes}${prev}</div></div>${body}</article>`;
+  }
+
+  // ---- Local Forestry News ----
+  // In the app, headlines are fetched natively from Google News for each area, cached on the phone,
+  // and refreshed the first time an area is opened in each app session or once the cache is a day old.
+  // The web page cannot reach outside sites, so it shows a search link instead.
+  const NEWS_TERMS = '(forestry OR forest OR sawmill OR mill OR logging OR timber OR lumber OR "wood products")';
+  const NATIVE = !!(window.Capacitor && typeof window.Capacitor.isNativePlatform === 'function' && window.Capacitor.isNativePlatform());
+  const DAY = 864e5;
+  const PWA = !!window.BCLL_PWA;
+  let dailyNewsPromise = null;
+  function dailyNews() {
+    if (!dailyNewsPromise) dailyNewsPromise = fetch('news.json', { cache: 'no-cache' }).then((r) => { if (!r.ok) throw new Error('HTTP ' + r.status); return r.json(); });
+    dailyNewsPromise.catch(() => { dailyNewsPromise = null; });
+    return dailyNewsPromise;
+  }
+  const refreshedThisSession = new Set();
+  function rdShort(rd) {
+    const s = (rd || '').replace(/\s*\(Regional District\)$/, '').replace(/^Regional District of\s+/i, '').replace(/\s+Regional District$/i, '');
+    return s === 'Capital' ? 'Capital Regional District' : s;
+  }
+  const RESOURCE_TERMS = '(forestry OR forest OR logging OR timber OR mill OR mining OR mine OR minerals OR pipeline OR LNG OR "natural gas" OR hydro OR "Site C" OR wildfire OR "land use" OR stewardship OR "natural resource")';
+  function newsQueries(p) {
+    if (p.type === 'fn') {
+      const label = shortName(p);
+      return { label, rd: null, names: p.newsNames.concat([p.name, label]), topic: 'forestry or natural resource',
+               local: `(${p.newsNames.map((x) => `"${x}"`).join(' OR ')}) ${RESOURCE_TERMS} when:365d`, regional: null };
+    }
+    const rd = rdShort(p.rd || p.jurisdiction);
+    let local, label;
+    if (p.type === 'muni') { local = `"${p.name}" ("B.C." OR BC OR "British Columbia")`; label = p.name; }
+    else {
+      const m = p.name.match(/\((.*)\)$/);
+      const locs = m ? m[1].split(/\s*[\/,]\s*|\s+and\s+/).map((x) => x.trim()).filter((x) => x.length > 2).slice(0, 4) : [];
+      local = locs.length ? `(${locs.map((x) => `"${x}"`).join(' OR ')})` : `"${rd}"`;
+      label = locs.length ? locs.join(', ') : rd;
+    }
+    const names = [p.name.replace(/\s*\(.*\)$/, ''), rd].concat(label.split(', '));
+    return { label, rd, names, topic: 'forestry', local: `${local} ${NEWS_TERMS} when:120d`, regional: `"${rd}" ${NEWS_TERMS} when:120d` };
+  }
+  const rssUrl = (q) => 'https://news.google.com/rss/search?q=' + encodeURIComponent(q) + '&hl=en-CA&gl=CA&ceid=CA:en';
+  const searchUrl = (q) => 'https://news.google.com/search?q=' + encodeURIComponent(q) + '&hl=en-CA&gl=CA&ceid=CA:en';
+  async function fetchRss(q, scope) {
+    const r = await fetch(rssUrl(q));
+    if (!r.ok) throw new Error('HTTP ' + r.status);
+    const doc = new DOMParser().parseFromString(await r.text(), 'text/xml');
+    return [...doc.querySelectorAll('item')].map((it) => {
+      const txt = (sel) => { const n = it.querySelector(sel); return n ? n.textContent.trim() : ''; };
+      const outlet = txt('source');
+      let title = txt('title');
+      if (outlet && title.endsWith(' - ' + outlet)) title = title.slice(0, -(outlet.length + 3));
+      return { title, outlet, url: txt('link'), t: Date.parse(txt('pubDate')) || 0, scope };
+    }).filter((x) => x.title && /^https:\/\//.test(x.url));
+  }
+  // Google matches outlet names too ("Burns Lake Lakes District News"), so keep only headlines that are about forestry.
+  const FORESTRY_RE = /\b(forest\w*|sawmills?|mills?|logging|loggers?|logs|timber|lumber|wood|woodlots?|softwood|pulp|fibre|fiber|tenures?|harvest\w*|reforest\w*|silvicultur\w*|stumpage|old[- ]growth|cutblocks?|cutting permits?|planers?|pellets?|biomass|truck loggers?|COFI)\b/i;
+  const RESOURCE_RE = new RegExp(FORESTRY_RE.source.replace(')\\b', '|minings?|mines?|minerals?|pipelines?|LNG|gas|hydro|dams?|Site C|wildfires?|land[- ]use|stewardship|resources?|caribou|energy)\\b'), 'i');
+  async function loadNews(p) {
+    const q = newsQueries(p);
+    const TOPIC_RE = p.type === 'fn' ? RESOURCE_RE : FORESTRY_RE;
+    // Ignore the area's own place names (e.g. "Mill Bay") when deciding if a headline is about forestry.
+    const strip = (t) => q.names.reduce((acc, n) => (n ? acc.split(n).join(' ') : acc), t);
+    const relevant = (list) => list.filter((i) => TOPIC_RE.test(strip(i.title)));
+    let items = relevant(await fetchRss(q.local, 'local'));
+    if (items.length < 4 && q.regional) {
+      const seen = new Set(items.map((i) => i.title));
+      items = items.concat(relevant(await fetchRss(q.regional, 'regional')).filter((i) => !seen.has(i.title)));
+    }
+    items.sort((a, b) => (a.scope === b.scope ? 0 : a.scope === 'local' ? -1 : 1) || b.t - a.t);
+    return { t: Date.now(), items: items.slice(0, 6) };
+  }
+  const cacheKey = (k) => 'bcll-news-' + k;
+  function readCache(k) { try { const v = JSON.parse(localStorage.getItem(cacheKey(k)) || 'null'); return v && Array.isArray(v.items) ? v : null; } catch (e) { return null; } }
+  function writeCache(k, v) { try { localStorage.setItem(cacheKey(k), JSON.stringify(v)); } catch (e) {} }
+  function ago(t) {
+    const m = Math.round((Date.now() - t) / 6e4);
+    if (m < 1) return 'just now'; if (m < 60) return m + ' min ago';
+    const h = Math.round(m / 60); if (h < 24) return h + ' h ago';
+    const d = Math.round(h / 24); return d === 1 ? 'yesterday' : d < 30 ? d + ' days ago' : new Date(t).toLocaleDateString('en-CA', { month: 'short', day: 'numeric', year: 'numeric' });
+  }
+  const background = (p) => p.context ? `<div class="context"><b>Background:</b> ${esc(p.context.text)}</div>` : '';
+  function paintNews(p, data, note) {
+    const el = $('news'); if (!el || selected !== p.key) return;
+    const q = newsQueries(p);
+    const list = data.items.length
+      ? data.items.map((i) => `<a class="story" href="${esc(i.url)}" target="_blank" rel="noopener"><span class="hl">${esc(i.title)}</span><span class="src">${esc(i.outlet)}${i.t ? ' · ' + ago(i.t) : ''}${i.scope === 'regional' ? ` · <span class="tag">${esc(q.rd)} region</span>` : ''}</span></a>`).join('')
+      : `<div class="pending">No ${q.topic} stories ${p.type === 'fn' ? 'in the past year' : 'in the last four months'} mention ${esc(q.label)}.</div>${background(p)}`;
+    el.innerHTML = list + `<div class="news-foot">${note || 'Updated ' + ago(data.t)} · Google News</div>`;
+  }
+  async function showNews(p) {
+    const el = $('news'); if (!el) return;
+    const q = newsQueries(p);
+    if (!NATIVE && PWA) {
+      // iPhone / web app: headlines are gathered daily on GitHub (Safari cannot read Google News directly).
+      el.innerHTML = '<div class="pending">Loading the latest forestry news…</div>';
+      try {
+        const all = await dailyNews();
+        const a = all.areas && all.areas[p.key];
+        if (!a) throw new Error('no entry');
+        paintNews(p, { t: all.updated, items: a.items }, `Updated ${ago(all.updated)} · refreshed daily`);
+      } catch (e) {
+        if (selected === p.key) el.innerHTML = `${background(p)}<a class="story" href="${esc(searchUrl(q.local))}" target="_blank" rel="noopener"><span class="hl">Latest ${q.topic} news for ${esc(q.label)}</span><span class="src">Opens Google News</span></a>`;
+      }
+      return;
+    }
+    if (!NATIVE) {
+      el.innerHTML = `${background(p)}<a class="story" href="${esc(searchUrl(q.local))}" target="_blank" rel="noopener"><span class="hl">Latest ${q.topic} news for ${esc(q.label)}</span><span class="src">Opens Google News</span></a><div class="news-foot">Live headlines load automatically in the Android and iPhone apps.</div>`;
+      return;
+    }
+    const cached = readCache(p.key);
+    if (cached) paintNews(p, cached, refreshedThisSession.has(p.key) ? null : 'Checking for new stories…');
+    else el.innerHTML = '<div class="pending">Loading the latest forestry news…</div>';
+    if (cached && refreshedThisSession.has(p.key) && Date.now() - cached.t < DAY) return;
+    try {
+      const data = await loadNews(p);
+      refreshedThisSession.add(p.key); writeCache(p.key, data); paintNews(p, data);
+    } catch (e) {
+      if (selected !== p.key) return;
+      if (cached) paintNews(p, cached, `Offline · showing stories saved ${ago(cached.t)}`);
+      else el.innerHTML = `<div class="pending">News could not load. Check your connection and open this area again.</div>${background(p)}`;
+    }
+  }
+
+  // ---- App updates (Android app only) ----
+  // The app's loader starts the newest copy it has: a downloaded update or the one built into the APK.
+  // Here we check GitHub for a newer map/data bundle and download it in the background, and check
+  // whether a newer APK has been published (which still needs the user to tap Install).
+  const UPD = window.BCLL_UPDATE || null;
+  function idb() {
+    return new Promise((res, rej) => { const r = indexedDB.open('bcll-ota', 1); r.onupgradeneeded = () => r.result.createObjectStore('files'); r.onsuccess = () => res(r.result); r.onerror = () => rej(r.error); });
+  }
+  async function idbPut(k, v) { const db = await idb(); return new Promise((res, rej) => { const tx = db.transaction('files', 'readwrite'); tx.objectStore('files').put(v, k); tx.oncomplete = res; tx.onerror = () => rej(tx.error); }); }
+  function updateBar(id, html, onGo) {
+    let box = document.getElementById('updates');
+    if (!box) { box = document.createElement('div'); box.id = 'updates'; box.className = 'updates'; document.body.appendChild(box); }
+    let bar = document.getElementById(id);
+    if (!bar) { bar = document.createElement('div'); bar.id = id; bar.className = 'update-bar'; bar.setAttribute('role', 'status'); box.appendChild(bar); }
+    bar.innerHTML = html + '<button class="x" aria-label="Dismiss">×</button>';
+    bar.querySelector('.x').onclick = () => bar.remove();
+    if (onGo) bar.querySelector('.go').onclick = onGo;
+  }
+  async function checkForUpdates() {
+    if (!NATIVE || !UPD || !UPD.base) return;
+    try { localStorage.removeItem('bcll-ota-trying'); } catch (e) {}   // this copy started fine
+    let man;
+    try { const r = await fetch(UPD.base + UPD.ota + 'manifest.json?t=' + Date.now()); if (!r.ok) return; man = await r.json(); } catch (e) { return; }
+    const running = window.BCLL_OTA_BUILD || UPD.build;
+    let bad = []; try { bad = JSON.parse(localStorage.getItem('bcll-ota-bad') || '[]'); } catch (e) {}
+    if (man.build > running && !bad.includes(man.build) && Array.isArray(man.files)) {
+      try {
+        const files = {};
+        for (const name of man.files) {
+          const r = await fetch(UPD.base + UPD.ota + name + '?b=' + man.build);
+          if (!r.ok) throw new Error(name);
+          const text = await r.text();
+          if (name.endsWith('.json') || name.endsWith('.geojson')) JSON.parse(text);   // reject truncated downloads
+          else if (!text.includes('<\/script>')) throw new Error(name);   // escaped so this inline script is not cut short
+          files[name] = text;
+        }
+        await idbPut('bundle', { build: man.build, files });
+        updateBar('updData', `<span>The map has been updated${man.note ? ': ' + esc(man.note) : ''}.</span><button class="go">Reload</button>`, () => location.replace('index.html'));
+      } catch (e) { /* keep running the current copy; try again next launch */ }
+    }
+    const App = window.Capacitor && window.Capacitor.Plugins && window.Capacitor.Plugins.App;
+    if (man.apk && man.apk.url && App) {
+      try {
+        const info = await App.getInfo();
+        if (Number(man.apk.versionCode) > Number(info.build)) {
+          updateBar('updApp', `<span>App version ${esc(man.apk.versionName)} is available.</span><a class="go" href="${esc(man.apk.url)}" target="_blank" rel="noopener">Install update</a>`);
+        }
+      } catch (e) {}
+    }
+  }
+
+  function iosInstallHint() {
+    const ios = /iPhone|iPad|iPod/.test(navigator.userAgent) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+    if (!ios || navigator.standalone) return;
+    try { if (localStorage.getItem('bcll-ios-hint')) return; localStorage.setItem('bcll-ios-hint', '1'); } catch (e) {}
+    updateBar('updIos', '<span><b>Install on your iPhone:</b> tap the Share button, then <b>Add to Home Screen</b>.</span>');
+  }
+
+  function openPlace(key, opts) {
+    const p = DATA.places[key]; if (!p) return;
+    const want = p.type === 'muni' ? 'mayors' : 'rd';
+    if (mode !== want) mode = want;
+    selected = key; restyle();
+    const isMuni = p.type === 'muni';
+    $('placeKind').textContent = isMuni ? p.kind : (p.rd || p.jurisdiction);
+    const m = isMuni ? null : p.name.match(/^(.*?)\s*\((.*)\)$/);
+    $('placeName').textContent = m ? m[1] : p.name;
+    $('placeSub').textContent = isMuni ? (p.rd || '') : (m ? m[2] + ' · ' : '') + 'rural area outside municipalities';
+    const h = head(p);
+    let html = `<div class="meta"><span>Results updated ${esc(p.updated || '')}</span><a href="${esc(p.source)}" target="_blank" rel="noopener">Official results</a>${p.website ? `<a href="${esc(p.website)}" target="_blank" rel="noopener">Local government site</a>` : ''}</div>`;
+    if (p.noBoundary) html += `<div class="pending">Newly incorporated in 2026. Its boundary is not yet in the provincial dataset, so it is shown as a point.</div>`;
+    if (h) html += `<div><div class="section-label">${isMuni ? 'Mayor' : 'Area director'}</div>${personCard(h, true)}</div>`;
+    html += `<div><div class="section-label">Local Forestry News</div><div class="news" id="news" aria-live="polite"></div></div>`;
+    const council = p.officials.slice(1);
+    if (council.length) {
+      html += `<div><div class="section-label">Council · ${council.length} elected${p.councilCandidates ? ` of ${p.councilCandidates} candidates` : ''}</div><div class="council">${council.map((o) => `<details><summary><b>${esc(o.name)}${o.profile ? ' ●' : ''}</b><span>${o.votes === 0 ? 'Acclaimed' : fmt(o.votes)}</span></summary><div class="inner">${personCard(o, false, true)}</div></details>`).join('')}</div></div>`;
+    }
+    if (p.race && p.race.length > 1) {
+      const max = Math.max(...p.race.map((c) => c.pct || 0), 1);
+      html += `<div><div class="section-label">${isMuni ? 'Mayoral race' : 'Director race'}</div><div class="race">${p.race.map((c) => `<div class="bar${c.elected ? ' won' : ''}"><span class="nm">${esc(c.name.replace(/\s*\([^)]*\)$/, ''))}</span><span class="pc">${c.pct != null ? c.pct.toFixed(1) + '%' : ''}</span><div class="track"><i style="width:${((c.pct || 0) / max) * 100}%"></i></div></div>`).join('')}</div></div>`;
+    }
+    html += `<div class="note">Results are unofficial until each local government declares them. Profiles are summarised from public news reports. News headlines come from Google News.</div>`;
+    $('sheetBody').innerHTML = html; $('sheetBody').scrollTop = 0;
+    showNews(p);
+    $('sheet').hidden = false;
+    if (location.hash !== '#' + key) history.replaceState(null, '', '#' + key);
+    if (opts && opts.zoom) {
+      const l = layerByKey[key];
+      if (l) {
+        const narrow = window.innerWidth <= 720;
+        const b = l.getBounds ? l.getBounds() : L.latLngBounds([l.getLatLng(), l.getLatLng()]).pad(0.2);
+        map.fitBounds(b, { paddingTopLeft: [20, narrow ? 120 : 20], paddingBottomRight: [narrow ? 20 : 440, narrow ? window.innerHeight * 0.66 : 20], maxZoom: 9.5 });
+      }
+    }
+  }
+  function closeSheet() { $('sheet').hidden = true; $('sheet').classList.remove('tall'); selected = null; restyle(); markPins(); history.replaceState(null, '', section === 'fn' ? '#fn' : '#map'); }
+
+  // ---- FN Partners: pins for partner First Nations, with chief, council and resource news ----
+  let FN = null, pinLayer = null;
+  const pins = [];
+  const shortName = (n) => n.name.replace(/\s+(Indian Band|First Nation|Nation)$/, '');
+  const fmtDate = (d) => new Date(d + 'T12:00:00').toLocaleDateString('en-CA', { month: 'short', day: 'numeric', year: 'numeric' });
+  function buildPins(data) {
+    FN = data;
+    for (const n of Object.values(data.nations)) {
+      const m = L.marker([n.lat, n.lon], { pane: 'pins', keyboard: true, title: n.name,
+        icon: L.divIcon({ className: 'fnpin', html: `<span class="dot"></span><span class="nm">${esc(shortName(n))}</span>`, iconSize: null }) });
+      m.on('click', () => openNation(n.key, { zoom: false }));
+      pins.push({ n, m });
+      index.push({ section: 'fn', key: n.key, label: n.name, sub: `First Nation · ${n.officeCity || ''}`.replace(/ · $/, ''), hay: (n.name + ' ' + n.newsNames.join(' ')).toLowerCase() });
+      n.officials.forEach((o) => index.push({ section: 'fn', key: n.key, label: o.name, sub: `${o.role}, ${n.name}`, hay: o.name.toLowerCase() }));
+    }
+    pinLayer = L.layerGroup(pins.map((x) => x.m));
+    showPins(); renderStat();
+    if (section === 'fn') fitFN();
+  }
+  function showPins() {
+    if (!pinLayer) return;
+    if (section === 'fn' && !map.hasLayer(pinLayer)) pinLayer.addTo(map);
+    if (section !== 'fn' && map.hasLayer(pinLayer)) pinLayer.remove();
+    markPins();
+  }
+  function markPins() { for (const { n, m } of pins) { const el = m.getElement(); if (el) el.classList.toggle('sel', selected === n.key); } }
+  function fitFN() {
+    if (!pins.length) return;
+    const narrow = window.innerWidth <= 720;
+    map.fitBounds(L.latLngBounds(pins.map((x) => [x.n.lat, x.n.lon])).pad(0.15), { paddingTopLeft: [narrow ? 10 : 370, narrow ? 130 : 20], paddingBottomRight: [10, 10], maxZoom: 7 });
+  }
+  function electionLine(sys) {
+    if (!sys) return '';
+    if (/indian act/i.test(sys)) return ' Elected under the Indian Act election system.';
+    if (/custom/i.test(sys)) return " Elected under the Nation's own custom election code.";
+    if (/first nations elections act/i.test(sys)) return ' Elected under the First Nations Elections Act.';
+    if (/self.govern/i.test(sys)) return " Elected under the Nation's self-government agreement.";
+    return ` Election system: ${esc(sys)}.`;
+  }
+  function openNation(key, opts) {
+    const n = FN && FN.nations[key]; if (!n) return;
+    selected = key; restyle(); markPins();
+    $('placeKind').textContent = 'First Nation';
+    $('placeName').textContent = n.name;
+    $('placeSub').textContent = [n.language && `${n.language} language group`, n.council].filter(Boolean).join(' · ');
+    const chief = n.officials.find((o) => o.role === 'Chief');
+    const council = n.officials.filter((o) => o !== chief);
+    const days = (Date.parse(chief.end + 'T12:00:00') - Date.now()) / 864e5;
+    const termNote = days < 0 ? `<div class="term-note">This term ended ${fmtDate(chief.end)}. The federal record has not yet been updated with the next election's results.</div>`
+      : days < 120 ? `<div class="term-note">This term ends ${fmtDate(chief.end)}, so an election is due soon.</div>` : '';
+    let html = `<div class="meta"><span>Pinned at ${esc(n.community)}</span><span>Leadership as of ${esc(fmtDate(FN.retrieved))}</span><a href="${esc(n.source)}" target="_blank" rel="noopener">Government of Canada profile</a>${n.website ? `<a href="${esc(n.website)}" target="_blank" rel="noopener">Nation website</a>` : ''}</div>`;
+    html += `<div><div class="section-label">Chief</div><article class="person lead"><div class="person-top"><div><div class="role">Chief</div><h3>${esc(chief.name)}</h3></div><div class="votes">Term to ${esc(fmtDate(chief.end).replace(/^\w+ \d+, /, ''))}</div></div>
+      <p>In office since ${esc(fmtDate(chief.start))}; term ends ${esc(fmtDate(chief.end))}.${electionLine(n.electionSystem)}</p>${termNote}</article></div>`;
+    html += `<div><div class="section-label">Forestry &amp; Resource News</div><div class="news" id="news" aria-live="polite"></div></div>`;
+    if (council.length) {
+      html += `<div><div class="section-label">Council · ${council.length} ${council.length === 1 ? 'member' : 'members'}</div><div class="council">${council.map((o) => `<details><summary><b>${esc(o.name)}</b><span>${o.role === 'Councillor' ? 'to ' + esc(fmtDate(o.end).replace(/^\w+ \d+, /, '')) : esc(o.role)}</span></summary><div class="inner"><div class="votes" style="text-align:left">${esc(o.role)}</div><p>In office since ${esc(fmtDate(o.start))}; term ends ${esc(fmtDate(o.end))}.</p></div></details>`).join('')}</div></div>`;
+    }
+    html += `<div class="note">Chief and council are from Indigenous Services Canada's First Nation Profiles, retrieved ${esc(fmtDate(FN.retrieved))}. Leadership can change before the federal record is updated, so confirm with the Nation. News headlines come from Google News.</div>`;
+    $('sheetBody').innerHTML = html; $('sheetBody').scrollTop = 0;
+    $('sheet').hidden = false;
+    showNews(n);
+    if (location.hash !== '#' + key) history.replaceState(null, '', '#' + key);
+    if (opts && opts.zoom) {
+      const narrow = window.innerWidth <= 720;
+      map.fitBounds(L.latLng(n.lat, n.lon).toBounds(30000), { paddingTopLeft: [20, narrow ? 120 : 20], paddingBottomRight: [narrow ? 20 : 440, narrow ? window.innerHeight * 0.66 : 20], maxZoom: 9 });
+    }
+  }
+  function renderStat() {
+    if (section === 'fn') {
+      if (FN) { const ns = Object.values(FN.nations); $('stat').textContent = `${ns.length} partner First Nations · ${ns.reduce((a, n) => a + n.officials.length, 0)} chiefs and councillors · leadership as of ${fmtDate(FN.retrieved)}`; }
+    } else if (DATA) {
+      const c = DATA.meta.counts;
+      $('stat').textContent = `${c.places} areas · ${fmt(c.officials)} elected officials · ${c.profiles} researched profiles · results as of ${DATA.meta.resultsUpdated}`;
+    }
+  }
+  function applySection() {
+    const fn = section === 'fn';
+    $('cardTitle').textContent = fn ? 'FN Partners' : 'BC Local Leaders 2026';
+    $('cardEyebrow').textContent = fn ? 'Partner First Nations · chief and council' : 'BC general local elections · Oct 17, 2026';
+    $('segModes').hidden = fn;
+    $('q').placeholder = fn ? 'Find a Nation or person' : 'Find a town, area or person';
+    $('q').value = ''; $('results').hidden = true;
+    renderStat(); showPins();
+  }
+
+  // Home screen vs map: the map loads underneath the home screen, so opening it is instant.
+  let leftHome = false;
+  const sectionOf = (h) => (!h ? 'home' : h === 'fn' || /^fn\d+$/.test(h) ? 'fn' : 'leaders');
+  function setView() {
+    const sec = sectionOf(location.hash.slice(1)), was = section;
+    section = sec;
+    $('home').hidden = sec !== 'home';
+    if (sec === 'home') return;
+    if (sec !== was) {
+      if (selected && sectionOf(selected) !== sec) { $('sheet').hidden = true; selected = null; }
+      mode = sec === 'fn' ? 'fn' : 'mayors';      // each section opens on its default view
+      applySection(); restyle();
+      if (sec === 'fn') fitFN(); else if (was === 'fn' && layer) fitAll();
+    }
+    setTimeout(() => { map.invalidateSize(); placeLabels(); }, 0);
+  }
+  $('goHome').addEventListener('click', () => { if (leftHome) history.back(); else location.hash = ''; });
+  window.addEventListener('hashchange', (e) => { if (!new URL(e.oldURL).hash.slice(1)) leftHome = true; setView(); });
+  setView();
+
+  const layerByKey = {};
+  function build(geo) {
+    layer = L.geoJSON(geo, {
+      style: styleFor,
+      pointToLayer: (f, ll) => L.circleMarker(ll, { radius: 7, renderer }),
+      onEachFeature: (f, l) => {
+        const p = DATA.places[f.properties.key]; layerByKey[f.properties.key] = l;
+        const h = head(p);
+        l.bindTooltip(`${esc(p.name)}<span>${h ? esc(h.office === 'Mayor' ? 'Mayor ' : 'Director ') + esc(h.name) : ''}</span>`, { className: 'tip', sticky: true, direction: 'top', offset: [0, -8] });
+        l.on('tooltipopen', () => { if (!activeIn(p)) l.closeTooltip(); });
+        l.on('click', () => { if (activeIn(p)) openPlace(f.properties.key, { zoom: false }); });
+      }
+    }).addTo(map);
+    layer.eachLayer((l) => { if (DATA.places[l.feature.properties.key].type === 'muni' && l.bringToFront) l.bringToFront(); });
+    restyle();
+    if (section !== 'fn') fitAll();
+  }
+  function fitAll() {
+    const narrow = window.innerWidth <= 720;
+    map.fitBounds(layer.getBounds(), { paddingTopLeft: [narrow ? 10 : 370, narrow ? 130 : 20], paddingBottomRight: [10, 10] });
+  }
+
+  // Search
+  let index = [];
+  function buildIndex() {
+    Object.values(DATA.places).forEach((p) => {
+      index.push({ section: 'leaders', key: p.key, label: p.name, sub: p.type === 'muni' ? `${p.kind}${p.rd ? ' · ' + p.rd : ''}` : (p.rd || p.jurisdiction), hay: (p.name + ' ' + (p.rd || '')).toLowerCase() });
+      p.officials.forEach((o) => index.push({ section: 'leaders', key: p.key, label: o.name, sub: `${o.office}, ${p.name}`, hay: (o.name + ' ' + o.fullName).toLowerCase() }));
+    });
+  }
+  let active = -1, hits = [];
+  function search(q) {
+    const r = $('results'); q = q.trim().toLowerCase();
+    if (q.length < 2) { r.hidden = true; return; }
+    hits = index.filter((x) => x.section === section && x.hay.includes(q)).sort((a, b) => (a.hay.startsWith(q) ? 0 : 1) - (b.hay.startsWith(q) ? 0 : 1)).slice(0, 8);
+    active = -1;
+    r.innerHTML = hits.length ? hits.map((x, i) => `<button role="option" data-i="${i}">${esc(x.label)}<small>${esc(x.sub)}</small></button>`).join('') : `<div style="padding:10px;color:var(--ink-2)">No matches</div>`;
+    r.hidden = false;
+  }
+  function choose(i) { const x = hits[i]; if (!x) return; $('results').hidden = true; $('q').value = x.label; $('q').blur(); (x.section === 'fn' ? openNation : openPlace)(x.key, { zoom: true }); }
+  $('q').addEventListener('input', (e) => search(e.target.value));
+  $('q').addEventListener('keydown', (e) => {
+    const btns = [...$('results').querySelectorAll('button')];
+    if (e.key === 'ArrowDown' || e.key === 'ArrowUp') { e.preventDefault(); active = (active + (e.key === 'ArrowDown' ? 1 : -1) + btns.length) % btns.length; btns.forEach((b, i) => b.classList.toggle('active', i === active)); }
+    else if (e.key === 'Enter') { e.preventDefault(); choose(active < 0 ? 0 : active); }
+    else if (e.key === 'Escape') { $('results').hidden = true; }
+  });
+  $('results').addEventListener('click', (e) => { const b = e.target.closest('button'); if (b) choose(+b.dataset.i); });
+  document.addEventListener('click', (e) => { if (!e.target.closest('.search')) $('results').hidden = true; });
+
+  function switchMode(m) {
+    if (mode === m) return;
+    mode = m;
+    const sp = selected && DATA.places[selected];
+    if (sp && !activeIn(sp)) closeSheet(); else restyle();
+  }
+  $('modeMayors').addEventListener('click', () => switchMode('mayors'));
+  $('modeRD').addEventListener('click', () => switchMode('rd'));
+  $('close').addEventListener('click', closeSheet);
+  $('handle').addEventListener('click', () => { $('sheet').classList.toggle('tall'); });
+  document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && !$('sheet').hidden) closeSheet(); });
+  $('toggleCard').addEventListener('click', () => { const c = $('card'); const col = c.classList.toggle('collapsed'); $('toggleCard').textContent = col ? 'Legend' : 'Hide'; $('toggleCard').setAttribute('aria-expanded', !col); });
+  if (window.innerWidth <= 720) { $('card').classList.add('collapsed'); $('toggleCard').textContent = 'Legend'; $('toggleCard').setAttribute('aria-expanded', 'false'); }
+
+  // Theme changes: re-read tokens and repaint canvas
+  new MutationObserver(restyle).observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
+  if (window.matchMedia) window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', restyle);
+  window.addEventListener('hashchange', () => {
+    const k = location.hash.slice(1); if (!k || k === selected) return;
+    if (DATA && DATA.places[k]) openPlace(k, { zoom: true });
+    else if (FN && FN.nations[k]) openNation(k, { zoom: true });
+  });
+
+  const optional = (url) => fetch(url).then((r) => (r.ok ? r.json() : null)).catch(() => null);
+  Promise.all([fetch('places.json').then((r) => r.json()), fetch('places.geojson').then((r) => r.json()), optional('roads.geojson'), optional('cities.json'), optional('towns.json'), optional('rd.geojson'), optional('rd_labels.json'), optional('fn.json')]).then(([data, geo, roads, cities, towns, rd, rdNames, fnData]) => {
+    DATA = data; buildIndex(); build(geo);
+    if (roads) buildRoads(roads);
+    if (rd) buildRD(rd);
+    addLabels(cities || [], 'city'); addLabels(towns || [], 'town'); addLabels(rdNames || [], 'rd');
+    if (fnData) buildPins(fnData);
+    renderStat();
+    $('loading').remove();
+    setTimeout(checkForUpdates, 1500);
+    if (PWA) setTimeout(iosInstallHint, 2500);
+    const k = location.hash.slice(1);
+    if (k && data.places[k]) openPlace(k, { zoom: true });
+    else if (k && FN && FN.nations[k]) openNation(k, { zoom: true });
+  }).catch((err) => { $('loading').textContent = 'The map data did not load. Reload the page to try again.'; console.error(err); });
+})();
+</script>
+</body></html>

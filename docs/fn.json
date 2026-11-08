@@ -1,0 +1,436 @@
+{
+ "retrieved": "2026-11-07",
+ "nations": {
+  "fn618": {
+   "key": "fn618",
+   "type": "fn",
+   "band": 618,
+   "name": "McLeod Lake Indian Band",
+   "newsNames": [
+    "McLeod Lake Indian Band",
+    "McLeod Lake First Nation",
+    "Tse'khene"
+   ],
+   "lat": 54.98803,
+   "lon": -123.04575,
+   "community": "Mcleod Lake No. 1",
+   "officeCity": "Mcleod Lake",
+   "language": "Tse’khene",
+   "council": "Independent",
+   "website": "http://www.mlib.ca/",
+   "electionSystem": "Custom Electoral System",
+   "source": "https://fnp-ppn.aadnc-aandc.gc.ca/fnp/Main/Search/FNMain.aspx?BAND_NUMBER=618&lang=eng",
+   "officials": [
+    {
+     "role": "Chief",
+     "name": "Harley Chingee",
+     "start": "2026-06-05",
+     "end": "2029-06-05"
+    },
+    {
+     "role": "Councillor",
+     "name": "Destiny Bear",
+     "start": "2026-06-05",
+     "end": "2029-06-05"
+    },
+    {
+     "role": "Councillor",
+     "name": "Georgina Chingee",
+     "start": "2026-06-05",
+     "end": "2029-06-05"
+    },
+    {
+     "role": "Councillor",
+     "name": "Wesley Chingee",
+     "start": "2026-06-05",
+     "end": "2029-06-05"
+    },
+    {
+     "role": "Councillor",
+     "name": "Yasmin Islay Prince",
+     "start": "2026-06-05",
+     "end": "2029-06-05"
+    },
+    {
+     "role": "Councillor",
+     "name": "Sonya Solonas",
+     "start": "2026-06-05",
+     "end": "2029-06-05"
+    },
+    {
+     "role": "Councillor",
+     "name": "Desiree Steele",
+     "start": "2026-06-05",
+     "end": "2029-06-05"
+    }
+   ]
+  },
+  "fn609": {
+   "key": "fn609",
+   "type": "fn",
+   "band": 609,
+   "name": "Tsay Keh Dene Nation",
+   "newsNames": [
+    "Tsay Keh Dene"
+   ],
+   "lat": 56.89172,
+   "lon": -124.96906,
+   "community": "Finlay River",
+   "officeCity": "Prince George",
+   "language": "Tse’khene",
+   "council": "Independent",
+   "website": "http://www.tsaykeh.com/",
+   "electionSystem": "Custom Electoral System",
+   "source": "https://fnp-ppn.aadnc-aandc.gc.ca/fnp/Main/Search/FNMain.aspx?BAND_NUMBER=609&lang=eng",
+   "officials": [
+    {
+     "role": "Chief",
+     "name": "Johnny Pierre",
+     "start": "2024-06-20",
+     "end": "2028-06-20"
+    },
+    {
+     "role": "Councillor",
+     "name": "Sabrina Dulude",
+     "start": "2024-06-20",
+     "end": "2028-06-20"
+    },
+    {
+     "role": "Councillor",
+     "name": "Brigam Miller",
+     "start": "2024-06-20",
+     "end": "2028-06-20"
+    }
+   ]
+  },
+  "fn610": {
+   "key": "fn610",
+   "type": "fn",
+   "band": 610,
+   "name": "Kwadacha Nation",
+   "newsNames": [
+    "Kwadacha",
+    "Fort Ware"
+   ],
+   "lat": 57.42903,
+   "lon": -125.6406,
+   "community": "Fort Ware No. 1",
+   "officeCity": "Prince George",
+   "language": "Tse’khene",
+   "council": "Kaska Dena Council",
+   "website": "http://www.kwadacha.com",
+   "electionSystem": "Custom Electoral System",
+   "source": "https://fnp-ppn.aadnc-aandc.gc.ca/fnp/Main/Search/FNMain.aspx?BAND_NUMBER=610&lang=eng",
+   "officials": [
+    {
+     "role": "Chief",
+     "name": "Angela Hocken",
+     "start": "2026-03-11",
+     "end": "2030-03-10"
+    },
+    {
+     "role": "Deputy Chief",
+     "name": "Braedon Abou",
+     "start": "2026-03-11",
+     "end": "2030-03-10"
+    },
+    {
+     "role": "Councillor",
+     "name": "Shawna Case",
+     "start": "2026-03-11",
+     "end": "2029-03-10"
+    },
+    {
+     "role": "Councillor",
+     "name": "Diane McCook",
+     "start": "2026-03-11",
+     "end": "2029-03-10"
+    },
+    {
+     "role": "Councillor",
+     "name": "Bradley Seymour",
+     "start": "2026-03-11",
+     "end": "2029-03-10"
+    }
+   ]
+  },
+  "fn611": {
+   "key": "fn611",
+   "type": "fn",
+   "band": 611,
+   "name": "Lheidli T'enneh First Nation",
+   "newsNames": [
+    "Lheidli T'enneh",
+    "Lheidli"
+   ],
+   "lat": 54.00861,
+   "lon": -122.61404,
+   "community": "Fort George (Shelley) No. 2",
+   "officeCity": "Prince George",
+   "language": "Dakelh",
+   "council": "Independent",
+   "website": "http://www.lheidli.ca/",
+   "electionSystem": "Indian Act",
+   "source": "https://fnp-ppn.aadnc-aandc.gc.ca/fnp/Main/Search/FNMain.aspx?BAND_NUMBER=611&lang=eng",
+   "officials": [
+    {
+     "role": "Chief",
+     "name": "Dolleen Logan",
+     "start": "2025-04-12",
+     "end": "2027-04-11"
+    },
+    {
+     "role": "Councillor",
+     "name": "Jamie Bird",
+     "start": "2025-04-12",
+     "end": "2027-04-11"
+    },
+    {
+     "role": "Councillor",
+     "name": "Dominic Frederick",
+     "start": "2025-04-12",
+     "end": "2027-04-11"
+    },
+    {
+     "role": "Councillor",
+     "name": "Crystal Gibbs",
+     "start": "2025-04-12",
+     "end": "2027-04-11"
+    },
+    {
+     "role": "Councillor",
+     "name": "Kyle McIntosh",
+     "start": "2025-04-12",
+     "end": "2027-04-11"
+    },
+    {
+     "role": "Councillor",
+     "name": "Doug Olson",
+     "start": "2025-04-12",
+     "end": "2027-04-11"
+    },
+    {
+     "role": "Councillor",
+     "name": "Clayton Pountney",
+     "start": "2025-04-12",
+     "end": "2027-04-11"
+    },
+    {
+     "role": "Councillor",
+     "name": "Miranda Seymour",
+     "start": "2025-04-12",
+     "end": "2027-04-11"
+    },
+    {
+     "role": "Councillor",
+     "name": "Tasheena Seymour",
+     "start": "2025-04-12",
+     "end": "2027-04-11"
+    }
+   ]
+  },
+  "fn715": {
+   "key": "fn715",
+   "type": "fn",
+   "band": 715,
+   "name": "Lhtako Dene Nation",
+   "newsNames": [
+    "Lhtako Dene",
+    "Lhtako"
+   ],
+   "lat": 52.9484,
+   "lon": -122.47971,
+   "community": "Quesnel No. 1",
+   "officeCity": "Quesnel",
+   "language": "Dakelh",
+   "council": "Carrier Chilcotin Tribal Council",
+   "website": "https://www.facebook.com/pages/Lhtako-Dene-Nation/185530244989486",
+   "electionSystem": "Custom Electoral System",
+   "source": "https://fnp-ppn.aadnc-aandc.gc.ca/fnp/Main/Search/FNMain.aspx?BAND_NUMBER=715&lang=eng",
+   "officials": [
+    {
+     "role": "Chief",
+     "name": "Clifford Lebrun",
+     "start": "2026-04-23",
+     "end": "2030-04-22"
+    },
+    {
+     "role": "Councillor",
+     "name": "Raymond Aldred",
+     "start": "2024-04-23",
+     "end": "2028-04-22"
+    },
+    {
+     "role": "Councillor",
+     "name": "Wanda Lee Aldred",
+     "start": "2024-04-23",
+     "end": "2028-04-22"
+    },
+    {
+     "role": "Councillor",
+     "name": "Tim Michell",
+     "start": "2026-04-23",
+     "end": "2030-04-22"
+    }
+   ]
+  },
+  "fn720": {
+   "key": "fn720",
+   "type": "fn",
+   "band": 720,
+   "name": "Nazko First Nation",
+   "newsNames": [
+    "Nazko First Nation",
+    "Nazko"
+   ],
+   "lat": 52.95423,
+   "lon": -123.5836,
+   "community": "Nazco No. 20",
+   "officeCity": "Quesnel",
+   "language": "Dakelh",
+   "council": "Carrier Chilcotin Tribal Council",
+   "website": "http://nazkoband.ca/",
+   "electionSystem": "Custom Electoral System",
+   "source": "https://fnp-ppn.aadnc-aandc.gc.ca/fnp/Main/Search/FNMain.aspx?BAND_NUMBER=720&lang=eng",
+   "officials": [
+    {
+     "role": "Chief",
+     "name": "Leah Stump",
+     "start": "2024-12-16",
+     "end": "2026-12-15"
+    },
+    {
+     "role": "Councillor",
+     "name": "Delores Alec",
+     "start": "2024-12-16",
+     "end": "2026-12-15"
+    },
+    {
+     "role": "Councillor",
+     "name": "Anthony Perry",
+     "start": "2024-12-16",
+     "end": "2026-12-15"
+    }
+   ]
+  },
+  "fn614": {
+   "key": "fn614",
+   "type": "fn",
+   "band": 614,
+   "name": "Nak'azdli Whut'en",
+   "newsNames": [
+    "Nak'azdli",
+    "Nakazdli"
+   ],
+   "lat": 54.43142,
+   "lon": -124.24753,
+   "community": "Nak'azdli",
+   "officeCity": "Fort St. James",
+   "language": "Dakelh",
+   "council": "Carrier Sekani Tribal Council",
+   "website": "http://www.nakazdli.ca/",
+   "electionSystem": "Custom Electoral System",
+   "source": "https://fnp-ppn.aadnc-aandc.gc.ca/fnp/Main/Search/FNMain.aspx?BAND_NUMBER=614&lang=eng",
+   "officials": [
+    {
+     "role": "Chief",
+     "name": "Marion Colleen Erickson",
+     "start": "2024-09-01",
+     "end": "2028-08-31"
+    },
+    {
+     "role": "Councillor",
+     "name": "Paul Bird",
+     "start": "2025-06-23",
+     "end": "2028-08-31"
+    },
+    {
+     "role": "Councillor",
+     "name": "Karla Olinek",
+     "start": "2025-06-23",
+     "end": "2027-08-31"
+    },
+    {
+     "role": "Councillor",
+     "name": "Nolan Sagalon",
+     "start": "2024-09-01",
+     "end": "2028-08-31"
+    },
+    {
+     "role": "Councillor",
+     "name": "Fred Sam",
+     "start": "2024-09-01",
+     "end": "2028-08-31"
+    },
+    {
+     "role": "Councillor",
+     "name": "Maddison Sam",
+     "start": "2024-09-01",
+     "end": "2028-08-31"
+    },
+    {
+     "role": "Councillor",
+     "name": "Murial Sam",
+     "start": "2024-09-01",
+     "end": "2027-08-31"
+    },
+    {
+     "role": "Councillor",
+     "name": "Leonard Thomas",
+     "start": "2024-09-01",
+     "end": "2027-08-31"
+    },
+    {
+     "role": "Councillor",
+     "name": "David Tibbetts",
+     "start": "2024-09-01",
+     "end": "2027-08-31"
+    }
+   ]
+  },
+  "fn728": {
+   "key": "fn728",
+   "type": "fn",
+   "band": 728,
+   "name": "Yekooche First Nation",
+   "newsNames": [
+    "Yekooche"
+   ],
+   "lat": 54.60039,
+   "lon": -125.06622,
+   "community": "Ye Koo Che No. 3",
+   "officeCity": "Prince George",
+   "language": "Dakelh",
+   "council": "Independent",
+   "website": "http://www.yekooche.com/",
+   "electionSystem": "Custom Electoral System",
+   "source": "https://fnp-ppn.aadnc-aandc.gc.ca/fnp/Main/Search/FNMain.aspx?BAND_NUMBER=728&lang=eng",
+   "officials": [
+    {
+     "role": "Chief",
+     "name": "Partner Schielke",
+     "start": "2025-12-19",
+     "end": "2029-12-04"
+    },
+    {
+     "role": "Councillor",
+     "name": "Austin Joseph",
+     "start": "2023-12-19",
+     "end": "2027-12-19"
+    },
+    {
+     "role": "Councillor",
+     "name": "Mathew E. Joseph",
+     "start": "2023-12-19",
+     "end": "2027-12-19"
+    },
+    {
+     "role": "Councillor",
+     "name": "Miranda Joseph",
+     "start": "2025-12-19",
+     "end": "2029-12-04"
+    }
+   ]
+  }
+ }
+}

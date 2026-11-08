@@ -1,0 +1,49 @@
+# Keeps the iPhone (web) version current.
+# - Every morning: gathers forestry headlines for each area into docs/news.json
+#   (Safari cannot read Google News directly), then republishes the site.
+# - Whenever docs/ changes on main: republishes the site.
+# The site is served by GitHub Pages from the gh-pages branch, a copy of docs/.
+name: Daily forestry news
+
+on:
+  schedule:
+    - cron: "23 11 * * *"   # every day at 11:23 UTC (3:23 or 4:23 am in BC)
+  workflow_dispatch:         # "Run workflow" button on the Actions tab
+  push:
+    branches: [main]
+    paths: ["docs/**", "tools/fetch_news.py"]
+
+permissions:
+  contents: write
+
+concurrency:
+  group: site
+  cancel-in-progress: false
+
+jobs:
+  news-and-publish:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+      - name: Fetch headlines
+        if: github.event_name != 'push'
+        run: python3 tools/fetch_news.py docs/places.json docs/news.json
+      - name: Save headlines to main
+        if: github.event_name != 'push'
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add docs/news.json
+          if git diff --cached --quiet; then echo "No new headlines"; exit 0; fi
+          git commit -m "Daily forestry news $(date -u +%Y-%m-%d)"
+          git pull --rebase origin main
+          git push origin HEAD:main
+      - name: Publish site (gh-pages branch)
+        run: |
+          rm -rf "$RUNNER_TEMP/site" && cp -r docs "$RUNNER_TEMP/site" && cd "$RUNNER_TEMP/site"
+          git init -q -b gh-pages
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A && git commit -q -m "Publish site $(date -u +%Y-%m-%dT%H:%MZ)"
+          git push -q -f "https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git" gh-pages
