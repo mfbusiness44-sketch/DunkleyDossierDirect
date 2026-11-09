@@ -1,5 +1,5 @@
 {
- "build": 202611092110,
+ "build": 202611092125,
  "files": [
   "app.html",
   "places.json",
@@ -12,10 +12,10 @@
   "fn.json",
   "forest.geojson"
  ],
- "note": "Version 1.5: TSA and TFL allowable annual cut, stronger TSA shading",
+ "note": "Version 1.6: updates apply automatically; one-tap app updates",
  "apk": {
-  "versionCode": 6,
-  "versionName": "1.5",
-  "url": "https://github.com/mfbusiness44-sketch/DunkleyDossierDirect/raw/main/apk/Dunkley-Dossier-Direct-1.5.apk"
+  "versionCode": 7,
+  "versionName": "1.6",
+  "url": "https://github.com/mfbusiness44-sketch/DunkleyDossierDirect/raw/main/apk/Dunkley-Dossier-Direct-1.6.apk"
  }
 }

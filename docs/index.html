@@ -9,7 +9,7 @@
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
 <link rel="icon" type="image/png" href="favicon-64.png">
 <style>:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0}img{max-width:100%}[hidden]{display:none!important}</style>
-<script>window.BCLL_PWA={build:202611092111};
+<script>window.BCLL_PWA={build:202611092125};
 if ('serviceWorker' in navigator) window.addEventListener('load', function () { navigator.serviceWorker.register('sw.js').catch(function () {}); });</script>
 </head><body><title>Dunkley Dossier Direct</title>
 <meta name="claude:viewport-fit-sides" content="cover">
@@ -872,6 +872,8 @@ h1 { margin: 0; font: 700 22px/1.1 var(--f-display); letter-spacing: -.01em; tex
 .update-bar { box-sizing: border-box; background: var(--paper); color: var(--ink); border: 1px solid var(--line); border-radius: 10px; box-shadow: var(--shadow); padding: 10px 12px; display: flex; align-items: center; gap: 12px; font-size: 13.5px; }
 .update-bar span { flex: 1; min-width: 0; }
 .update-bar a, .update-bar button.go { background: var(--accent); color: var(--paper); border: 0; border-radius: 7px; padding: 7px 12px; font: 600 13px var(--f-body); text-decoration: none; white-space: nowrap; cursor: pointer; }
+.update-bar button.go:disabled { opacity: .75; cursor: default; }
+.update-bar span a { color: var(--accent); }
 .update-bar button.x { background: transparent; border: 0; color: var(--ink-2); font-size: 18px; cursor: pointer; padding: 0 4px; }
 /* Home screen: Dunkley green on white, one row of app icons, a tree line along the bottom */
 .home { position: fixed; inset: 0; z-index: 2000; background: var(--home-bg); color: var(--home-ink); display: flex; flex-direction: column; overflow: hidden; }
@@ -1349,7 +1351,7 @@ h1 { margin: 0; font: 700 22px/1.1 var(--f-display); letter-spacing: -.01em; tex
           files[name] = text;
         }
         await idbPut('bundle', { build: man.build, files });
-        updateBar('updData', `<span>The map has been updated${man.note ? ': ' + esc(man.note) : ''}.</span><button class="go">Reload</button>`, () => location.replace('index.html'));
+        applyContentUpdate(man);
       } catch (e) { /* keep running the current copy; try again next launch */ }
     }
     const App = window.Capacitor && window.Capacitor.Plugins && window.Capacitor.Plugins.App;
@@ -1357,9 +1359,59 @@ h1 { margin: 0; font: 700 22px/1.1 var(--f-display); letter-spacing: -.01em; tex
       try {
         const info = await App.getInfo();
         if (Number(man.apk.versionCode) > Number(info.build)) {
-          updateBar('updApp', `<span>App version ${esc(man.apk.versionName)} is available.</span><a class="go" href="${esc(man.apk.url)}" target="_blank" rel="noopener">Install update</a>`);
+          if (apkInstaller()) {
+            updateBar('updApp', `<span>App version ${esc(man.apk.versionName)} is available.</span><button class="go">Install update</button>`, () => installApk(man.apk));
+          } else {   // app versions before 1.6 have no built-in installer: download through the browser
+            updateBar('updApp', `<span>App version ${esc(man.apk.versionName)} is available.</span><a class="go" href="${esc(man.apk.url)}" target="_blank" rel="noopener">Install update</a>`);
+          }
         }
       } catch (e) {}
+    }
+  }
+
+  // Content updates apply by themselves. Right away if the person is still on the home screen with nothing
+  // open; otherwise the next time the app goes to the background, so nothing changes under their finger.
+  // Either way the app reopens where they were, and a short note confirms the update.
+  const startedAt = Date.now();
+  function applyContentUpdate(man) {
+    const apply = () => {
+      try { sessionStorage.setItem('bcll-updated', man.note || 'latest changes'); } catch (e) {}
+      location.replace('index.html' + location.hash);
+    };
+    const idle = !$('home').hidden && $('sheet').hidden && Date.now() - startedAt < 20000;
+    if (document.visibilityState === 'hidden' || idle) return apply();
+    document.addEventListener('visibilitychange', () => { if (document.visibilityState === 'hidden') apply(); }, { once: true });
+  }
+  function showUpdatedNote() {
+    let note = null; try { note = sessionStorage.getItem('bcll-updated'); sessionStorage.removeItem('bcll-updated'); } catch (e) {}
+    if (!note) return;
+    updateBar('updDone', `<span>Updated: ${esc(note)}.</span>`);
+    setTimeout(() => { const b = $('updDone'); if (b) b.remove(); }, 6000);
+  }
+
+  // One-tap app updates (app version 1.6 and later): download inside the app, then Android's install prompt.
+  function apkInstaller() {
+    const C = window.Capacitor;
+    return C && typeof C.isPluginAvailable === 'function' && C.isPluginAvailable('ApkInstaller') && C.Plugins && C.Plugins.ApkInstaller ? C.Plugins.ApkInstaller : null;
+  }
+  async function installApk(apk) {
+    const I = apkInstaller(), bar = $('updApp'); if (!I || !bar) return;
+    const span = bar.querySelector('span'), btn = bar.querySelector('.go');
+    try {
+      const { allowed } = await I.canInstall();
+      if (!allowed) {
+        span.textContent = 'First, allow Dunkley Dossier Direct to install updates in the screen that opens, then come back and tap Install update.';
+        await I.openInstallSettings();
+        return;
+      }
+      btn.disabled = true; btn.textContent = 'Downloading…';
+      const sub = await I.addListener('progress', (e) => { btn.textContent = `Downloading ${e.percent}%`; });
+      try { await I.install({ url: apk.url }); } finally { if (sub && sub.remove) sub.remove(); }
+      btn.disabled = false; btn.textContent = 'Install update';
+      span.textContent = `Confirm the install to finish updating to version ${apk.versionName}.`;
+    } catch (e) {
+      btn.disabled = false; btn.textContent = 'Try again';
+      span.innerHTML = `The download did not finish. Try again, or <a href="${esc(apk.url)}" target="_blank" rel="noopener">download it in your browser</a>.`;
     }
   }
 
@@ -1711,6 +1763,7 @@ h1 { margin: 0; font: 700 22px/1.1 var(--f-display); letter-spacing: -.01em; tex
     renderStat();
     $('loading').remove();
     setTimeout(checkForUpdates, 1500);
+    showUpdatedNote();
     if (PWA) setTimeout(iosInstallHint, 2500);
     const k = location.hash.slice(1);
     if (k && data.places[k]) openPlace(k, { zoom: true });
