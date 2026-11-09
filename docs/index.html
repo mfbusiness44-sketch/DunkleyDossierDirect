@@ -9,7 +9,7 @@
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
 <link rel="icon" type="image/png" href="favicon-64.png">
 <style>:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0}img{max-width:100%}[hidden]{display:none!important}</style>
-<script>window.BCLL_PWA={build:202611080135};
+<script>window.BCLL_PWA={build:202611092104};
 if ('serviceWorker' in navigator) window.addEventListener('load', function () { navigator.serviceWorker.register('sw.js').catch(function () {}); });</script>
 </head><body><title>Dunkley Dossier Direct</title>
 <meta name="claude:viewport-fit-sides" content="cover">
@@ -744,6 +744,23 @@ body { background: var(--sea); color: var(--ink); font: 14px/1.5 var(--f-body); 
 .offices { display: grid; gap: 10px; border: 1px solid var(--line); border-radius: 9px; padding: 10px 12px; }
 .office b { display: block; font-size: 13px; margin-bottom: 4px; }
 .office + .office { border-top: 1px solid var(--line); padding-top: 10px; }
+.tfllabel { position: absolute; white-space: nowrap; color: #ffd9b0; font: 700 1em/1.15 var(--f-body); letter-spacing: .04em; text-shadow: 0 0 2px var(--label-halo), 0 0 5px var(--label-halo), 0 1px 3px var(--label-halo); pointer-events: none; }
+.tfllabel span { display: block; transform: translate(-50%, -50%); }
+.tfllabel.dk { color: #b9f2d4; }
+.layer-toggles { display: grid; gap: 4px; font-size: 12.5px; }
+.layer-toggles label { display: flex; align-items: center; gap: 8px; cursor: pointer; }
+.layer-toggles input { accent-color: var(--accent); margin: 0; }
+.aac-figure { font: 700 26px/1.1 var(--f-display); color: var(--ink); font-variant-numeric: tabular-nums; }
+.aac-figure small { font: 500 13px var(--f-body); color: var(--ink-2); }
+.badge { display: inline-block; font: 600 11.5px var(--f-body); color: #fff; background: var(--dk-green); border-radius: 999px; padding: 2px 9px; width: fit-content; }
+.parts { display: grid; gap: 4px; font-size: 13px; }
+.parts div { display: flex; justify-content: space-between; gap: 10px; border-top: 1px solid var(--line); padding-top: 4px; }
+.parts span:last-child { font-family: var(--f-mono); font-size: 12px; color: var(--ink-2); white-space: nowrap; }
+.chips { display: flex; flex-wrap: wrap; gap: 6px; }
+.chips button { border: 1px solid var(--line); background: var(--paper); color: var(--ink); border-radius: 999px; padding: 4px 10px; font: 600 12.5px var(--f-body); cursor: pointer; }
+.chips button:hover { background: var(--water); }
+.docs { display: grid; gap: 4px; font-size: 13px; }
+.docs a { color: var(--accent); }
 .term-note { font-size: 12.5px; background: color-mix(in srgb, var(--st-transition) 14%, var(--paper)); border-radius: 6px; padding: 6px 9px; }
 .city.t5, .city.t6 { font-weight: 500; gap: 4px; }
 .city.t5 i, .city.t6 i { width: 4px; height: 4px; box-shadow: 0 0 0 1px var(--label-halo); }
@@ -1022,22 +1039,24 @@ h1 { margin: 0; font: 700 22px/1.1 var(--f-display); letter-spacing: -.01em; tex
     labels.sort((a, b) => rank(a) - rank(b));
     placeLabels();
   }
-  const rank = (l) => (l.kind === 'city' ? l.c.t : l.kind === 'rd' ? 4.5 : 10 + l.c.t);   // cities keep priority
+  const rank = (l) => (l.kind === 'city' ? l.c.t : l.kind === 'rd' ? 4.5 : l.kind === 'forest' ? (l.c.t === 'tsa' ? 4.6 : 4.7) : 10 + l.c.t);   // cities keep priority
   function fontFor(l, z) {
     if (l.kind === 'rd') return Math.round(Math.min(11 + Math.max(0, z - 5) * 1.2, 15));
+    if (l.kind === 'forest') return l.c.t === 'tsa' ? Math.round(Math.min(10.5 + Math.max(0, z - 5) * 1.1, 14)) : Math.round(Math.min(10.5 + Math.max(0, z - 6.5) * 0.9, 13));
     const b = CITY_BASE[l.c.t];
     if (l.kind === 'town') return Math.round(Math.min(b + Math.max(0, z - 8.5) * 0.8, b + 3));
     return Math.round(Math.min(b + Math.max(0, z - 6) * 1.1, b + 6));
   }
   function visibleAt(l, z) {
     if (l.kind === 'rd') return mode === 'rd' && z < 9;
+    if (l.kind === 'forest') return section === 'fn' && forestOn[l.c.t] && (l.c.t === 'tsa' ? z < 8.5 : z >= 6.5);
     return z >= CITY_MIN_ZOOM[l.c.t];
   }
   function markerFor(l) {
     if (!l.m) {
-      const html = l.kind === 'rd' ? `<span>${esc(l.c.n)}</span>` : `<i></i><span>${esc(l.c.n)}</span>`;
+      const html = l.kind === 'rd' || l.kind === 'forest' ? `<span>${esc(l.c.n)}</span>` : `<i></i><span>${esc(l.c.n)}</span>`;
       l.m = L.marker([l.c.lat, l.c.lon], { pane: 'labels', interactive: false, keyboard: false,
-        icon: L.divIcon({ className: l.kind === 'rd' ? 'rdlabel' : 'city t' + l.c.t, html, iconSize: null }) });
+        icon: L.divIcon({ className: l.kind === 'rd' ? 'rdlabel' : l.kind === 'forest' ? (l.c.t === 'tsa' ? 'rdlabel' : 'tfllabel' + (l.c.dk ? ' dk' : '')) : 'city t' + l.c.t, html, iconSize: null }) });
     }
     return l.m;
   }
@@ -1052,11 +1071,11 @@ h1 { margin: 0; font: 700 22px/1.1 var(--f-display); letter-spacing: -.01em; tex
       if (show) {
         fs = fontFor(l, z);
         const pt = map.latLngToContainerPoint([l.c.lat, l.c.lon]);
-        const w = l.c.n.length * fs * (l.kind === 'rd' ? 0.95 : 0.58);   // spaced capitals are wider
-        const box = l.kind === 'rd' ? [pt.x - w / 2, pt.y - fs * 0.8, pt.x + w / 2, pt.y + fs * 0.8]
+        const w = l.c.n.length * fs * (l.kind === 'rd' || (l.kind === 'forest' && l.c.t === 'tsa') ? 0.95 : 0.62);   // spaced capitals are wider
+        const box = l.kind === 'rd' || l.kind === 'forest' ? [pt.x - w / 2, pt.y - fs * 0.8, pt.x + w / 2, pt.y + fs * 0.8]
                                     : [pt.x - 6, pt.y - fs * 0.75, pt.x + 14 + w, pt.y + fs * 0.75];
         if (box[2] < 0 || box[0] > size.x || box[3] < 0 || box[1] > size.y) show = false;
-        else if (l.kind === 'rd' && (box[0] < 4 || box[2] > size.x - 4)) show = false;   // never cut a district name off
+        else if ((l.kind === 'rd' || l.kind === 'forest') && (box[0] < 4 || box[2] > size.x - 4)) show = false;   // never cut an area name off
         else if (boxes.some((b) => box[0] < b[2] && box[2] > b[0] && box[1] < b[3] && box[3] > b[1])) show = false;
         else boxes.push(box);
       }
@@ -1135,8 +1154,13 @@ h1 { margin: 0; font: 700 22px/1.1 var(--f-display); letter-spacing: -.01em; tex
         <div class="ticks"><span>&lt;35%</span><span>35–50</span><span>50–65</span><span>65–80</span><span>80%+</span></div>
         <div class="row"><span class="sw outline"></span>Acclaimed (no contest), outlined only</div>`;
     if (mode === 'fn') {
-      lg.innerHTML = `<div style="font-size:12px;color:var(--ink-2)">Tap a pin for the Nation's chief, council and forestry and natural resource news.</div>
-        <div class="row"><span class="ln dot" style="background:var(--dk-green);box-shadow:0 0 0 2px #fff,0 0 0 3px rgba(0,40,20,.5)"></span>Partner First Nation (pinned at its main community)</div>`;
+      lg.innerHTML = `<div style="font-size:12px;color:var(--ink-2)">Tap a pin for the Nation's chief, council and news, or a TSA or TFL for its allowable annual cut.</div>
+        <div class="row"><span class="ln dot" style="background:var(--dk-green);box-shadow:0 0 0 2px #fff,0 0 0 3px rgba(0,40,20,.5)"></span>Partner First Nation (pinned at its main community)</div>
+        <div class="layer-toggles">
+          <label><input type="checkbox" data-layer="tsa" ${forestOn.tsa ? 'checked' : ''}><span class="sw" style="background:rgba(255,231,176,.25);border:1.5px solid #e9d9b8"></span>Timber Supply Areas (TSA)</label>
+          <label><input type="checkbox" data-layer="tfl" ${forestOn.tfl ? 'checked' : ''}><span class="sw" style="background:rgba(255,138,31,.45);border:1.5px solid #ff9a3c"></span>Tree Farm Licences (TFL)</label>
+          <div class="row" style="padding-left:21px"><span class="sw" style="background:rgba(0,134,81,.55);border:1.5px solid #00a866"></span>Dunkley Lumber TFL</div>
+        </div>`;
     } else if (mode === 'mayors') {
       lg.innerHTML = `<div style="font-size:12px;color:var(--ink-2)">161 municipalities · share of the vote won by each mayor</div>${ramp}`;
     } else {
@@ -1383,7 +1407,87 @@ h1 { margin: 0; font: 700 22px/1.1 var(--f-display); letter-spacing: -.01em; tex
       }
     }
   }
-  function closeSheet() { $('sheet').hidden = true; $('sheet').classList.remove('tall'); selected = null; restyle(); markPins(); history.replaceState(null, '', section === 'fn' ? '#fn' : '#map'); }
+  // ---- Timber Supply Areas (TSA) and Tree Farm Licences (TFL) with allowable annual cut, in FN Partners ----
+  let FOREST = null, forestLayer = null;
+  const forestByKey = {}, forestLayers = {};
+  const forestOn = { tsa: true, tfl: true };
+  const forestRenderer = L.canvas({ pane: 'forest', padding: 0.3, tolerance: 3 });
+  const isDunkley = (p) => /dunkley/i.test(p.holder || '');
+  function forestStyle(f) {
+    const p = f.properties, sel = selected === p.key;
+    if (!forestOn[p.kind]) return { opacity: 0, fillOpacity: 0, weight: 0 };
+    if (p.kind === 'tsa') return { renderer: forestRenderer, color: sel ? css('--accent') : '#fff4dc', weight: sel ? 3 : 1.3, opacity: sel ? 1 : 0.75, fillColor: '#ffe7b0', fillOpacity: sel ? 0.16 : 0.05 };
+    const dk = isDunkley(p);
+    return { renderer: forestRenderer, color: sel ? css('--accent') : dk ? '#00a866' : '#ff9a3c', weight: sel ? 3 : dk ? 2.4 : 1.6, opacity: 1,
+             fillColor: dk ? '#008651' : '#ff8a1f', fillOpacity: sel ? 0.4 : dk ? 0.38 : 0.22 };
+  }
+  function restyleForest() { if (forestLayer) forestLayer.eachLayer((l) => l.setStyle(forestStyle(l.feature))); }
+  function buildForest(geo) {
+    FOREST = geo;
+    map.createPane('forest'); map.getPane('forest').style.zIndex = 420;
+    const ordered = geo.features.slice().sort((a, b) => (a.properties.kind === b.properties.kind ? 0 : a.properties.kind === 'tsa' ? -1 : 1));
+    forestLayer = L.geoJSON({ type: 'FeatureCollection', features: ordered }, {
+      pane: 'forest', style: forestStyle,
+      onEachFeature: (f, l) => {
+        const p = f.properties; forestByKey[p.key] = f; forestLayers[p.key] = l;
+        l.bindTooltip(`${esc(p.name)}<span>${p.aac ? 'AAC ' + fmt(p.aac) + ' m³/yr' : ''}${p.holder ? ' · ' + esc(p.holder) : ''}</span>`, { className: 'tip', sticky: true, direction: 'top', offset: [0, -8] });
+        l.on('tooltipopen', () => { if (!forestOn[p.kind]) l.closeTooltip(); });
+        l.on('click', () => { if (forestOn[p.kind]) openForest(p.key, { zoom: false }); });
+        index.push({ section: 'fn', key: p.key, label: p.name + (p.kind === 'tfl' && p.holder ? ' (' + p.holder + ')' : ''),
+                     sub: `${p.kind === 'tsa' ? 'Timber Supply Area' : 'Tree Farm Licence'}${p.aac ? ' · AAC ' + fmt(p.aac) + ' m³/yr' : ''}`,
+                     hay: (p.name + ' ' + (p.holder || '') + ' ' + (p.parts || []).map((x) => x.name).join(' ')).toLowerCase() });
+      }
+    });
+    addLabels(geo.features.map((f) => ({ n: f.properties.kind === 'tsa' ? f.properties.name.replace(/ TSA$/, '') : f.properties.name,
+      lat: f.properties.labelLat, lon: f.properties.labelLon, t: f.properties.kind, dk: isDunkley(f.properties) })), 'forest');
+    showForest();
+  }
+  function showForest() {
+    if (!forestLayer) return;
+    // the layer's drawing surface must not sit over the election map and swallow taps there
+    map.getPane('forest').style.display = section === 'fn' ? '' : 'none';
+    if (section === 'fn' && !map.hasLayer(forestLayer)) forestLayer.addTo(map);
+    if (section !== 'fn' && map.hasLayer(forestLayer)) forestLayer.remove();
+    restyleForest();
+  }
+  // Partner Nations whose pinned community sits inside an area (ray casting on the simplified boundary)
+  function inRing(x, y, ring) { let c = false; for (let i = 0, j = ring.length - 1; i < ring.length; j = i++) { const [xi, yi] = ring[i], [xj, yj] = ring[j]; if ((yi > y) !== (yj > y) && x < ((xj - xi) * (y - yi)) / (yj - yi) + xi) c = !c; } return c; }
+  function inGeom(x, y, g) { const polys = g.type === 'Polygon' ? [g.coordinates] : g.coordinates; return polys.some((p) => inRing(x, y, p[0]) && !p.slice(1).some((h) => inRing(x, y, h))); }
+  function openForest(key, opts) {
+    const f = forestByKey[key]; if (!f) return;
+    const p = f.properties;
+    selected = key; restyle(); markPins(); restyleForest();
+    const isTsa = p.kind === 'tsa';
+    $('placeKind').textContent = isTsa ? 'Timber Supply Area' : 'Tree Farm Licence';
+    $('placeName').textContent = p.name;
+    $('placeSub').textContent = isTsa ? `TSA ${p.num} · ${p.region} region` : [p.holder, p.region && p.region + ' region'].filter(Boolean).join(' · ');
+    const updated = isTsa ? FOREST.meta.tsaUpdated : FOREST.meta.tflUpdated;
+    const page = p.page || (isTsa ? FOREST.meta.tsaSource : FOREST.meta.tflSource);
+    let html = `<div class="meta">${updated ? `<span>Province's AAC table updated ${esc(fmtDate(updated))}</span>` : ''}<a href="${esc(page)}" target="_blank" rel="noopener">${isTsa ? 'TSA page on gov.bc.ca' : 'AAC table on gov.bc.ca'}</a></div>`;
+    const eff = p.effective ? `Effective ${esc(fmtDate(p.effective))}` : (p.effectiveText ? `Effective ${esc(p.effectiveText)}` : '');
+    html += `<div><div class="section-label">Allowable annual cut</div><article class="person lead">
+      ${isDunkley(p) ? '<span class="badge">Dunkley Lumber licence</span>' : ''}
+      <div class="aac-figure">${p.aac ? fmt(p.aac) : 'Not listed'} <small>${p.aac ? 'm³ per year' : ''}</small></div>
+      <div class="votes" style="text-align:left">${[eff, p.basis].filter(Boolean).join(' · ')}</div>
+      ${p.parts && p.parts.length > 1 ? `<div class="parts">${p.parts.map((x) => `<div><span>${esc(x.name)}</span><span>${fmt(x.aac)} m³/yr · ${esc(x.effectiveText || '')}</span></div>`).join('')}</div>` : ''}
+      ${p.footnote ? `<div class="c-note">The province's table marks this ${isTsa ? 'TSA' : 'TFL'} with a note; see the page linked above.</div>` : ''}
+      </article></div>`;
+    if (p.notes) html += `<div><div class="section-label">Notes</div><p style="margin:0;font-size:13.5px">${esc(p.notes)}</p></div>`;
+    if (p.docs && p.docs.length) html += `<div><div class="section-label">Documents</div><div class="docs">${p.docs.map((d) => `<a href="${esc(d.url)}" target="_blank" rel="noopener">${esc(d.title)}</a>`).join('')}</div></div>`;
+    const inside = FN ? Object.values(FN.nations).filter((n) => inGeom(n.lon, n.lat, f.geometry)) : [];
+    if (inside.length) html += `<div><div class="section-label">Partner Nations in this ${isTsa ? 'TSA' : 'TFL'}</div><div class="chips">${inside.map((n) => `<button data-nation="${esc(n.key)}">${esc(shortName(n))}</button>`).join('')}</div></div>`;
+    html += `<div class="note">The allowable annual cut is the maximum volume of timber that may be harvested each year in this area, set by B.C.'s Chief Forester. Figures and boundaries are from the B.C. Ministry of Forests. Partner Nations are listed by the location of their main community, not their territory.</div>`;
+    $('sheetBody').innerHTML = html; $('sheetBody').scrollTop = 0;
+    $('sheet').hidden = false;
+    $('sheetBody').querySelectorAll('[data-nation]').forEach((b) => b.addEventListener('click', () => openNation(b.dataset.nation, { zoom: true })));
+    if (location.hash !== '#' + key) history.replaceState(null, '', '#' + key);
+    if (opts && opts.zoom) {
+      const narrow = window.innerWidth <= 720;
+      map.fitBounds(forestLayers[key].getBounds(), { paddingTopLeft: [20, narrow ? 120 : 20], paddingBottomRight: [narrow ? 20 : 440, narrow ? window.innerHeight * 0.66 : 20], maxZoom: 10 });
+    }
+  }
+
+  function closeSheet() { $('sheet').hidden = true; $('sheet').classList.remove('tall'); selected = null; restyle(); markPins(); restyleForest(); history.replaceState(null, '', section === 'fn' ? '#fn' : '#map'); }
 
   // ---- FN Partners: pins for partner First Nations, with chief, council and resource news ----
   let FN = null, pinLayer = null;
@@ -1449,7 +1553,7 @@ h1 { margin: 0; font: 700 22px/1.1 var(--f-display); letter-spacing: -.01em; tex
   });
   function openNation(key, opts) {
     const n = FN && FN.nations[key]; if (!n) return;
-    selected = key; restyle(); markPins();
+    selected = key; restyle(); markPins(); restyleForest();
     $('placeKind').textContent = 'First Nation';
     $('placeName').textContent = n.name;
     $('placeSub').textContent = [n.language && `${n.language} language group`, n.council].filter(Boolean).join(' · ');
@@ -1493,12 +1597,12 @@ h1 { margin: 0; font: 700 22px/1.1 var(--f-display); letter-spacing: -.01em; tex
     $('segModes').hidden = fn;
     $('q').placeholder = fn ? 'Find a Nation or person' : 'Find a town, area or person';
     $('q').value = ''; $('results').hidden = true;
-    renderStat(); showPins();
+    renderStat(); showPins(); showForest();
   }
 
   // Home screen vs map: the map loads underneath the home screen, so opening it is instant.
   let leftHome = false;
-  const sectionOf = (h) => (!h ? 'home' : h === 'fn' || /^fn\d+$/.test(h) ? 'fn' : 'leaders');
+  const sectionOf = (h) => (!h ? 'home' : h === 'fn' || /^(fn|tsa|tfl)\d+$/.test(h) ? 'fn' : 'leaders');
   function setView() {
     const sec = sectionOf(location.hash.slice(1)), was = section;
     section = sec;
@@ -1555,7 +1659,7 @@ h1 { margin: 0; font: 700 22px/1.1 var(--f-display); letter-spacing: -.01em; tex
     r.innerHTML = hits.length ? hits.map((x, i) => `<button role="option" data-i="${i}">${esc(x.label)}<small>${esc(x.sub)}</small></button>`).join('') : `<div style="padding:10px;color:var(--ink-2)">No matches</div>`;
     r.hidden = false;
   }
-  function choose(i) { const x = hits[i]; if (!x) return; $('results').hidden = true; $('q').value = x.label; $('q').blur(); (x.section === 'fn' ? openNation : openPlace)(x.key, { zoom: true }); }
+  function choose(i) { const x = hits[i]; if (!x) return; $('results').hidden = true; $('q').value = x.label; $('q').blur(); (/^(tsa|tfl)\d+$/.test(x.key) ? openForest : x.section === 'fn' ? openNation : openPlace)(x.key, { zoom: true }); }
   $('q').addEventListener('input', (e) => search(e.target.value));
   $('q').addEventListener('keydown', (e) => {
     const btns = [...$('results').querySelectorAll('button')];
@@ -1572,6 +1676,12 @@ h1 { margin: 0; font: 700 22px/1.1 var(--f-display); letter-spacing: -.01em; tex
     const sp = selected && DATA.places[selected];
     if (sp && !activeIn(sp)) closeSheet(); else restyle();
   }
+  $('legend').addEventListener('change', (e) => {
+    const k = e.target.dataset && e.target.dataset.layer; if (!k) return;
+    forestOn[k] = e.target.checked;
+    if (!forestOn[k] && selected && selected.startsWith(k)) closeSheet();
+    restyleForest(); placeLabels();
+  });
   $('modeMayors').addEventListener('click', () => switchMode('mayors'));
   $('modeRD').addEventListener('click', () => switchMode('rd'));
   $('close').addEventListener('click', closeSheet);
@@ -1587,15 +1697,17 @@ h1 { margin: 0; font: 700 22px/1.1 var(--f-display); letter-spacing: -.01em; tex
     const k = location.hash.slice(1); if (!k || k === selected) return;
     if (DATA && DATA.places[k]) openPlace(k, { zoom: true });
     else if (FN && FN.nations[k]) openNation(k, { zoom: true });
+    else if (forestByKey[k]) openForest(k, { zoom: true });
   });
 
   const optional = (url) => fetch(url).then((r) => (r.ok ? r.json() : null)).catch(() => null);
-  Promise.all([fetch('places.json').then((r) => r.json()), fetch('places.geojson').then((r) => r.json()), optional('roads.geojson'), optional('cities.json'), optional('towns.json'), optional('rd.geojson'), optional('rd_labels.json'), optional('fn.json')]).then(([data, geo, roads, cities, towns, rd, rdNames, fnData]) => {
+  Promise.all([fetch('places.json').then((r) => r.json()), fetch('places.geojson').then((r) => r.json()), optional('roads.geojson'), optional('cities.json'), optional('towns.json'), optional('rd.geojson'), optional('rd_labels.json'), optional('fn.json'), optional('forest.geojson')]).then(([data, geo, roads, cities, towns, rd, rdNames, fnData, forest]) => {
     DATA = data; buildIndex(); build(geo);
     if (roads) buildRoads(roads);
     if (rd) buildRD(rd);
     addLabels(cities || [], 'city'); addLabels(towns || [], 'town'); addLabels(rdNames || [], 'rd');
     if (fnData) buildPins(fnData);
+    if (forest) buildForest(forest);
     renderStat();
     $('loading').remove();
     setTimeout(checkForUpdates, 1500);
@@ -1603,6 +1715,7 @@ h1 { margin: 0; font: 700 22px/1.1 var(--f-display); letter-spacing: -.01em; tex
     const k = location.hash.slice(1);
     if (k && data.places[k]) openPlace(k, { zoom: true });
     else if (k && FN && FN.nations[k]) openNation(k, { zoom: true });
+    else if (k && forestByKey[k]) openForest(k, { zoom: true });
   }).catch((err) => { $('loading').textContent = 'The map data did not load. Reload the page to try again.'; console.error(err); });
 })();
 </script>
