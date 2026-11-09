@@ -9,7 +9,7 @@
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
 <link rel="icon" type="image/png" href="favicon-64.png">
 <style>:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0}img{max-width:100%}[hidden]{display:none!important}</style>
-<script>window.BCLL_PWA={build:202611092104};
+<script>window.BCLL_PWA={build:202611092111};
 if ('serviceWorker' in navigator) window.addEventListener('load', function () { navigator.serviceWorker.register('sw.js').catch(function () {}); });</script>
 </head><body><title>Dunkley Dossier Direct</title>
 <meta name="claude:viewport-fit-sides" content="cover">
@@ -1157,7 +1157,7 @@ h1 { margin: 0; font: 700 22px/1.1 var(--f-display); letter-spacing: -.01em; tex
       lg.innerHTML = `<div style="font-size:12px;color:var(--ink-2)">Tap a pin for the Nation's chief, council and news, or a TSA or TFL for its allowable annual cut.</div>
         <div class="row"><span class="ln dot" style="background:var(--dk-green);box-shadow:0 0 0 2px #fff,0 0 0 3px rgba(0,40,20,.5)"></span>Partner First Nation (pinned at its main community)</div>
         <div class="layer-toggles">
-          <label><input type="checkbox" data-layer="tsa" ${forestOn.tsa ? 'checked' : ''}><span class="sw" style="background:rgba(255,231,176,.25);border:1.5px solid #e9d9b8"></span>Timber Supply Areas (TSA)</label>
+          <label><input type="checkbox" data-layer="tsa" ${forestOn.tsa ? 'checked' : ''}><span class="sw" style="background:rgba(255,226,163,.55);border:1.5px solid #e9d9b8"></span>Timber Supply Areas (TSA)</label>
           <label><input type="checkbox" data-layer="tfl" ${forestOn.tfl ? 'checked' : ''}><span class="sw" style="background:rgba(255,138,31,.45);border:1.5px solid #ff9a3c"></span>Tree Farm Licences (TFL)</label>
           <div class="row" style="padding-left:21px"><span class="sw" style="background:rgba(0,134,81,.55);border:1.5px solid #00a866"></span>Dunkley Lumber TFL</div>
         </div>`;
@@ -1416,7 +1416,7 @@ h1 { margin: 0; font: 700 22px/1.1 var(--f-display); letter-spacing: -.01em; tex
   function forestStyle(f) {
     const p = f.properties, sel = selected === p.key;
     if (!forestOn[p.kind]) return { opacity: 0, fillOpacity: 0, weight: 0 };
-    if (p.kind === 'tsa') return { renderer: forestRenderer, color: sel ? css('--accent') : '#fff4dc', weight: sel ? 3 : 1.3, opacity: sel ? 1 : 0.75, fillColor: '#ffe7b0', fillOpacity: sel ? 0.16 : 0.05 };
+    if (p.kind === 'tsa') return { renderer: forestRenderer, color: sel ? css('--accent') : '#fff4dc', weight: sel ? 3 : 1.7, opacity: sel ? 1 : 0.95, fillColor: '#ffe2a3', fillOpacity: sel ? 0.36 : 0.22 };
     const dk = isDunkley(p);
     return { renderer: forestRenderer, color: sel ? css('--accent') : dk ? '#00a866' : '#ff9a3c', weight: sel ? 3 : dk ? 2.4 : 1.6, opacity: 1,
              fillColor: dk ? '#008651' : '#ff8a1f', fillOpacity: sel ? 0.4 : dk ? 0.38 : 0.22 };
