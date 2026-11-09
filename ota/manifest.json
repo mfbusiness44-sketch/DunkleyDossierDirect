@@ -1,5 +1,5 @@
 {
- "build": 202611092125,
+ "build": 202611092337,
  "files": [
   "app.html",
   "places.json",
@@ -12,10 +12,10 @@
   "fn.json",
   "forest.geojson"
  ],
- "note": "Version 1.6: updates apply automatically; one-tap app updates",
+ "note": "Version 1.7: checks for updates whenever the app is opened",
  "apk": {
-  "versionCode": 7,
-  "versionName": "1.6",
-  "url": "https://github.com/mfbusiness44-sketch/DunkleyDossierDirect/raw/main/apk/Dunkley-Dossier-Direct-1.6.apk"
+  "versionCode": 8,
+  "versionName": "1.7",
+  "url": "https://github.com/mfbusiness44-sketch/DunkleyDossierDirect/raw/main/apk/Dunkley-Dossier-Direct-1.7.apk"
  }
 }

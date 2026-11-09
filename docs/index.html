@@ -9,7 +9,7 @@
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
 <link rel="icon" type="image/png" href="favicon-64.png">
 <style>:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0}img{max-width:100%}[hidden]{display:none!important}</style>
-<script>window.BCLL_PWA={build:202611092125};
+<script>window.BCLL_PWA={build:202611092337};
 if ('serviceWorker' in navigator) window.addEventListener('load', function () { navigator.serviceWorker.register('sw.js').catch(function () {}); });</script>
 </head><body><title>Dunkley Dossier Direct</title>
 <meta name="claude:viewport-fit-sides" content="cover">
@@ -893,6 +893,9 @@ h1 { margin: 0; font: 700 22px/1.1 var(--f-display); letter-spacing: -.01em; tex
 .app-tile:active .app-icon { transform: scale(.94); }
 .app-tile:focus-visible { outline: 2px solid var(--dk-green); outline-offset: 4px; }
 .app-label { font: 600 12.5px/1.25 var(--f-body); text-align: center; }
+.app-status { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 12px; font: 12px/1.4 var(--f-mono); color: var(--home-ink-2); }
+.app-status button { border: 1px solid var(--home-line); background: transparent; color: var(--dk-green); border-radius: 999px; padding: 4px 11px; font: 600 12px var(--f-body); cursor: pointer; }
+.app-status button:disabled { opacity: .6; cursor: default; }
 .home-foot { margin-top: auto; }
 .home-foot::after { content: ""; display: block; height: env(safe-area-inset-bottom, 0px); background: var(--tree-ground); margin-top: -1px; }
 .treeline { display: block; width: 100%; height: 150px; }
@@ -932,6 +935,7 @@ h1 { margin: 0; font: 700 22px/1.1 var(--f-display); letter-spacing: -.01em; tex
       <a class="app-tile" href="#map"><span class="app-icon flag"><svg viewBox="0 0 100 100" aria-hidden="true" focusable="false"><defs><clipPath id="bcChief"><rect width="100" height="40"/></clipPath><clipPath id="bcBase"><rect y="40" width="100" height="60"/></clipPath></defs><rect width="100" height="100" fill="#FFFFFF"/><g clip-path="url(#bcBase)"><path d="M50 78L10.2 81.6L10.2 74.4ZM50 78L10.6 71.2L12.5 64.2ZM50 78L13.7 61.2L17.3 54.9ZM50 78L19.3 52.4L24.4 47.3ZM50 78L26.9 45.3L33.2 41.7ZM50 78L36.2 40.5L43.2 38.6ZM50 78L46.4 38.2L53.6 38.2ZM50 78L56.8 38.6L63.8 40.5ZM50 78L66.8 41.7L73.1 45.3ZM50 78L75.6 47.3L80.7 52.4ZM50 78L82.7 54.9L86.3 61.2ZM50 78L87.5 64.2L89.4 71.2ZM50 78L89.8 74.4L89.8 81.6Z" fill="#F2B51D"/><circle cx="50" cy="78" r="15" fill="#F2B51D"/></g><rect y="77" width="100" height="23" fill="#FFFFFF"/><path d="M0 79 Q5 76.4 10 79 T20 79 Q25 76.4 30 79 T40 79 Q45 76.4 50 79 T60 79 Q65 76.4 70 79 T80 79 Q85 76.4 90 79 T100 79 V83.2 Q95 85.8 90 83.2 T80 83.2 Q75 85.8 70 83.2 T60 83.2 Q55 85.8 50 83.2 T40 83.2 Q35 85.8 30 83.2 T20 83.2 Q15 85.8 10 83.2 T0 83.2Z" fill="#1F4E9B"/><path d="M0 86.5 Q5 83.9 10 86.5 T20 86.5 Q25 83.9 30 86.5 T40 86.5 Q45 83.9 50 86.5 T60 86.5 Q65 83.9 70 86.5 T80 86.5 Q85 83.9 90 86.5 T100 86.5 V90.7 Q95 93.3 90 90.7 T80 90.7 Q75 93.3 70 90.7 T60 90.7 Q55 93.3 50 90.7 T40 90.7 Q35 93.3 30 90.7 T20 90.7 Q15 93.3 10 90.7 T0 90.7Z" fill="#1F4E9B"/><path d="M0 94 Q5 91.4 10 94 T20 94 Q25 91.4 30 94 T40 94 Q45 91.4 50 94 T60 94 Q65 91.4 70 94 T80 94 Q85 91.4 90 94 T100 94 V98.2 Q95 100.8 90 98.2 T80 98.2 Q75 100.8 70 98.2 T60 98.2 Q55 100.8 50 98.2 T40 98.2 Q35 100.8 30 98.2 T20 98.2 Q15 100.8 10 98.2 T0 98.2Z" fill="#1F4E9B"/><g clip-path="url(#bcChief)"><rect width="100" height="40" fill="#012169"/><path d="M0 0L100 40M100 0L0 40" stroke="#FFFFFF" stroke-width="9"/><path d="M0 0L100 40M100 0L0 40" stroke="#C8102E" stroke-width="3"/><path d="M50 0V40M0 20H100" stroke="#FFFFFF" stroke-width="13"/><path d="M50 0V40M0 20H100" stroke="#C8102E" stroke-width="7.5"/></g><g transform="translate(50 20)"><path d="M-8.5 4.5H8.5L9.5 -3.5L4.6 0L0 -6.5L-4.6 0L-9.5 -3.5Z" fill="#F2B51D" stroke="#7a5200" stroke-width=".6" stroke-linejoin="round"/><rect x="-8.5" y="4.5" width="17" height="2.6" fill="#F2B51D" stroke="#7a5200" stroke-width=".6"/><circle cy="-7.6" r="1.4" fill="#F2B51D" stroke="#7a5200" stroke-width=".5"/></g></svg></span><span class="app-label">BC Local Leaders</span></a>
       <a class="app-tile" href="#fn"><span class="app-icon drum"><svg viewBox="0 0 100 100" aria-hidden="true" focusable="false"> <defs><radialGradient id="drumHide" cx="40%" cy="36%" r="75%"><stop offset="0" stop-color="#fdf0d8"/><stop offset=".65" stop-color="#f0d4a6"/><stop offset="1" stop-color="#e0b97f"/></radialGradient></defs> <ellipse cx="50" cy="86" rx="34" ry="4.5" fill="#00653d" opacity=".13"/> <path d="M13 42 A37 25 0 0 0 87 42 V53 A37 25 0 0 1 13 53 Z" fill="#a96a37" stroke="#5b3a1e" stroke-width="2.2" stroke-linejoin="round"/> <path d="M83.5 57.5 v4.2" stroke="#e7c58f" stroke-width="1.6" stroke-linecap="round"/><path d="M72.8 66.7 v4.2" stroke="#e7c58f" stroke-width="1.6" stroke-linecap="round"/><path d="M57.7 71.4 v4.2" stroke="#e7c58f" stroke-width="1.6" stroke-linecap="round"/><path d="M42.3 71.4 v4.2" stroke="#e7c58f" stroke-width="1.6" stroke-linecap="round"/><path d="M27.2 66.7 v4.2" stroke="#e7c58f" stroke-width="1.6" stroke-linecap="round"/><path d="M16.5 57.5 v4.2" stroke="#e7c58f" stroke-width="1.6" stroke-linecap="round"/> <ellipse cx="50" cy="42" rx="37" ry="25" fill="url(#drumHide)" stroke="#5b3a1e" stroke-width="2.2"/> <ellipse cx="50" cy="42" rx="31" ry="20" fill="none" stroke="#c4935a" stroke-width="1.5" stroke-dasharray="1.6 4.4" stroke-linecap="round"/> <path d="M27 32 A30 19 0 0 1 46 22" fill="none" stroke="#fff" stroke-width="3.2" stroke-linecap="round" opacity=".6"/> <g transform="translate(61 37) rotate(-40) translate(-40 -36)"> <rect x="37.4" y="40" width="5.2" height="44" rx="2.6" fill="#c98d55" stroke="#5b3a1e" stroke-width="1.9"/> <path d="M37.4 45 h5.2" stroke="#5b3a1e" stroke-width="1.4"/> <ellipse cx="40" cy="36" rx="8.6" ry="7.8" fill="#f6e4c4" stroke="#5b3a1e" stroke-width="2"/> <path d="M34.4 41 q5.6 3 11.2 0" fill="none" stroke="#9a6a3c" stroke-width="1.6" stroke-linecap="round"/> </g> </svg></span><span class="app-label">FN Partners</span></a>
     </nav>
+    <div class="app-status" id="appStatus" hidden><span id="appStatusText">Checking for updates…</span><button id="checkUpdates" type="button">Check for updates</button></div>
   </div>
   <div class="home-foot"><svg class="treeline" viewBox="0 0 1200 150" preserveAspectRatio="xMidYMax slice" aria-hidden="true" focusable="false"><path class="t1" d="M130.0 2.0L148.1 53.7H111.9ZM130.0 37.0L154.7 89.5H105.3ZM130.0 72.0L162.9 125.2H97.1Z"/><rect class="trunk" x="126.7" y="124.2" width="6.6" height="17.8"/><path class="t1" d="M293.5 2.0L309.9 53.7H277.2ZM293.5 37.0L315.8 89.5H271.2ZM293.5 72.0L323.3 125.2H263.8Z"/><rect class="trunk" x="290.6" y="124.2" width="6.0" height="17.8"/><path class="t3" d="M663.4 2.0L682.1 53.7H644.7ZM663.4 37.0L688.9 89.5H637.9ZM663.4 72.0L697.4 125.2H629.4Z"/><rect class="trunk" x="660.0" y="124.2" width="6.8" height="17.8"/><path class="t2" d="M713.0 2.0L730.3 53.7H695.8ZM713.0 37.0L736.5 89.5H689.5ZM713.0 72.0L744.4 125.2H681.7Z"/><rect class="trunk" x="709.9" y="124.2" width="6.3" height="17.8"/><path class="t1" d="M1032.8 2.0L1051.6 53.7H1014.0ZM1032.8 37.0L1058.4 89.5H1007.1ZM1032.8 72.0L1067.0 125.2H998.6Z"/><rect class="trunk" x="1029.4" y="124.2" width="6.8" height="17.8"/><path class="t2" d="M1078.2 2.0L1096.8 53.7H1059.6ZM1078.2 37.0L1103.6 89.5H1052.8ZM1078.2 72.0L1112.1 125.2H1044.3Z"/><rect class="trunk" x="1074.8" y="124.2" width="6.8" height="17.8"/><path class="t2" d="M227.7 17.0L243.0 63.2H212.4ZM227.7 48.2L248.6 95.1H206.9ZM227.7 79.5L255.5 127.0H199.9Z"/><rect class="trunk" x="224.9" y="126.0" width="5.6" height="16.0"/><path class="t3" d="M259.7 17.0L275.9 63.2H243.5ZM259.7 48.2L281.8 95.1H237.6ZM259.7 79.5L289.2 127.0H230.3Z"/><rect class="trunk" x="256.8" y="126.0" width="5.9" height="16.0"/><path class="t3" d="M553.6 17.0L570.2 63.2H537.0ZM553.6 48.2L576.3 95.1H531.0ZM553.6 79.5L583.8 127.0H523.4Z"/><rect class="trunk" x="550.6" y="126.0" width="6.0" height="16.0"/><path class="t1" d="M753.1 17.0L767.8 63.2H738.3ZM753.1 48.2L773.2 95.1H733.0ZM753.1 79.5L779.9 127.0H726.2Z"/><rect class="trunk" x="750.4" y="126.0" width="5.4" height="16.0"/><path class="t3" d="M962.7 17.0L977.7 63.2H947.8ZM962.7 48.2L983.1 95.1H942.3ZM962.7 79.5L989.9 127.0H935.5Z"/><rect class="trunk" x="960.0" y="126.0" width="5.4" height="16.0"/><path class="t2" d="M64.7 32.0L78.4 72.7H51.0ZM64.7 59.5L83.4 100.7H46.0ZM64.7 87.0L89.6 128.8H39.7Z"/><rect class="trunk" x="62.2" y="127.8" width="5.0" height="14.2"/><path class="t1" d="M93.2 32.0L106.1 72.7H80.4ZM93.2 59.5L110.8 100.7H75.7ZM93.2 87.0L116.6 128.8H69.9Z"/><rect class="trunk" x="90.9" y="127.8" width="4.7" height="14.2"/><path class="t2" d="M175.7 32.0L188.5 72.7H162.9ZM175.7 59.5L193.2 100.7H158.2ZM175.7 87.0L199.0 128.8H152.4Z"/><rect class="trunk" x="173.4" y="127.8" width="4.7" height="14.2"/><path class="t2" d="M335.5 32.0L349.8 72.7H321.1ZM335.5 59.5L355.0 100.7H315.9ZM335.5 87.0L361.6 128.8H309.4Z"/><rect class="trunk" x="332.9" y="127.8" width="5.2" height="14.2"/><path class="t2" d="M374.3 32.0L388.4 72.7H360.2ZM374.3 59.5L393.6 100.7H355.1ZM374.3 87.0L400.0 128.8H348.6Z"/><rect class="trunk" x="371.7" y="127.8" width="5.1" height="14.2"/><path class="t3" d="M488.6 32.0L501.7 72.7H475.5ZM488.6 59.5L506.5 100.7H470.7ZM488.6 87.0L512.4 128.8H464.8Z"/><rect class="trunk" x="486.2" y="127.8" width="4.8" height="14.2"/><path class="t1" d="M516.6 32.0L530.3 72.7H502.9ZM516.6 59.5L535.3 100.7H497.9ZM516.6 87.0L541.6 128.8H491.7Z"/><rect class="trunk" x="514.1" y="127.8" width="5.0" height="14.2"/><path class="t2" d="M812.1 32.0L825.0 72.7H799.2ZM812.1 59.5L829.7 100.7H794.5ZM812.1 87.0L835.5 128.8H788.6Z"/><rect class="trunk" x="809.7" y="127.8" width="4.7" height="14.2"/><path class="t2" d="M910.9 32.0L925.9 72.7H895.9ZM910.9 59.5L931.4 100.7H890.4ZM910.9 87.0L938.2 128.8H883.6Z"/><rect class="trunk" x="908.2" y="127.8" width="5.5" height="14.2"/><path class="t3" d="M992.6 32.0L1006.6 72.7H978.6ZM992.6 59.5L1011.7 100.7H973.6ZM992.6 87.0L1018.1 128.8H967.2Z"/><rect class="trunk" x="990.1" y="127.8" width="5.1" height="14.2"/><path class="t2" d="M1122.2 32.0L1135.2 72.7H1109.3ZM1122.2 59.5L1139.9 100.7H1104.5ZM1122.2 87.0L1145.8 128.8H1098.7Z"/><rect class="trunk" x="1119.9" y="127.8" width="4.7" height="14.2"/><path class="t2" d="M-10.0 47.0L3.0 82.1H-23.0ZM-10.0 70.8L7.7 106.4H-27.7ZM-10.0 94.5L13.6 130.6H-33.6Z"/><rect class="trunk" x="-12.4" y="129.6" width="4.7" height="12.4"/><path class="t3" d="M430.6 47.0L442.7 82.1H418.6ZM430.6 70.8L447.1 106.4H414.2ZM430.6 94.5L452.6 130.6H408.7Z"/><rect class="trunk" x="428.5" y="129.6" width="4.4" height="12.4"/><path class="t1" d="M462.8 47.0L475.0 82.1H450.5ZM462.8 70.8L479.5 106.4H446.1ZM462.8 94.5L485.1 130.6H440.5Z"/><rect class="trunk" x="460.6" y="129.6" width="4.5" height="12.4"/><path class="t2" d="M592.0 47.0L604.2 82.1H579.7ZM592.0 70.8L608.6 106.4H575.3ZM592.0 94.5L614.2 130.6H569.7Z"/><rect class="trunk" x="589.7" y="129.6" width="4.4" height="12.4"/><path class="t2" d="M785.5 47.0L796.8 82.1H774.3ZM785.5 70.8L800.9 106.4H770.2ZM785.5 94.5L806.0 130.6H765.1Z"/><rect class="trunk" x="783.5" y="129.6" width="4.1" height="12.4"/><path class="t2" d="M842.6 47.0L855.4 82.1H829.8ZM842.6 70.8L860.1 106.4H825.1ZM842.6 94.5L865.9 130.6H819.3Z"/><rect class="trunk" x="840.3" y="129.6" width="4.7" height="12.4"/><path class="t3" d="M878.3 47.0L890.7 82.1H865.8ZM878.3 70.8L895.3 106.4H861.3ZM878.3 94.5L900.9 130.6H855.7Z"/><rect class="trunk" x="876.0" y="129.6" width="4.5" height="12.4"/><path class="t1" d="M1169.5 47.0L1181.7 82.1H1157.2ZM1169.5 70.8L1186.1 106.4H1152.8ZM1169.5 94.5L1191.7 130.6H1147.2Z"/><rect class="trunk" x="1167.3" y="129.6" width="4.4" height="12.4"/><path class="t2" d="M201.9 57.0L212.3 88.4H191.5ZM201.9 78.2L216.0 110.1H187.8ZM201.9 99.5L220.7 131.8H183.1Z"/><rect class="trunk" x="200.0" y="130.8" width="3.8" height="11.2"/><path class="t2" d="M407.2 57.0L418.5 88.4H395.9ZM407.2 78.2L422.6 110.1H391.8ZM407.2 99.5L427.8 131.8H386.6Z"/><rect class="trunk" x="405.1" y="130.8" width="4.1" height="11.2"/><path class="t2" d="M942.1 57.0L952.3 88.4H931.8ZM942.1 78.2L956.1 110.1H928.1ZM942.1 99.5L960.7 131.8H923.5Z"/><rect class="trunk" x="940.2" y="130.8" width="3.7" height="11.2"/><path class="t3" d="M1193.9 57.0L1204.8 88.4H1183.1ZM1193.9 78.2L1208.7 110.1H1179.2ZM1193.9 99.5L1213.6 131.8H1174.3Z"/><rect class="trunk" x="1192.0" y="130.8" width="3.9" height="11.2"/><path class="t1" d="M23.6 72.0L32.9 97.9H14.2ZM23.6 89.5L36.3 115.7H10.8ZM23.6 107.0L40.6 133.6H6.6Z"/><rect class="trunk" x="21.9" y="132.6" width="3.4" height="9.4"/><path class="t2" d="M45.4 72.0L54.9 97.9H35.9ZM45.4 89.5L58.3 115.7H32.4ZM45.4 107.0L62.6 133.6H28.1Z"/><rect class="trunk" x="43.7" y="132.6" width="3.4" height="9.4"/><path class="t2" d="M617.1 72.0L626.7 97.9H607.6ZM617.1 89.5L630.2 115.7H604.1ZM617.1 107.0L634.5 133.6H599.8Z"/><rect class="trunk" x="615.4" y="132.6" width="3.5" height="9.4"/><path class="t3" d="M642.3 72.0L650.5 97.9H634.1ZM642.3 89.5L653.4 115.7H631.1ZM642.3 107.0L657.1 133.6H627.4Z"/><rect class="trunk" x="640.8" y="132.6" width="3.0" height="9.4"/><path class="t2" d="M1148.9 72.0L1158.5 97.9H1139.3ZM1148.9 89.5L1161.9 115.7H1135.8ZM1148.9 107.0L1166.3 133.6H1131.4Z"/><rect class="trunk" x="1147.1" y="132.6" width="3.5" height="9.4"/><rect class="ground" x="0" y="141" width="1200" height="9"/></svg></div>
 </section>
@@ -978,6 +982,7 @@ h1 { margin: 0; font: 700 22px/1.1 var(--f-display); letter-spacing: -.01em; tex
 <script src="leaflet.js"></script>
 <script>
 (function () {
+  try { localStorage.removeItem('bcll-ota-trying'); } catch (e) {}
   const STANCE = {
     industry: { label: 'Advocates for the forest industry', token: '--st-industry' },
     transition: { label: 'Mixed or transition-focused', token: '--st-transition' },
@@ -1332,42 +1337,73 @@ h1 { margin: 0; font: 700 22px/1.1 var(--f-display); letter-spacing: -.01em; tex
     bar.querySelector('.x').onclick = () => bar.remove();
     if (onGo) bar.querySelector('.go').onclick = onGo;
   }
-  async function checkForUpdates() {
-    if (!NATIVE || !UPD || !UPD.base) return;
-    try { localStorage.removeItem('bcll-ota-trying'); } catch (e) {}   // this copy started fine
-    let man;
-    try { const r = await fetch(UPD.base + UPD.ota + 'manifest.json?t=' + Date.now()); if (!r.ok) return; man = await r.json(); } catch (e) { return; }
-    const running = window.BCLL_OTA_BUILD || UPD.build;
-    let bad = []; try { bad = JSON.parse(localStorage.getItem('bcll-ota-bad') || '[]'); } catch (e) {}
-    if (man.build > running && !bad.includes(man.build) && Array.isArray(man.files)) {
-      try {
-        const files = {};
-        for (const name of man.files) {
-          const r = await fetch(UPD.base + UPD.ota + name + '?b=' + man.build);
-          if (!r.ok) throw new Error(name);
-          const text = await r.text();
-          if (name.endsWith('.json') || name.endsWith('.geojson')) JSON.parse(text);   // reject truncated downloads
-          else if (!text.includes('<\/script>')) throw new Error(name);   // escaped so this inline script is not cut short
-          files[name] = text;
-        }
-        await idbPut('bundle', { build: man.build, files });
-        applyContentUpdate(man);
-      } catch (e) { /* keep running the current copy; try again next launch */ }
-    }
-    const App = window.Capacitor && window.Capacitor.Plugins && window.Capacitor.Plugins.App;
-    if (man.apk && man.apk.url && App) {
-      try {
-        const info = await App.getInfo();
-        if (Number(man.apk.versionCode) > Number(info.build)) {
-          if (apkInstaller()) {
-            updateBar('updApp', `<span>App version ${esc(man.apk.versionName)} is available.</span><button class="go">Install update</button>`, () => installApk(man.apk));
-          } else {   // app versions before 1.6 have no built-in installer: download through the browser
-            updateBar('updApp', `<span>App version ${esc(man.apk.versionName)} is available.</span><a class="go" href="${esc(man.apk.url)}" target="_blank" rel="noopener">Install update</a>`);
-          }
-        }
-      } catch (e) {}
-    }
+  // Update requests go through the WebView's own connection first (GitHub allows it), then the native one.
+  async function updFetch(url) {
+    const web = window.CapacitorWebFetch;
+    if (web) { try { const r = await web(url, { cache: 'no-store' }); if (r.ok) return r; } catch (e) {} }
+    return fetch(url);
   }
+  function setStatus(text, busy) {
+    const box = $('appStatus'); if (!box) return;
+    box.hidden = false; $('appStatusText').textContent = text; $('checkUpdates').disabled = !!busy;
+  }
+  function recordCheck(ok, msg) { try { localStorage.setItem('bcll-last-check', JSON.stringify({ t: Date.now(), ok, msg })); } catch (e) {} }
+  let checking = false, lastCheckAt = 0, appInfo = null;
+  async function checkForUpdates(manual) {
+    if (!NATIVE || !UPD || !UPD.base || checking) return;
+    checking = true; lastCheckAt = Date.now();
+    const App = window.Capacitor && window.Capacitor.Plugins && window.Capacitor.Plugins.App;
+    try { if (!appInfo && App) appInfo = await App.getInfo(); } catch (e) {}
+    const ver = appInfo ? `Version ${appInfo.version}` : 'This version';
+    setStatus(`${ver} · checking for updates…`, true);
+    try {
+      let man;
+      try {
+        const r = await updFetch(UPD.base + UPD.ota + 'manifest.json?t=' + Date.now());
+        if (!r.ok) throw new Error('the update server answered ' + r.status);
+        man = await r.json();
+      } catch (e) { throw new Error('could not reach the update server (' + (e.message || e) + ')'); }
+      const running = window.BCLL_OTA_BUILD || UPD.build;
+      let bad = []; try { bad = JSON.parse(localStorage.getItem('bcll-ota-bad') || '[]'); } catch (e) {}
+      let contentNote = 'map is up to date';
+      if (man.build > running && Array.isArray(man.files)) {
+        if (bad.includes(man.build) && manual) { bad = bad.filter((b) => b !== man.build); try { localStorage.setItem('bcll-ota-bad', JSON.stringify(bad)); } catch (e) {} }
+        if (!bad.includes(man.build)) {
+          const files = {};
+          for (const name of man.files) {
+            const r = await updFetch(UPD.base + UPD.ota + name + '?b=' + man.build);
+            if (!r.ok) throw new Error('download of ' + name + ' failed (' + r.status + ')');
+            const text = await r.text();
+            if (name.endsWith('.json') || name.endsWith('.geojson')) JSON.parse(text);   // reject truncated downloads
+            else if (!text.includes('<\/script>')) throw new Error(name + ' was incomplete');   // escaped so this inline script is not cut short
+            files[name] = text;
+          }
+          await idbPut('bundle', { build: man.build, files });
+          contentNote = 'map update downloaded';
+          applyContentUpdate(man);
+        }
+      }
+      let appNote = '';
+      if (man.apk && man.apk.url && appInfo && Number(man.apk.versionCode) > Number(appInfo.build)) {
+        appNote = ` · version ${man.apk.versionName} available`;
+        if (apkInstaller()) {
+          updateBar('updApp', `<span>App version ${esc(man.apk.versionName)} is available.</span><button class="go">Install update</button>`, () => installApk(man.apk));
+        } else {   // app versions before 1.6 have no built-in installer: download through the browser
+          updateBar('updApp', `<span>App version ${esc(man.apk.versionName)} is available.</span><a class="go" href="${esc(man.apk.url)}" target="_blank" rel="noopener">Install update</a>`);
+        }
+      }
+      setStatus(`${ver} · ${contentNote}${appNote} · checked ${new Date().toLocaleTimeString('en-CA', { hour: 'numeric', minute: '2-digit' })}`);
+      recordCheck(true, contentNote + appNote);
+    } catch (e) {
+      setStatus(`${ver} · update check failed: ${e.message || e}`);
+      recordCheck(false, String(e.message || e));
+    } finally { checking = false; }
+  }
+  // Android usually resumes the app rather than restarting it, so check again whenever it comes back on screen.
+  document.addEventListener('visibilitychange', () => {
+    if (document.visibilityState === 'visible' && Date.now() - lastCheckAt > 10 * 60 * 1000) checkForUpdates(false);
+  });
+  $('checkUpdates').addEventListener('click', () => checkForUpdates(true));
 
   // Content updates apply by themselves. Right away if the person is still on the home screen with nothing
   // open; otherwise the next time the app goes to the background, so nothing changes under their finger.
@@ -1762,7 +1798,7 @@ h1 { margin: 0; font: 700 22px/1.1 var(--f-display); letter-spacing: -.01em; tex
     if (forest) buildForest(forest);
     renderStat();
     $('loading').remove();
-    setTimeout(checkForUpdates, 1500);
+    setTimeout(() => checkForUpdates(false), 1500);
     showUpdatedNote();
     if (PWA) setTimeout(iosInstallHint, 2500);
     const k = location.hash.slice(1);
